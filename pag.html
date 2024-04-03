@@ -1,0 +1,626 @@
+
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+
+
+
+       <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   <script src = "https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js" ></script>
+
+
+    <title>Paseadores</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+<body>
+
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+  <br><br><br><br>
+
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #00B0C5;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+
+
+<div id="snackbar">Copiado ...</div>
+  
+
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+    
+    <script src="js/init.js"></script>
+
+
+<head>
+    <title>Paseadores</title>
+    </head>
+  
+
+
+
+
+<div class="container-fluid">
+
+
+
+        <p id="regresar" align="right" style="display: none"><a class="nav-item nav-link active" onclick="showUsersTable()" style="color:blue;" id="usuarios">Regresar</a> </p>
+
+
+<br><br>
+
+  <div class="table-responsive">
+    <table class="table table-striped" id="tablaDatos" >
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col">Nombre</th>
+                 <th   scope="col">UID (Hidden)</th>
+                 <th   scope="col">UID</th>
+                 <th   scope="col">Correo</th>
+                 <th   scope="col">Estatus</th>
+                 <th   scope="col">No.perros</th>
+                 <th  scope="col">Categoria</th>
+                 <th  scope="col">Celular</th>
+                  <th  scope="col">Telefono</th>
+                 <th  scope="col">Ultima vez</th>
+                 <th  scope="col">Ultima vez (timestamp) </th>
+                 <th  scope="col">Cierre</th>
+                 <th  scope="col">Cierre (timestamp)</th>
+                 <th  scope="col">Version</th>
+                 <th  scope="col">Perfil</th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+
+<br><br>
+
+<div class="table-responsive">
+    <table  id="tablaPerros" class="table table-striped" style="display:none">
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col">ID</th>
+                 <th   scope="col">Nombre</th>
+                 <th   scope="col">Comportamiento</th>
+                 <th   scope="col">Raza</th>
+                 <th   scope="col">Desparacitado</th>
+                 <th   scope="col">Primera dosis</th>
+                 <th   scope="col">Segunda Dosis</th>
+                 <th   scope="col">Tercera Dosis</th>
+                 <th   scope="col">Foto</th>
+                </tr>
+        </thead>
+        <tbody id="tablaPerrosbody"  style="text-align:center">
+        </tbody>
+    </table>
+</div>
+
+</div>
+
+
+<script>
+
+
+
+function busca_user_ultima() {
+
+
+var nameType = $.fn.dataTable.absoluteOrder( {
+    value: 'Sin dato', position: 'bottom'
+} );
+
+var  tabla = $('#tablaDatos').DataTable({
+
+               search: { regex: true },
+               pagingType: "full_numbers",
+               paging:   true, //Muestra la paginacion y el combobox
+               bFilter: true,
+        //Muestra oculta filtro
+              info:     true,
+
+              columnDefs: [
+             { "targets": [ 1 ], "visible": false },
+             { "targets": [ 8 ], "visible": false },
+             { "targets": [ 10 ], "visible": false },
+            { "targets": [ 12 ], "visible": false },
+             { "width": "5%", "targets": 5 },
+             { "width": "7%", "targets": 6 },
+             { "orderData": 10, "targets": 9},
+             { "orderData": 12, "targets": 11},
+             { "targets": 8, "type": nameType },
+             { "targets": 10, "type": nameType },
+             { "targets": 13, "type": nameType }
+       ],
+                "order": [[ 9, "desc" ]],
+
+
+                pageLength : 10,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+
+ 
+         
+
+
+
+                        "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+
+
+
+            });
+
+
+
+let oldInput = $('.dataTables_filter input');
+let newInput = $('<input>').on('change keyup input', () => {
+  let regex = textToRegex(newInput.val());
+  oldInput.val(regex).trigger('input');
+});
+oldInput.hide().after(newInput);
+
+function textToRegex(value) {
+  return value
+    .toLowerCase()
+    .split('')
+    .map(c => {
+      if (/[-[\]{}()*+?.,\\^$|#]/.test(c)) {
+        return '\\' + c;
+      }
+      [
+        /[aàáâãäå]/, /[oòóôõöø]/, /[eèéêë]/, /[cç]/, /[dð]/,
+        /[ii̇ìíîï]/, /[uùúûü]/, /[nñ]/, /[sš]/, /[yÿý]/, /[zž]/
+      ].some(r => {
+        if (r.test(c)) {
+          c = r.source;
+          return true;
+        }
+      });
+      return c;
+    })
+    .join('');
+}
+
+
+
+  var db = firebase.database();
+  var ref = db.ref("Paseadores");
+
+  var table = document.getElementById("tabla");
+
+  //limpia la tabla
+  table.innerHTML = "";
+
+   //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+  var actual = 0;
+
+ ref.orderByChild("ultima_vez_inicio").once("value").then(snapshot => {
+
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+var datos = snapshot.val();
+
+    for (const property in datos) {
+
+
+
+        var d = datos[property]
+
+/*
+                  <th  scope="col">Nombre</th>
+                 <th   scope="col">UID (Hidden)</th>
+                 <th   scope="col">UID</th>
+                 <th   scope="col">Correo</th>
+                 <th   scope="col">Estatus</th>
+                 <th   scope="col">No.perros</th>
+                 <th  scope="col">Categoria</th>
+                 <th  scope="col">Celular</th>
+                  <th  scope="col">Telefono</th>
+                 <th  scope="col">Ultima vez</th>
+                 <th  scope="col">Ultima vez (timestamp) </th>
+                 <th  scope="col">Cierre</th>
+                 <th  scope="col">Version</th>
+*/
+
+
+
+                    var nombre = d["nombre"]+" "+d["apellidopa"]+" "+d["apellidoma"]
+                    var uid = "Sin dato"
+                    var copiarUid = "Sin dato"
+                    var email = "Sin dato"
+                    var estatus = "Sin dato"
+                    var noperros = "Sin dato"
+                    var categoria = "Sin dato"
+                    var celular = "Sin dato"
+                    var telefono = "Sin dato"
+                    var ultima_vez = "Sin dato"
+                    var ultima_vez_timestamp = "Sin dato"
+                    var cierre = "Sin dato"
+                    var cierre_timestamp = "Sin dato"
+                    var version = "Sin dato "
+
+
+                if (d["idPaseador"] == undefined || d["idPaseador"] == ""){uid = "SR : "+ d; copiarUid =  "SR : "+ property;  } else{ uid = d.idPaseador; copiarUid = '<button class="custom-button" onclick="copyToClipboard(\'' + d["idPaseador"] + '\')">Copiar</button>'; }
+
+                if(d["email"] != undefined){ email = d["email"] }
+
+                if(d["estatus"] != undefined){
+
+                  if(d["estatus"] == 0){
+                    estatus = "Disponible"
+
+                  } else{
+
+                    estatus = "Desconectado"
+                  }
+ }
+
+
+   if(d["cantidadPerros"] != undefined){ noperros = d["cantidadPerros"] }
+
+
+   if(d["categoria"] != undefined){ categoria = d["categoria"] }
+
+                   if( d["celular"] != undefined){ celular = d["celular"] }
+                  if( d["telefono"] != undefined){ telefono = d["telefono"] }
+
+
+
+                  if(d["ultima_vez_inicio"] != undefined){ 
+                       ultima_vez = new Date(d["ultima_vez_inicio"]);
+                       ultima_vez = ultima_vez.toLocaleDateString(lang, options)
+                       ultima_vez_timestamp = d["ultima_vez_inicio"]
+
+                  } 
+
+                  if(d["ultima_vez"] != undefined){ 
+                       cierre = new Date(d["ultima_vez"]);
+                       cierre = cierre.toLocaleDateString(lang, options)
+                       cierre_timestamp = d["ultima_vez"]
+
+                  }
+                  if( d["through"] != undefined){ version = d["through"] }
+
+
+
+
+
+
+               var informacionUsuarios = 
+
+                 [
+
+                         nombre,
+                         uid,
+                         copiarUid,
+                         email,
+                         estatus,
+                         noperros,
+                         categoria,
+                         celular,
+                         telefono,
+                         ultima_vez,
+                         ultima_vez_timestamp,
+                         cierre,
+                         cierre_timestamp,
+                         version,
+                         '<button class="transparent_button" onclick="ver_perfil(\'' + uid + '\')">  <img id="msjImg" src="img/noun_hiring.png"  width="30" height=" 30"> </button>',
+
+                ]
+
+
+
+        var table = $('#tablaDatos').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+
+
+
+    }
+
+    tabla.draw()
+
+
+ })
+
+
+
+
+
+}
+
+
+
+function ver_perfil(uid) {
+
+
+  window.open('paseador_detalle.html?idPaseador='+uid, '_blank');
+
+
+}
+
+function ver_chat(uid) {
+
+
+  window.open('chatCaminandog.html?uid='+uid, '_blank');
+
+
+}
+
+function verDireccion(latitud,longitud) {
+  
+  window.open('direccion.html?latitud='+latitud+"&longitud="+longitud, '_blank');
+}
+
+
+function generar_paseos(uid,telefono,nombre) {
+
+
+  window.open('pedirPaseo.html?uid='+uid+'&telefono='+telefono+'&nombre='+nombre, '_blank');
+
+}
+
+ window.onload = busca_user_ultima();
+
+
+function busca_perros(query) {
+
+
+hideUsersTable();
+
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(query);
+
+var table = document.getElementById("tablaPerrosbody");
+
+//limpia la tabla
+table.innerHTML = "";
+
+ //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+ref.orderByChild("uidUsuario").once("value", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+var exist = snapshot.val();
+if (exist == null) {
+
+table.innerHTML = 'Sin Resultados'
+
+
+} else {
+
+
+
+}
+
+ snapshot.forEach(function(data) {
+
+    var d = data.val();
+
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    var cell9 = row.insertCell(8);
+
+
+
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = d.idPerro;
+    cell2.innerHTML = d.nombre;
+    cell3.innerHTML = d.comportamiento;
+    cell4.innerHTML = d.raza;
+    cell9.innerHTML = '<img src=\'' + d.foto + '\' width="200" height="200" />';
+
+    if(d.vacunas != undefined){
+
+		cell5.innerHTML = d.vacunas.desparacitado;
+		cell6.innerHTML = d.vacunas.primeraDosis;
+		cell7.innerHTML = d.vacunas.segundaDosis;
+		cell8.innerHTML = d.vacunas.terceraDosis;
+
+    } else{
+
+		cell5.innerHTML = "Sin dato";
+		cell6.innerHTML = "Sin dato";
+		cell7.innerHTML = "Sin dato";
+		cell8.innerHTML = "Sin dato";
+
+    }
+
+
+  });
+
+
+});
+
+}
+
+
+
+
+function hideUsersTable(){
+
+$( "#tablaDatos" ).hide();
+$(".dataTables_info").hide();
+$(".dataTables_paginate").hide();
+$(".dataTables_filter").hide();
+$(".dataTables_length").hide();
+
+
+$( "#tablaPerros" ).show();
+
+$( "#regresar" ).show();
+
+
+}
+
+function showUsersTable(){
+
+$( "#tablaDatos" ).show();
+$(".dataTables_info").show();
+$(".dataTables_paginate").show();
+$(".dataTables_filter").show();
+$(".dataTables_length").show();
+
+$( "#tablaPerros" ).hide();
+
+$( "#regresar" ).hide();
+}
+
+
+
+
+function copyToClipboard(val){
+
+    var dummy = document.createElement("input");
+    document.body.appendChild(dummy);
+
+    dummy.setAttribute("id", "dummy_id");
+    document.getElementById("dummy_id").value=val;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+    
+     var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+</script>
+
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+
+
+
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

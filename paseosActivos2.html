@@ -1,0 +1,1637 @@
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Paseos Activos</title>
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  <div id="coverSuave" style="display: none;"><span class="spinner"></span> </div>
+<div id="carga2" class="loader" style="display: none;" ></div>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg2  fixed-top">
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0">
+          <ul class="navbar-nav mr-auto text-center">
+                <li class="nav-item active">
+                  <a class="nav-item nav-link " href="mapa.html" id="mapa">Mapa <span class="sr-only">(current)</span></a>
+                </li>
+    <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="usuariosPrincipal" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Usuarios
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="users.html" id="usuarios">Usuarios</a>
+                    <a class="dropdown-item" href="contacto.html" id="contacto">Contacto</a>
+                    <a class="dropdown-item" href="reporteVentas.html" id="reporteVentas">Reporte </a>
+                  </div>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="pag.html" id="paseadores"> Paseadores</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="cortesia.html" id="cortesia">Cortesías</a>
+                </li>
+                <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="finanzas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Finanzas
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="finanzas">Dispersion</a>
+                    <a class="dropdown-item" href="finanzas_reporte">Reporte</a>
+                  </div>
+                </li>
+                <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="recuperandog" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recuperandog
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="recuperandog_admin">Administrar</a>
+                    <a class="dropdown-item" href="recuperandog_otorgar">Otorgar Servicio</a>
+                    <a class="dropdown-item" href="qr_proto_1">Geneador QR</a>
+                  </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-auto my-2 order-0 order-md-1 position-relative">
+            <a class="mx-auto" href="#">        
+                <img src="img/caminandog.png" width="200" height="64" alt="" >
+            </a>
+            
+        </div>
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-2 order-md-2">
+          <ul class="navbar-nav ml-auto text-center">
+            <li class="nav-item active">
+              <a class="nav-item nav-link" href="solicitudes.html" id="solicitudes">Solicitudes</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link" href="agenda.html" id="agendados">Agendados</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link " href="ultimo_paseo.html" id="ultimo_paseo"> Ultimos Paseos</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link active" href="paseosActivos.html" id="paseosActivos"> Paseos Activos</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link" onclick="cerrarSesion()">Cerrar Sesion</a>
+            </li>
+        </ul>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+          <span class="navbar-toggler-icon "></span>
+      </button>
+      </nav> 
+  
+  <br><br><br><br>
+
+<style>
+
+.wrapper {
+ display: grid;
+ grid-auto-rows: 600px; /* set a row height for illustration */
+ grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+ transform: scaleY(-1); /* mirror vertically */
+}
+
+.wrapper > div {
+  background: aliceblue;
+  border: 1px solid cadetblue;
+  align-items: center;
+  justify-content: center;
+  transform: scaleY(-1); /* straighten the grid item */
+}
+
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+<head>
+    <title>Paseadores</title>
+    </head>
+
+    <p id="demo"></p>
+    <p id="demon"></p>
+
+
+
+    
+
+<br><br>
+
+<div class="table-responsive">
+    <table id="tablat" class="table table-striped">
+        <thead class="bg2"> 
+               <tr>
+                 <th  scope="col">Nombre Paseador</th>
+                 <th  scope="col">UID</th>
+                 <th  scope="col">Email</th>
+                 <th  scope="col">Estatus</th>
+                 <th  scope="col">No. perros</th>
+                 <th  scope="col">Categoria</th>
+                 <th  scope="col">Celular</th>
+                 <th  scope="col">Telefono</th>
+                 <th  scope="col">Ultima Vez</th>
+                 <th  scope="col">Version</th>
+                <th  scope="col">Ver</th>
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+
+
+    <table id="tabla_paseost" class="table table-striped" style="display: none;" >
+        <thead class="bg2"> 
+               <tr>
+                 <th  scope="col">UID</th>
+                 <th  scope="col">Nombre Usuario</th>
+                 <th  scope="col">Categoria</th>
+                 <th  scope="col">Orden</th>
+                 <th  scope="col">Fecha</th>
+                 <th  scope="col">Tiempo Paseo</th>
+                 <th  scope="col">Numero Perros</th>
+                 <th  scope="col">Nombre Perros</th>
+                 <th  scope="col">Dirección</th>
+                 <th  scope="col">Ver</th>
+                 <th  scope="col">Cambiar Paseador</th>
+                 <th  scope="col">Cambiar Fecha</th>
+                 <th  scope="col">Reset Paseo </th>
+                 <th  scope="col">Terminar Paseo</th>
+                 <th  scope="col">Eliminar Paseo</th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla_paseos">
+        </tbody>
+    </table>
+    </div>
+
+      <div id="map" style="width:100%;height:800px;"></div>
+
+ <div id="log" ></div>
+
+<div class="wrapper">
+  <div id="div1">Datos Paseo <br></div>
+  <div id="div2">Datos Paseador <br></div>
+  <div id="div3">Datos Usuario <br></div>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk"></script>
+
+<script>
+
+
+function busca_paseos() {
+
+   $('#tablat').show();
+   $('#tabla_paseost').hide();
+   $('#map').hide();
+
+
+
+  document.getElementById("demon").innerHTML ="" ;
+
+  document.getElementById("demo").innerHTML ="Cargando paseos activos ......." ;
+
+var db = firebase.database();
+var ref = db.ref("Paseadores");
+
+var table = document.getElementById("tabla");
+
+//limpia la tabla
+table.innerHTML = "";
+
+ //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+ref.orderByChild("paseosActivos").startAt("").once("value", function(snapshot){
+
+
+    document.getElementById("demo").innerHTML ="" ;
+ snapshot.forEach(function(data) {
+
+
+console.log(data.key);
+
+   var d = data.val();
+
+  
+
+
+
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    var cell9 = row.insertCell(8);
+    var cell10 = row.insertCell(9);
+    var cell11 = row.insertCell(10);
+
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = d.nombre+" "+d.apellidopa+" "+d.apellidoma;
+    cell2.innerHTML = d.idPaseador;
+    cell3.innerHTML = d.email;
+    if (d.estatus == 0) {
+      cell4.innerHTML = "Disponible";
+    }else {
+      cell4.innerHTML = "offline";
+    }
+    cell5.innerHTML = d.cantidadPerros;
+    cell6.innerHTML = d.categoria;
+    cell7.innerHTML = d.celular;
+    cell8.innerHTML = d.telefono;
+
+     var timestamp = d.ultima_vez;
+    var date = new Date(timestamp);
+ let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+    cell9.innerHTML = date.toLocaleDateString(lang, options);
+    cell10.innerHTML = d.through;
+    cell11.innerHTML = '<button class="custom-button" onclick="verpaseos(\'' + d.idPaseador + '\')">Ver mas</button>';
+
+
+
+
+     
+    
+
+});
+
+
+
+
+});
+
+ 
+}
+
+
+ window.onload = busca_paseos;
+
+function verpaseos(idPaseador) {
+  
+
+
+
+   $('#tablat').hide();
+   $('#tabla_paseost').show();
+   $('#map').hide();
+
+
+
+var table = document.getElementById("tabla_paseos");
+
+//limpia la tabla
+table.innerHTML = "";
+
+
+  document.getElementById("demo").innerHTML ="Cargando paseos activos ......." ;
+
+  var db = firebase.database();
+  var ref = db.ref("Paseadores");
+
+  var paseadorRef = ref.child(idPaseador).child("paseosActivos");
+
+
+
+paseadorRef.orderByChild("operation_date").once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+
+  var d = data.val();
+
+obtenerDirección(d.uid,d.nombre,d.categoria,d.order_id,d.operation_date,d.tiempo_paseo,d.num_perros,d.estatus,idPaseador,d.timestamp,d.perrosNombre);
+
+
+
+
+});
+
+
+});
+
+
+
+}
+
+
+
+function obtenerDirección(uid,nombre,categoria,order_id,operation_date,tiempo_paseo,num_perros,estatus,idPaseador,timestamp,perrosNombre) {
+
+var table = document.getElementById("tabla_paseos");
+  var db = firebase.database();
+  var ref = db.ref("Paseos_usuarios").child(uid);
+  var ref2 = db.ref("Paseadores");
+  var ref3 = db.ref("Usuarios");
+
+
+
+
+ref.orderByChild("order_id").equalTo(order_id).once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+  var d = data.val();
+
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    var cell9 = row.insertCell(8);
+    var cell10 = row.insertCell(9);
+    var cell11 = row.insertCell(10);
+    var cell12 = row.insertCell(11);
+    var cell13 = row.insertCell(12);
+    var cell14 = row.insertCell(13);
+    var cell15 = row.insertCell(14);
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = uid;
+    cell2.innerHTML = nombre;
+    cell3.innerHTML = categoria;
+    cell4.innerHTML = order_id;
+    cell5.innerHTML = operation_date;
+        var nuevo_tiempo = ""
+    if(d.tiempo_paseo == 1){	
+        nuevo_tiempo = "1 Hora"
+    }else if(d.tiempo_paseo == 2){
+    	nuevo_tiempo = "2 Horas"
+    }else if(d.tiempo_paseo == 0.5){
+    	nuevo_tiempo = "30 Minutos"
+     }
+    cell6.innerHTML = nuevo_tiempo;
+    cell7.innerHTML = num_perros;
+    cell8.innerHTML = perrosNombre;
+    cell9.innerHTML = d.direccion+ '<button class="custom-button" onclick="abrirMapa(\'' + uid + '\',\'' + order_id + '\')">Ver</button>';
+
+    if(estatus == "agendado"){
+
+    cell10.innerHTML = '<button class="custom-button" onclick="verificarPaseo(\'' + uid + '\',\'' + order_id + '\',\'' + idPaseador + '\')">Verificar Paseo</button>';
+        cell11.innerHTML = '<button class="custom-button" onclick="asignarPaseador(\'' + idPaseador + '\',\'' + categoria + '\',\'' + estatus + '\',\'' + nombre + '\',\'' + num_perros + '\',\'' + operation_date + '\',\'' + order_id + '\',\'' + tiempo_paseo + '\',\'' + timestamp + '\',\'' + uid + '\',\'' + perrosNombre + '\',\'' + d.descripcion + '\')">Cambiar Paseador</button>';
+    cell12.innerHTML = '<button class="custom-button" onclick="cambiarFecha(\'' + idPaseador + '\',\'' + operation_date + '\',\'' + order_id + '\',\'' + timestamp + '\',\'' + uid + '\')">Cambiar Fecha</button>';
+        cell13.innerHTML = 'Agendado';
+
+
+    } else{
+
+    cell10.innerHTML = '<button class="custom-button" onclick="verificarPaseo(\'' + uid + '\',\'' + order_id + '\',\'' + idPaseador + '\')">Verificar Paseo</button>';
+     cell11.innerHTML = 'En transcurso';
+    cell12.innerHTML = 'En transcurso';
+    cell13.innerHTML = '<button class="custom-button" onclick="resetPaseoWeb(\'' + order_id + '\',\'' + idPaseador + '\',\'' + num_perros + '\',\'' + categoria + '\',\'' + uid + '\',\'' + nombre + '\',\'' + operation_date + '\',\'' + tiempo_paseo + '\',\'' + estatus + '\',\'' + timestamp + '\',\'' + perrosNombre + '\')">Reset</button>';
+
+     
+
+    }
+
+    if(d.inicio == undefined){
+
+           cell14.innerHTML = 'Paseo no iniciado';
+
+    } else {
+
+
+      cell14.innerHTML = '<button class="custom-button" onclick="terminarPaseoWeb(\'' + order_id + '\',\'' + idPaseador + '\',\'' + num_perros + '\',\'' + categoria + '\',\'' + uid + '\',\'' + nombre + '\',\'' + operation_date + '\',\'' + tiempo_paseo + '\',\'' + estatus + '\',\'' + timestamp + '\',\'' + perrosNombre + '\')">Terminar</button>';
+
+    }
+
+    cell15.innerHTML = '<button class="custom-button" onclick="eliminar_paseo(\'' + idPaseador + '\',\'' + uid + '\',\'' + order_id + '\')">Eliminar Paseo</button>';
+
+});
+
+   document.getElementById("demo").innerHTML ="" ;
+
+});
+
+
+}
+
+
+
+
+
+function eliminar_paseo(id_paseador,id_usuario,id_paseo){
+
+
+$('#coverSuave').show();
+
+        var db = firebase.database();
+        var Paseos_usuarios = db.ref("Paseos_usuarios").child(id_usuario).child(id_paseo);
+        var Usuarios = db.ref("Usuarios").child(id_usuario).child("paseosActivos").child(id_paseo);
+        var Paseadores = db.ref("Paseadores").child(id_paseador).child("paseosActivos").child(id_paseo);
+        var Paseos_paseadores = db.ref("Paseos_paseadores").child(id_paseador).child(id_paseo);
+
+         Paseos_usuarios.remove().then(function() {
+
+                  Usuarios.remove().then(function() {
+
+                             Paseadores.remove().then(function() {
+
+                                    Paseos_paseadores.remove().then(function() {
+
+                                    alert("Paseo Eliminado correctamente")
+                                    $('#coverSuave').hide();
+                                     verpaseos(id_paseador)
+
+                                    }).catch(function(error) {
+
+
+                                    });;
+
+                           }).catch(function(error) {
+
+
+                           });;
+
+                  }).catch(function(error) {
+
+
+                  });;
+
+          }).catch(function(error) {
+
+
+      });;
+
+
+
+  }
+
+
+
+
+
+function resetPaseoWeb(order_id,paseador_id,num_perros,categoria,uid, nombre , operation_date, tiempo_paseo , estatus, timestamp, perrosNombre) {
+
+
+
+var r = confirm("¿Estas seguro de agendar de nuevo este paseo?");
+
+
+if (r == true) {
+
+    $('#carga2').show();
+  var table = document.getElementById("tabla_paseos");
+  table.innerHTML = "";
+
+  var addMessage2 = firebase.functions().httpsCallable('resetPaseos');
+  addMessage2({uid:paseador_id , ord:order_id , num_perros:num_perros , categoria:categoria}).then(function(result) {
+  console.log('respuesta '+result.data)
+
+      $('#carga2').hide();
+  verpaseos(paseador_id)
+  
+});
+
+
+} else {
+
+
+
+}
+
+
+}
+
+
+function terminarPaseoWeb(order_id,paseador_id,num_perros,categoria,uid, nombre , operation_date, tiempo_paseo , estatus, timestamp, perrosNombre) {
+
+
+var r = confirm("¿Estas seguro de querer finalizar este paseo?");
+
+
+if (r == true) {
+
+    $('#carga2').show();
+
+  var table = document.getElementById("tabla_paseos");
+  table.innerHTML = "";
+
+  var addMessage2 = firebase.functions().httpsCallable('terminarPaseo');
+  addMessage2({paseador_id:paseador_id , uid:uid ,ord:order_id , num_perros:num_perros , categoria:categoria}).then(function(result) {
+  console.log('respuesta '+result.data)
+
+      $('#carga2').hide();
+  verpaseos(paseador_id)
+
+  
+});
+
+  } else {
+
+
+
+}
+
+
+}
+
+
+function verificarPaseo(uid,order_id,paseador_id) {
+  
+
+ var div = document.getElementById("div1");
+ var div2 = document.getElementById("div2");
+ var div3 = document.getElementById("div3");
+
+
+div.innerHTML = "Datos Paseo <br>";
+div2.innerHTML = "Datos Paseador <br>";
+div3.innerHTML = "Datos Usuario <br>";
+
+  var db = firebase.database();
+  var ref = db.ref("Paseos_usuarios").child(uid);
+
+
+ref.orderByChild("order_id").equalTo(order_id).once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+
+  var d = data.val();
+
+
+  			if(typeof(d.agendado) === 'string'){
+
+  				log("agendado:div "+d.agendado,"",1);
+  			} else{
+
+          log("agendado:div "+d.agendado,"red",1);
+
+        }
+
+        if(typeof(d.calificacion) === 'number'){
+
+          log("calificacion:div "+d.calificacion,"",1);
+        } else{
+
+          log("calificacion:div "+d.calificacion,"red",1);
+
+        }
+
+        if(typeof(d.categoria) === 'string'){
+
+          log("categoria:div "+d.categoria,"",1);
+        } else{
+
+          log("categoria:div "+d.categoria,"red",1);
+
+        }
+
+        if(typeof(d.descripcion) === 'string'){
+
+          log("descripcion:div "+d.descripcion,"",1);
+        } else{
+
+          log("descripcion:div "+d.descripcion,"red",1);
+
+        }
+
+        if(typeof(d.direccion) === 'string'){
+
+         
+
+                 var res = d.direccion.split(";");
+  
+
+                if(res[1].trim() != ""){
+  
+  
+                       log("direccion:div "+d.direccion,"",1);
+  
+                } else{
+  
+                       log("direccion:div "+d.direccion,"red",1);
+  
+                }
+
+          } else{
+
+            log("direccion:div "+d.direccion,"red",1);
+
+          }
+
+
+        if(typeof(d.estatusPaseo.estatus) === 'string'){
+
+          log("estatusPaseo.estatus:div "+d.estatusPaseo.estatus,"",1);
+        } else{
+
+          log("estatusPaseo.estatus:div "+d.estatusPaseo.estatus,"red",1);
+
+        }
+
+         if(typeof(d.id_paseador) === 'string'){
+
+          log("id_paseador:div "+d.id_paseador,"",1);
+        } else{
+
+          log("id_paseador:div "+d.idPaseador,"red",1);
+
+        }
+
+        if(typeof(d.id_usr) === 'string'){
+
+          log("id_usr:div "+d.id_usr,"",1);
+        } else{
+
+          log("id_usr:div "+d.id_usr,"red",1);
+
+        }
+
+        if(d.estatusPaseo.estatus == 'activo'){
+
+
+          if(typeof(d.inicio) === 'number'){
+
+          log("inicio:div "+d.inicio,"",1);
+        } else{
+
+          log("inicio:div "+d.inicio,"red",1);
+
+        }
+
+        }
+
+        if(typeof(d.latitud) === 'number' && 
+    isFinite(d.latitud)){
+
+          log("latitud:div "+d.latitud,"",1);
+        } else{
+
+          log("latitud:div "+d.latitud,"red",1);
+
+        }
+
+         if(typeof(d.longitud) === 'number' && 
+    isFinite(d.longitud)){
+
+          log("longitud:div "+d.longitud,"",1);
+        } else{
+
+          log("longitud:div "+d.longitud,"red",1);
+
+        }
+
+         if(typeof(d.monto_paseador) === 'number' && 
+    isFinite(d.monto_paseador)){
+
+          log("monto_paseador:div "+d.monto_paseador,"",1);
+        } else{
+
+          log("monto_paseador:div "+d.monto_paseador,"red",1);
+
+        }
+
+        if(typeof(d.num_perros) === 'number'){
+
+          log("num_perros:div "+d.num_perros,"",1);
+        } else{
+
+          log("num_perros:div "+d.num_perros,"red",1);
+
+        }
+
+        if(typeof(d.numero_paseador) === 'string'){
+
+          log("numero_paseador:div "+d.numero_paseador,"",1);
+        } else{
+
+          log("numero_paseador:div "+d.numero_paseador,"red",1);
+
+        }
+
+
+
+        if(typeof(d.numero_usuario) === 'string'){
+
+          log("numero_usuario:div "+d.numero_usuario,"",1);
+        } else{
+
+          log("numero_usuario:div "+d.numero_usuario,"red",1);
+
+        }
+
+        if(typeof(d.order_id) === 'string'){
+
+          log("order_id:div "+d.order_id,"",1);
+        } else{
+
+          log("order_id:div "+d.order_id,"red",1);
+
+        }
+
+        if(typeof(d.perros) === 'string'){
+
+          log("perros:div "+d.perros,"",1);
+        } else{
+
+          log("perros:div "+d.perros,"red",1);
+
+        }
+
+
+
+var num = 0;
+
+for(var perro in d.perrosEstatus) {
+     let stringifyObject = JSON.stringify(d.perrosEstatus[perro])
+            let obj = JSON.parse(stringifyObject);
+
+            num++
+
+
+            if(typeof(obj.foto) === 'string' && typeof(obj.idPerro) === 'string' && typeof(obj.nombre) === 'string' && typeof(obj.pipi) === 'number' && typeof(obj.popo) === 'number'){
+
+              log("perro "+num+":div "+obj.idPerro,"",1);
+
+          } else{
+
+             log("perro "+num+":div "+obj.idPerro,"red",1);
+          }
+
+}
+       
+
+
+
+         if(typeof(d.tiempo_paseo) === 'number'){
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"",1);
+        } else{
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"red",1);
+
+        }
+
+        if(typeof(d.timestamp) === 'number'){
+
+          log("timestamp:div "+d.timestamp,"",1);
+        } else{
+
+          log("timestamp:div "+d.timestamp,"red",1);
+
+        }
+
+        if(typeof(d.vistocalif) === 'string'){
+
+          log("vistocalif:div "+d.vistocalif,"",1);
+        } else{
+
+          log("vistocalif:div "+d.vistocalif,"red",1);
+
+        }
+
+
+         datosPaseador(d.id_paseador,d.order_id);
+         datosUsuario(d.id_usr,d.order_id);
+         
+
+});
+
+
+});
+
+
+}
+
+
+function datosPaseador(id_paseador,order_id){
+
+
+  var db = firebase.database();
+  var ref2 = db.ref("Paseadores");
+
+ref2.child(id_paseador).child("paseosActivos").orderByChild("order_id").equalTo(order_id).once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+
+  var d = data.val();
+
+        if(typeof(d.categoria) === 'string'){
+
+          log("categoria:div "+d.categoria,"",2);
+        } else{
+
+          log("categoria:div "+d.categoria,"red",2);
+
+        }
+
+       if(typeof(d.estatus) === 'string'){
+
+          log("estatus:div "+d.estatus,"",2);
+        } else{
+
+          log("estatus:div "+d.estatus,"red",2);
+
+        }
+
+         if(typeof(d.nombre) === 'string'){
+
+          log("nombre:div "+d.nombre,"",2);
+        } else{
+
+          log("nombre:div "+d.nombre,"red",2);
+
+        }
+
+       if(typeof(d.num_perros) === 'number'){
+
+          log("num_perros:div "+d.num_perros,"",2);
+        } else{
+
+          log("num_perros:div "+d.num_perros,"red",2);
+
+        }
+
+        if(typeof(d.operation_date) === 'string'){
+
+          log("operation_date:div "+d.operation_date,"",2);
+        } else{
+
+          log("operation_date:div "+d.operation_date,"red",2);
+
+        }
+
+
+        if(typeof(d.order_id) === 'string'){
+
+          log("order_id:div "+d.order_id,"",2);
+        } else{
+
+          log("order_id:div "+d.order_id,"red",2);
+
+        } 
+
+        if(typeof(d.perrosNombre) === 'string'){
+
+          log("perrosNombre:div "+d.perrosNombre,"",2);
+        } else{
+
+          log("perrosNombre:div "+d.perrosNombre,"red",2);
+
+        }
+
+
+         if(typeof(d.tiempo_paseo) === 'number'){
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"",2);
+        } else{
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"red",2);
+
+        }
+
+         if(typeof(d.timestamp) === 'number'){
+
+          log("timestamp:div "+d.timestamp,"",2);
+        } else{
+
+          log("timestamp:div "+d.timestamp,"red",2);
+
+        }
+
+        if(typeof(d.uid) === 'string'){
+
+          log("uid:div "+d.uid,"",2);
+        } else{
+
+          log("uid:div "+d.uid,"red",2);
+
+        }
+
+
+
+  });
+
+
+});
+
+
+}
+
+
+function datosUsuario(id_usuario,order_id){
+
+
+  var db = firebase.database();
+  var ref3 = db.ref("Usuarios");
+
+ref3.child(id_usuario).child("paseosActivos").orderByChild("order_id").equalTo(order_id).once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+
+  var d = data.val();
+
+        if(typeof(d.estatus) === 'string'){
+
+          log("estatus:div "+d.estatus,"",3);
+        } else{
+
+          log("estatus:div "+d.estatus,"red",3);
+
+        }
+
+        if(typeof(d.foto_paseador) === 'string'){
+
+          log("foto_paseador:div "+d.foto_paseador,"",3);
+        } else{
+
+          log("foto_paseador:div "+d.foto_paseador,"red",3);
+
+        }
+
+        if(typeof(d.num_perros) === 'number'){
+
+          log("num_perros:div "+d.num_perros,"",3);
+        } else{
+
+          log("num_perros:div "+d.num_perros,"red",3);
+
+        }
+
+        if(typeof(d.operation_date) === 'string'){
+
+          log("operation_date:div "+d.operation_date,"",3);
+        } else{
+
+          log("operation_date:div "+d.operation_date,"red",3);
+
+        }
+
+        if(typeof(d.order_id) === 'string'){
+
+          log("order_id:div "+d.order_id,"",3);
+        } else{
+
+          log("order_id:div "+d.order_id,"red",3);
+
+        }
+
+         if(typeof(d.perros) === 'string'){
+
+          log("perros:div "+d.perros,"",3);
+        } else{
+
+          log("perros:div "+d.perros,"red",3);
+
+        }
+
+        if(typeof(d.perrosNombre) === 'string'){
+
+          log("perrosNombre:div "+d.perrosNombre,"",3);
+        } else{
+
+          log("perrosNombre:div "+d.perrosNombre,"red",3);
+
+        }
+
+        if(typeof(d.tiempo_paseo) === 'number'){
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"",3);
+        } else{
+
+          log("tiempo_paseo:div "+d.tiempo_paseo,"red",3);
+
+        }
+
+        if(typeof(d.timestamp) === 'number'){
+
+          log("timestamp:div "+d.timestamp,"",3);
+        } else{
+
+          log("timestamp:div "+d.timestamp,"red",3);
+
+        }
+
+        if(typeof(d.tipo) === 'string'){
+
+          log("tipo:div "+d.tipo,"",3);
+        } else{
+
+          log("tipo:div "+d.tipo,"red",3);
+
+        }
+
+  
+
+
+
+  });
+
+
+});
+
+
+}
+
+
+function cambiarFecha(idPaseador,operation_date,order_id,timestamp,uid) {
+  
+
+var db = firebase.database();
+
+
+  var fecha = prompt("Modifique los parametros de la fecha, FORMATO: año-mes-diaThora:minutos:segundos (La hora es en formato de 24 horas)", operation_date);
+  if (fecha == null || fecha == "") {
+    alert("Debe especificar fecha");
+  } else {
+    nuevaFecha = fecha.replace(/\s+/g, '');
+
+
+    $('#carga2').show();
+   
+
+    try{
+
+     var fechatimestamp = nuevaFecha.split("-");
+     var separacion = fechatimestamp[2].split("T");
+
+    console.log(nuevaFecha);
+
+
+    var año = fechatimestamp[0];
+    var mes = fechatimestamp[1];
+    var dia = separacion[0];
+    mes = mes - 1;
+
+    
+
+    console.log("año ",año);
+    console.log("mes ",mes);
+    console.log("dia ",dia);
+
+    
+
+    var horatimestamp = separacion[1].split(":");
+
+
+
+    var hora = horatimestamp[0];
+    var minutos = horatimestamp[1];
+    var segundos = horatimestamp[2];
+
+    console.log("hora ",hora);
+    console.log("minutos ",minutos);
+    console.log("segundos ",segundos);
+
+  var datum = new Date(año,mes,dia,hora,minutos,'00');
+  
+   
+
+    var datumFirebase = datum.getTime();
+    datum = datumFirebase / 1000;
+
+      if(isValid(dia,mes,año)){
+
+          if (hora >= 24 || hora < 1 || minutos >= 60 || segundos >= 60 ){
+
+            $('#carga2').hide();
+            alert("La hora introducida no es correcta");
+
+          } else{
+
+         var ref_pas = db.ref("Paseos_paseadores");
+        var paseospasref = ref_pas.child(idPaseador).child(order_id);
+        paseospasref.update({ 
+
+          operation_date: nuevaFecha,
+          time_op: datum
+
+         });
+
+
+
+        var ref = db.ref("Paseos_usuarios");
+        var paseosursref = ref.child(uid).child(order_id)
+
+        paseosursref.update({ 
+
+          operation_date: nuevaFecha,
+          timestamp: datumFirebase
+
+         });
+
+
+        var ref_paseador_correcto = db.ref("Paseadores");
+        var paseosactivosref_correcto = ref_paseador_correcto.child(idPaseador).child("paseosActivos").child(order_id);
+
+        paseosactivosref_correcto.update({ 
+
+          operation_date: nuevaFecha,
+          timestamp: datumFirebase
+
+         });
+
+
+         var ref_user_correcto = db.ref("Usuarios");
+         var useractivosref_correcto = ref_user_correcto.child(uid).child("paseosActivos").child(order_id);
+
+         useractivosref_correcto.update({ 
+
+          operation_date: nuevaFecha,
+          timestamp: datumFirebase
+
+         });
+
+
+
+      verpaseos(idPaseador)
+
+
+
+      
+      $('#carga2').hide();
+
+
+          }
+
+
+
+      } else{
+
+        $('#carga2').hide();
+        alert("La fecha introducida no es correcta");
+      }
+
+
+
+
+
+
+    }
+
+    catch(err){
+
+      $('#carga2').hide();
+    alert("La fecha no tiene el formato correcto");
+
+  }
+
+
+
+
+
+//llama metodo
+
+  }
+
+
+
+}
+
+
+
+function daysInMonth(m, y) { // m is 0 indexed: 0-11
+    switch (m) {
+        case 1 :
+            return (y % 4 == 0 && y % 100) || y % 400 == 0 ? 29 : 28;
+        case 8 : case 3 : case 5 : case 10 :
+            return 30;
+        default :
+            return 31
+    }
+}
+
+function isValid(d, m, y) {
+    return m >= 0 && m < 12 && d > 0 && d <= daysInMonth(m, y);
+}
+
+
+
+
+
+function asignarPaseador(paseadorIDanterior,categoria,estatus,nombre,num_perros,operation_date,order_id,tiempo_paseo,timestamp,uid,perrosNombre,descripcion) {
+
+    $('#carga2').show();
+
+  var txt;
+  var db = firebase.database();
+  var ref = db.ref("Agendados");
+
+  var paseador = prompt("Ingrese el UID del paseador:", "");
+  if (paseador == null || paseador == "") {
+      $('#carga2').hide();
+    alert("El UID no puede estar vacio");
+  } else {
+    uidPaseador = paseador.replace(/\s+/g, '');
+
+    if(uidPaseador == paseadorIDanterior){
+        $('#carga2').hide();
+       alert("No se puede cambiar un paseo al mismo paseador");
+
+    } else{
+comprobarPaseador(paseadorIDanterior,uidPaseador,categoria,estatus,nombre,num_perros,operation_date,order_id,tiempo_paseo,timestamp,uid,perrosNombre,descripcion);
+}
+
+  }
+
+}
+
+
+function comprobarPaseador(paseadorIDanterior,paseadorIDnuevo,categoria,estatus,nombre,num_perros,operation_date,order_id,tiempo_paseo,timestamp,uid,perrosNombre,descripcion){
+
+  var db = firebase.database();
+  var ref_comprobacion = db.ref("Paseadores");
+  var ref_comPas = ref_comprobacion.child(paseadorIDnuevo);
+ref_comPas.once("value", function(snapshot) {
+  if (snapshot.exists()) {
+    console.log('exists');
+   //  agenda(uidPaseador,orderID);
+cambiarPaseosActivosPaseador(paseadorIDanterior,paseadorIDnuevo,categoria,estatus,nombre,num_perros,operation_date,order_id,tiempo_paseo,timestamp,uid,perrosNombre,descripcion)
+
+  } else{
+      $('#carga2').hide();
+    alert("El paseador no existe")
+  }
+
+});
+
+
+
+}
+
+
+
+
+
+function cambiarPaseosActivosPaseador(paseadorIDanterior,paseadorIDnuevo,categoria,estatus,nombre,num_perros,operation_date,order_id,tiempo_paseo,timestamp,uid,perrosNombre,descripcion){
+
+$('#carga2').show();
+
+     var db = firebase.database();
+
+
+var num_perrosInt = parseInt(num_perros);
+var tiempo_paseoInt = parseInt(tiempo_paseo);
+var timestampInt = parseInt(timestamp);
+
+          var ref_paseador_correcto = db.ref("Paseadores");
+          var paseosactivosref_correcto = ref_paseador_correcto.child(paseadorIDnuevo).child("paseosActivos").child(order_id).update({ categoria: categoria, num_perros: num_perrosInt, tiempo_paseo: tiempo_paseoInt, operation_date: operation_date, order_id: order_id, uid: uid, nombre:nombre, estatus: estatus, timestamp: timestampInt, perrosNombre: perrosNombre }).then(function(){
+              
+            
+            cambiarPaseosRealizadosPaseador(paseadorIDanterior,paseadorIDnuevo,order_id,uid,descripcion);
+
+            var paseosactivosref_correcto_anterior = ref_paseador_correcto.child(paseadorIDanterior).child("paseosActivos").child(order_id);
+            paseosactivosref_correcto_anterior.remove();
+
+              }).catch(function(error) {
+
+           
+
+              });
+
+
+}
+
+
+
+function cambiarPaseosRealizadosPaseador(paseadorIDanterior,paseadorIDnuevo,order_id,uid,descripcion){
+
+  var db = firebase.database();
+  var cambiarPaseos = db.ref("Paseos_paseadores");
+
+  cambiarPaseos.child(paseadorIDanterior).child(order_id).once("value",function(snap){
+
+
+    var amount = snap.val().amount;
+    var categoria = snap.val().categoria;
+    var num_perros = snap.val().num_perros;
+    var operation_date = snap.val().operation_date;
+    var tiempo_paseo = snap.val().tiempo_paseo;
+    var time_op = snap.val().time_op;
+
+
+      var ref_pas = db.ref("Paseos_paseadores");
+        var paseospasref = ref_pas.child(paseadorIDnuevo).child(order_id).update({ categoria: categoria, num_perros: num_perros, tiempo_paseo: tiempo_paseo, operation_date: operation_date, order_id: order_id, amount: amount, time_op: time_op,descripcion:descripcion}).then(function(){
+              
+            
+                datos_paseador(paseadorIDnuevo,uid,order_id);
+
+                var paseospasref_anterior = ref_pas.child(paseadorIDanterior).child(order_id);
+                    paseospasref_anterior.remove();
+
+              }).catch(function(error) {
+
+           
+
+              });
+
+
+
+
+
+
+});
+
+
+}
+
+
+function datos_paseador(paseadorIDnuevo,uid,order_id) {
+
+ var db = firebase.database();
+         var refPaseadoresfoto = db.ref("Paseadores");
+          var pasrefoto = refPaseadoresfoto.child(paseadorIDnuevo);
+
+          pasrefoto.once("value",function(snapshott){
+            var fotopaseador = snapshott.val().direcfoto;
+            var nombrepaseador = snapshott.val().nombre;
+            var numero_paseador = snapshott.val().celular;
+
+ 
+        cambiarPaseosActivosUsuario(paseadorIDnuevo,uid,order_id,nombrepaseador,fotopaseador,numero_paseador);
+
+            });
+
+
+}
+
+
+
+
+
+function cambiarPaseosActivosUsuario(paseadorIDnuevo,uid,order_id,nombrepaseador,fotopaseador,numero_paseador){
+
+            var db = firebase.database();
+
+
+            var ref_user_correcto = db.ref("Usuarios");
+            var useractivosref_correcto = ref_user_correcto.child(uid).child("paseosActivos").child(order_id).update({ foto_paseador: fotopaseador, nombre_paseador: nombrepaseador}).then(function(){
+
+
+
+         ref_user_correcto.child(uid).child("paseosActivos").child(order_id).child("mensaje").remove()
+         ref_user_correcto.child(uid).child("paseosActivos").child(order_id).child("ultimo_msj_texto").remove()
+         ref_user_correcto.child(uid).child("paseosActivos").child(order_id).child("ultimo_msj_timestamp").remove()
+         
+
+                        var ref = db.ref("Paseos_usuarios");
+                        var paseosursref = ref.child(uid).child(order_id).update({ numero_paseador: numero_paseador, id_paseador: paseadorIDnuevo}).then(function(){
+
+                             var eliminarMsjAlert = ref.child(uid).child(order_id).child("mensaje").remove()
+                            var eliminarChat = ref.child(uid).child(order_id).child("chat").remove().then(function(){
+
+                            $('#carga2').hide();
+                            location.reload();
+
+                            })
+
+
+
+
+              }).catch(function(error) {
+
+           
+
+              });
+
+
+
+              }).catch(function(error) {
+
+           
+
+              });
+
+
+
+
+
+
+
+
+}
+
+
+
+
+function mostrarTracking(uid,order_id) {
+  
+  window.open('tracking.html?uid='+uid+"&order_id="+order_id, '_blank');
+
+}
+
+
+
+
+  function log(message,color,number) {
+    
+   
+   if (number == 1){
+
+     var div = document.getElementById("div1");
+
+   } else if(number == 2){
+
+     var div = document.getElementById("div2");
+
+   } else{
+
+     var div = document.getElementById("div3");
+
+   }
+   
+
+   var res = message.split(":div");
+
+
+    if(color == "red"){
+
+       var result1 = res[0].fontcolor("red");
+       div.innerHTML += "<br>"+result1+": "+res[1];
+
+    }else{
+
+      var result1= res[0].fontcolor("green");
+         div.innerHTML += "<br>"+result1+": "+res[1];
+
+    }
+}   
+
+</script>
+
+
+<script>
+  
+   firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+
+    console.log("nombre",displayName);
+     console.log("email",email);
+       console.log("photoURL",photoURL);
+       console.log("UID",uid);
+       
+
+
+     var db = firebase.database();
+     var ref = db.ref("Usuarios_Sistema");
+       
+
+
+ref.orderByChild("uid").equalTo(uid).once("value", function(snapshot){
+
+if(snapshot.exists()){
+
+   
+   snapshot.forEach(function(data) {
+   	
+
+   	  var rolUsuario = data.val();
+
+     console.log(rolUsuario.rol);
+     console.log(rolUsuario.uid);
+
+     if(rolUsuario.rol == "monitoreo"){
+
+              location.href ="mapa.html";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+              $("#cover").hide();
+
+     } else if(rolUsuario.rol == "admin"){
+
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "finanzas"){
+
+             location.href ="finanzas.html";
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "ventas"){
+      
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     } else if(rolUsuario.rol == "desarrollador"){
+      
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     } else if(rolUsuario.rol == "contactoUsuarios"){
+
+            location.href ="users.html";
+
+     } 
+
+
+   });
+
+}
+
+else{
+
+           alert("Error: No estas registrado en el sistema");
+           $('#carga').hide();
+
+           firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+
+}
+
+});
+
+   
+
+    // ...
+      } else {
+    // User is signed out.
+    // ...
+           location.href ="login.html";
+     }
+  });
+
+</script>
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+
+
+
+   
+
+</script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

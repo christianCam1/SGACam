@@ -1,0 +1,578 @@
+
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css"/>
+
+
+
+       <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
+   <script src = "https://cdn.datatables.net/plug-ins/1.11.1/sorting/absolute.js" ></script>
+
+
+
+
+    <title> Perros </title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+<body>
+
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+  <br><br><br><br>
+
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #00B0C5;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+
+
+<div id="snackbar">Copiado ...</div>
+  
+
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+    
+    <script src="js/init.js"></script>
+
+
+<head>
+    <title>Perros</title>
+    </head>
+  
+
+
+
+
+<div class="container-fluid">
+
+
+
+<br><br>
+
+  <div class="table-responsive">
+    <table class="table table-striped" id="tablaDatos" >
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col">ID perro</th>
+                 <th   scope="col">Nombre</th>
+                 <th   scope="col">Raza</th>
+                  <th   scope="col">ID usuario</th>
+                  <th   scope="col">ID usuario (hide)</th>
+                  <th   scope="col">Usuario</th>
+                  <th   scope="col">Eliminar</th>
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+
+<br><br>
+
+
+</div>
+
+
+<script>
+
+
+
+ 
+
+
+
+var usuariosArray = [];
+
+ function consulta_perros(){
+
+
+$('#tablaDatos').DataTable().clear().destroy();
+
+var nameType = $.fn.dataTable.absoluteOrder( {
+    value: 'Sin dato', position: 'bottom'
+} );
+
+var  tabla = $('#tablaDatos').DataTable({
+
+                search: { regex: true },
+               pagingType: "full_numbers",
+               paging:   true, //Muestra la paginacion y el combobox
+               bFilter: true,
+        //Muestra oculta filtro
+              info:     true,
+
+              columnDefs: [
+             { "targets": [ 0 ], "visible": false },
+             { "targets": [ 4 ], "visible": false },
+             { "targets": 1, "type": nameType },
+             { "orderData": 3, "targets": 4},
+       ],
+                "order": [[ 1, "asc" ]],
+
+                pageLength : 10,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+
+ 
+         
+
+
+
+                        "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+
+
+
+            });
+
+
+
+
+let oldInput = $('.dataTables_filter input');
+let newInput = $('<input>').on('change keyup input', () => {
+  let regex = textToRegex(newInput.val());
+  oldInput.val(regex).trigger('input');
+});
+oldInput.hide().after(newInput);
+
+function textToRegex(value) {
+  return value
+    .toLowerCase()
+    .split('')
+    .map(c => {
+      if (/[-[\]{}()*+?.,\\^$|#]/.test(c)) {
+        return '\\' + c;
+      }
+      [
+        /[aàáâãäå]/, /[oòóôõöø]/, /[eèéêë]/, /[cç]/, /[dð]/,
+        /[ii̇ìíîï]/, /[uùúûü]/, /[nñ]/, /[sš]/, /[yÿý]/, /[zž]/
+      ].some(r => {
+        if (r.test(c)) {
+          c = r.source;
+          return true;
+        }
+      });
+      return c;
+    })
+    .join('');
+}
+
+
+
+
+       var db = firebase.database();
+     var ref = db.ref("Perros");
+       
+
+         var table = document.getElementById("tabla");
+
+  //limpia la tabla
+  table.innerHTML = "";
+
+
+ref.orderByChild("nombre").once("value").then(snapshot => {
+
+if(snapshot.exists()){
+
+   var datos = snapshot.val();
+      for (const property in datos) {
+
+
+        var d = datos[property]
+
+
+
+
+        	
+
+
+        		   for (const property2 in d) {
+
+
+
+                    var d2 = d[property2]
+
+
+
+
+                   var idPerro = "Sin dato"
+                    var nombre = "Sin dato"
+                    var raza = "Sin dato"
+                    var uid = "Sin dato"
+                    var nombreUsuario = "Sin dato"
+
+
+                    if(d2["idPerro"] != undefined){
+
+                      idPerro = d2["idPerro"]
+
+                    }
+                    if(d2["nombre"] != undefined){
+
+                      nombre =  d2["nombre"]
+                      if(nombre == ""){nombre = "Sin dato"}
+                    }
+                    if(d2["raza"] != undefined){
+
+                      raza =  d2["raza"]
+
+                    } if(property != undefined){
+
+                      uid = '<button class="custom-button" onclick="copyToClipboard(\'' + property + '\')">Copiar</button>'; 
+
+
+
+                    }
+
+
+
+
+
+               var filtered = usuariosArray.find(x => x.value === property);
+
+
+
+               if(filtered != null){
+              nombreUsuario = filtered.nombre+" "+filtered.apellidoP+" "+filtered.apellidoM
+            }
+
+
+               var informacionUsuarios = 
+
+                 [
+
+                         idPerro,
+                         nombre,
+                         raza,
+                         uid,
+                         property,
+                         nombreUsuario,
+                         '<button class="custom-button" onclick="eliminarPerro(\'' + idPerro + '\',\'' + property + '\',\'' + nombre + '\')">Eliminar perro</button>'
+                        
+                ]
+
+
+
+        var table = $('#tablaDatos').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+
+           }
+
+
+
+
+
+
+      }
+
+
+    tabla.draw()
+
+
+ }
+
+
+else{
+
+
+}
+
+});
+
+
+}
+
+
+
+
+function eliminarPerro(idPerro,uid,nombre) {
+
+
+    var txt;
+  var cat = prompt("Para confirmar que quieres eliminar a "+nombre+" escribe la palabra \'eliminar\'");
+
+  cat = cat.toLowerCase();
+
+  if (cat == "eliminar") {
+  
+  $('#carga2').show();
+
+  var db = firebase.database();
+  var agendados = db.ref("Perros").child(uid).child(idPerro);
+
+
+
+        agendados.remove().then(function() {
+              
+
+        var key = db.ref("cambios_ordenes").push().getKey();
+        var agendadosModificaciones = db.ref("cambios_ordenes");
+        var currentUID = firebase.auth().currentUser.uid;
+
+
+                        agendadosModificaciones.child(key).update({ 
+
+                id_orden: "Sin orden",
+                uid: currentUID,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                cambio: "Eliminar perrro",
+                inicial: idPerro+" "+uid,
+                final: ""
+
+               })
+
+            $('#carga2').hide();
+            alert("El perro se ha eliminado correctamente")
+                consulta_perros()
+
+
+         }) .catch(function(error) {
+
+           
+                console.log("Ocurrio un error")
+              });
+
+        
+
+  } else {
+
+    alert("La palabra introducida es incorrecta")
+  }
+
+
+
+}
+
+
+ function consulta_usuarios(){
+
+
+       var db = firebase.database();
+     var ref = db.ref("Usuarios");
+       
+
+
+ref.orderByChild("nombre").once("value").then(snapshot => {
+
+if(snapshot.exists()){
+
+   var datos = snapshot.val();
+      for (const property in datos) {
+
+
+        var d = datos[property]
+
+
+                    var uid = "Sin dato"
+                    var nombre = "Sin dato"
+                    var apPaterno = ""
+                    var apMaterno = ""
+
+
+                    if(d["uid"] != undefined){
+
+                      uid = d["uid"]
+
+                    }
+                    if(d["nombre"] != undefined){
+
+                      nombre =  d["nombre"]
+
+                    }
+
+                      if(d["apellido_Paterno"] != undefined){
+
+                      apPaterno =  d["apellido_Paterno"]
+
+                    }
+
+                      if(d["apellido_Materno"] != undefined){
+
+                      apMaterno =  d["apellido_Materno"]
+
+                    }
+
+
+           var informacionUsuariosSelect = 
+
+                  {
+
+                    value : uid,
+                    nombre : nombre,
+                    apellidoP : apPaterno,
+                    apellidoM : apMaterno
+
+                  }
+
+
+
+                  usuariosArray.push(informacionUsuariosSelect)
+
+
+
+
+      }
+
+       consulta_perros();
+
+ }
+
+
+else{
+
+
+}
+
+});
+
+
+}
+
+
+
+ window.onload = consulta_usuarios();
+
+
+
+function copyToClipboard(val){
+
+    var dummy = document.createElement("input");
+    document.body.appendChild(dummy);
+
+    dummy.setAttribute("id", "dummy_id");
+    document.getElementById("dummy_id").value=val;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+    
+     var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+
+
+</script>
+
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+
+
+
+
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

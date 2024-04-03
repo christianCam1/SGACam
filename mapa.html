@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Mapa</title>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- RSVP -->
+    <script src="https://unpkg.com/rsvp@3.1.0/dist/rsvp.min.js"></script>
+
+    <!-- GeoFire -->
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/fish2.js" defer></script>
+    <script src="js/validacionRol.js" defer></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/fish2.css">
+
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+    <title>Mapa</title>
+
+  </head>
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+  <body>
+
+    <div id="nav-placeholder">
+
+    </div>
+  
+  <br><br><br><br>
+
+    <form>
+        <input type="text" name="coords" value="19.5031560714501,-99.23319306224586"/>
+        <input type="button" class="custom-button"  onclick="ShowMap(coords)" value="Buscar" />
+    </form>
+
+      <div id="map" style="width:100%;height:700px;"></div>
+    <!-- Message log -->
+     <div id="log" ></div>
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <script src="js/init.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="Mapa/mostrar_mapa.js"></script>
+    <script src="Mapa/abrir_paseadores.js"></script>
+    <script src="login/cerrar_sesion.js"></script>
+
+  </body>
+</html>

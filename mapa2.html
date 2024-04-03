@@ -1,0 +1,524 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Ubicación Paseador</title>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- RSVP -->
+    <script src="https://unpkg.com/rsvp@3.1.0/dist/rsvp.min.js"></script>
+
+    <!-- GeoFire -->
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/fish2.js" defer></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+    <title>Mapa</title>
+
+
+  </head>
+
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+  <body>
+    <div id="nav-placeholder">
+
+    </div>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+
+      <div id="map" style="width:100%;height:700px;"></div>
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+
+
+function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+ 
+      if (typeof paramValue === 'string') paramValue = paramValue;
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
+}
+
+function obtenerDatos(){
+
+
+   var uid = getAllUrlParams().uid;
+   var order_id = getAllUrlParams().order_id;
+
+
+ var db = firebase.database();
+
+
+var firebaseRef = db.ref("Paseos_usuarios").child(uid).child(order_id);
+
+
+
+
+firebaseRef.once("value", function(snapshot){ 
+
+console.log(snapshot);
+
+  var snap = snapshot.val();
+
+
+    ShowMap(snap.latitud+','+snap.longitud,snap.id_paseador)
+
+
+
+
+});
+
+}
+
+ window.onload = obtenerDatos;
+
+function ShowMap(coords,idPaseador) {
+
+ var db = firebase.database();
+var firebaseRef = db.ref("UNO");
+
+var ref2 = db.ref("Paseadores");
+
+var collection = new Array();
+
+
+//var markers = [];
+
+
+var circles = [];
+var markers = [];
+var geoFire = new GeoFire(firebaseRef);
+var geoQuery;
+
+var coordss=coords;
+const [latitude, longitude] = coordss.split(',');
+
+
+
+
+    var myLatlng = new google.maps.LatLng(latitude,longitude);
+    var marker;
+
+
+        var mapProp = {
+            center: myLatlng,
+              zoom: 13.2,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+
+colormarker2 = "http://maps.google.com/mapfiles/ms/micons/blue.png";
+
+ var Markermio = new google.maps.Marker({
+  animation: google.maps.Animation.DROP,
+    position: myLatlng,
+  icon:colormarker2,
+  draggable:true,
+    map: map
+  });
+
+
+
+
+
+
+
+
+  google.maps.event.addListener(Markermio,'dragend',function()
+
+  {
+
+
+ for(var i in circles) {
+    circles[i].setMap(null);
+  }
+
+
+  for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+             
+        }
+          collection = [];
+
+
+    var latitud = Markermio.getPosition().lat();
+  var longitud = Markermio.getPosition().lng();
+
+  var queryLocation = [Markermio.getPosition().lat(), Markermio.getPosition().lng()];
+  myLatlng = new google.maps.LatLng(Markermio.getPosition().lat(), Markermio.getPosition().lng());
+
+  var radius = 1500;
+var radius2 = radius * 2;
+var radius3 = radius * 3;
+
+
+var radiuskm = radius3/1000;
+
+
+
+
+   cityCircle = new google.maps.Circle({
+            strokeColor: '#66ff66',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#66ff66',
+            fillOpacity: 0.30,
+            map: map,
+            center: myLatlng,
+            radius: radius
+          });
+
+
+circles.push(cityCircle);
+
+  cityCircle2 = new google.maps.Circle({
+            strokeColor: '#ffff4d',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#ffff4d',
+            fillOpacity: 0.30,
+            map: map,
+            center: myLatlng,
+            radius: radius2
+          });
+
+circles.push(cityCircle2);
+  cityCircle3 = new google.maps.Circle({
+            strokeColor: '#ff4d4d',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#ff4d4d',
+            fillOpacity: 0.15,
+            map: map,
+            center: myLatlng,
+            radius: radius3
+          });
+
+  circles.push(cityCircle3);
+
+
+
+
+
+
+var infowindow = new google.maps.InfoWindow();
+
+// To add the marker to the map, call setMap()
+
+
+  // Create a new GeoFire instance at the random Firebase location
+
+
+  // Create the locations for each fish
+
+
+  // Create a GeoQuery centered at fish2
+    geoQuery = geoFire.query({
+    center: queryLocation,
+    radius: radiuskm
+  });
+
+
+  // Attach event callbacks to the query
+  var onKeyEnteredRegistration = geoQuery.on("key_entered", function(key, location) {
+    var stringlocation = String(location);
+
+
+if(key == idPaseador){
+
+
+   stringlocation = stringlocation + "," + String(key)
+
+collection.push(stringlocation);
+
+} else{
+
+
+}
+
+
+
+
+  });
+
+
+
+
+
+ var onReadyRegistration = geoQuery.on("ready", function() {
+
+      geoQuery.cancel();
+
+
+
+
+for(var i=0; i<collection.length; i++){
+
+
+
+
+// this will return an array with strings "1", "2", etc.
+temp = collection[i].split(",");
+
+
+
+
+
+var x = myFunction(temp[0],temp[1],temp[2],i);   // Function is called, return value will end up in x
+
+
+
+
+
+
+
+   }
+
+
+    })
+
+
+
+var colormarker = "";
+
+function myFunction(lat,long,id,i) {
+
+
+
+
+
+ref2.orderByChild("idPaseador").equalTo(id).on("child_added", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+  var d = snapshot.val();
+
+  {
+
+
+
+  if (d.estatus == (1))
+     {
+
+   colormarker = "http://maps.google.com/mapfiles/ms/micons/red.png";
+
+
+
+
+        }
+
+     else
+
+     {
+
+
+   colormarker = "http://maps.google.com/mapfiles/ms/micons/green.png";
+
+
+
+
+        }
+
+        /*var pointMarker
+
+        markers.push(pointMarker = new google.maps.Marker({
+              map: map,
+              icon: colormarker,
+              position: new google.maps.LatLng(lat,long)
+            }));*/
+
+
+
+
+    var pointMarker = new google.maps.Marker({
+      animation: google.maps.Animation.DROP,
+    position: new google.maps.LatLng(lat,long),
+  icon:colormarker,
+
+    map: map
+  });
+
+
+
+
+
+    google.maps.event.addListener(pointMarker, 'click', (function(pointMarker, i) {
+                return function() {
+
+                  infowindow.setContent(id+","+d.nombre+' <button onclick="abrirPaseadores(\'' + id + '\')">Ver</button>');
+
+                  infowindow.open(map, pointMarker);
+                }
+              })(pointMarker, i));
+            markers.push(pointMarker);
+
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+});
+
+             // Function returns the product of a and b
+
+
+                  return colormarker;
+}
+
+  });
+
+
+
+
+}
+
+
+    </script>
+
+
+
+
+    <script>
+
+
+function abrirPaseadores(id) {
+  
+  window.open('pag.html?uidPaseador='+id,'_blank');
+}
+
+   
+
+</script>
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+  </body>
+</html>

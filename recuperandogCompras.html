@@ -1,0 +1,568 @@
+  <html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+       <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   <script src = "https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js" ></script>
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+      <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+    <title>Plaquitas Recuperandog</title>
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+     
+         <link rel="stylesheet" href="css/style_chat.css">
+
+
+         
+             
+             
+
+
+                 
+
+             <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+
+
+
+
+
+
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+    <div id="nav-placeholder">
+
+    </div>
+
+    
+  
+  
+
+  
+
+
+
+<body>
+
+  
+
+
+
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script src="js/init.js"></script>
+<script src="js/validacionRol.js" defer></script>
+
+<br><br>
+
+<div id="loader"></div>
+
+<section id="myDiv" class="animate-bottom">
+  
+  <div id="id01" class="w-modal">
+    <div class="w-modal-content">
+      <div class="w3-container">
+
+        <div class="form-group">
+          <label for="datetimepicker1" id="datetimepicker1Label"> Asigna una fecha de entrega para esta plaquita </label>
+          <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" />
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+        </div>
+        <br>
+        <button class="custom-button" id= "btnbtn" >Asignar Fecha de entrega</button>
+        <br>
+  
+      </div>
+    </div>
+  </div>
+
+  <button class="custom-button" onclick="ExportToExcel('xlsx')">Exportar a excel</button>
+
+  <br><br>
+
+  <div class="table-responsive">
+    <table class="table table-striped" id= "table_table_2" style="width:100%" >
+      <thead class="bg2">
+               <tr>
+                <th  scope="col">Uid</th>
+                <th  scope="col" >Nombre</th>
+                <th  scope="col">Celular</th>
+                <th  scope="col">Orden</th>
+                <th  scope="col">Descripcion</th>
+                <th  scope="col">Direccion</th>
+                <th  scope="col">Fecha de Solicitud</th>
+                <th  scope="col">Fecha de Entrega</th>
+                <th  scope="col">Fecha de SolicitudT</th>
+                <th  scope="col">Fecha de EntregaT</th>
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+    </div>
+
+  
+    
+</section>
+
+
+<script>
+
+  busca_paseos2()
+
+ function busca_paseos2(){
+  var started = true
+
+    var nameType = $.fn.dataTable.absoluteOrder( {
+    value: 'Sin dato', position: 'bottom'
+} );
+
+var  tabla = $('#table_table_2').DataTable({
+
+               search: { regex: false },
+               pagingType: "full_numbers",
+               paging:   false, //Muestra la paginacion y el combobox
+               bFilter: true,
+        //Muestra oculta filtro
+              info:     true,
+
+              columnDefs: [
+             { "targets": [ 8 ], "visible": false },
+             { "targets": [ 9 ], "visible": false },
+             { "width": "100%", "targets": 0 },
+             { "width": "100%", "targets": 1 },
+             { "width": "100%", "targets": 2 },
+             { "width": "100%", "targets": 3 },
+             { "width": "100%", "targets": 4 },
+             { "width": "100%", "targets": 5 },
+             { "width": "100%", "targets": 6 },
+             { "width": "100%", "targets": 7 },
+             { "orderData": 8, "targets": 6},
+             { "orderData": 9, "targets": 7},
+             { orderable: false, targets: [ 0, 1, 2, 3 ] },
+       ],
+                "order": [[ 6, "desc" ]],
+
+
+                pageLength : 100,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+
+ 
+         
+
+
+
+                        "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+
+
+
+            });
+
+
+
+let oldInput = $('.dataTables_filter input');
+let newInput = $('<input>').on('change keyup input', () => {
+  let regex = textToRegex(newInput.val());
+  oldInput.val(regex).trigger('input');
+});
+oldInput.hide().after(newInput);
+
+function textToRegex(value) {
+  return value
+    .toLowerCase()
+    .split('')
+    .map(c => {
+      if (/[-[\]{}()*+?.,\\^$|#]/.test(c)) {
+        return '\\' + c;
+      }
+      [
+        /[aàáâãäå]/, /[oòóôõöø]/, /[eèéêë]/, /[cç]/, /[dð]/,
+        /[ii̇ìíîï]/, /[uùúûü]/, /[nñ]/, /[sš]/, /[yÿý]/, /[zž]/
+      ].some(r => {
+        if (r.test(c)) {
+          c = r.source;
+          return true;
+        }
+      });
+      return c;
+    })
+    .join('');
+}
+
+var db = firebase.database();
+var ref = db.ref("RecuperanDogCompras");
+  
+
+var table = document.getElementById("tabla");
+
+
+
+  
+
+  //limpia la tabla
+  table.innerHTML = "";
+
+   //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+  var actual = 0;
+
+ ref.orderByChild("timestamp").once("value").then(snapshot => {
+  
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+var datos = snapshot.val();
+
+
+    for (const property in datos) {
+
+
+
+        var d = datos[property]
+        //console.log(property)
+
+        
+
+
+
+                             
+                     var order_id = d["order_id"]
+                    var uid = d["id_usr"]
+                    var celular = d["numero_usuario"]
+                    var poliza = d["direccion"]
+                    var timestamp  = "Sin dato"
+                    var timestampEntrega = "Sin dato"
+                    var timestampT  = d["timestamp"]
+                    var timestampEntregaT = "0"
+                    var nombre = d["nombre"]
+                    var descripcion = d["descripcion"]
+                    var direccion = d["direccion"]
+                    
+                 
+
+                  if(d["timestamp"] != undefined){ 
+                       timestamp = new Date(d["timestamp"]);
+                       timestamp = timestamp.toLocaleDateString(lang, options)
+                       
+
+                  } 
+                  if(d["timestampEntrega"] != undefined){ 
+                    timestampEntrega = new Date(d["timestampEntrega"]);
+                    timestampEntrega = timestampEntrega.toLocaleDateString(lang, options)
+                    
+
+                  }
+
+                  if(d["timestampEntrega"] != undefined){ 
+                    timestampEntregaT = d["timestampEntrega"]
+                    
+                    
+
+                  }
+                  
+                 if( d["email"] != undefined){ email = d["email"] }
+
+                 if( d["timestampEntrega"] == undefined){timestampEntrega= '<button class="custom-button" onclick="asignarFecha(\'' + property + '\')">Fijar Fecha</button>' }
+                  
+
+
+
+
+
+               var informacionUsuarios = 
+
+                 [
+                        uid,
+                        nombre,
+                        celular,
+                        order_id,
+                        descripcion,
+                        direccion,
+                        timestamp,
+                        timestampEntrega,
+                        timestampT,
+                        timestampEntregaT,
+                        
+                         
+                         
+
+                ]
+
+
+
+        var table = $('#tablaDatos').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+
+
+
+    }
+    if (started){
+  timeout()
+  started = false
+}
+
+    tabla.draw()
+
+
+ })
+  }
+
+
+
+
+
+
+
+function busca_paseos() {
+
+  var x = document.getElementById("id01");
+ x.style.display = "none";
+
+
+  var functions = firebase.functions();
+
+  let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+let options = {hour:"numeric", minute:"numeric"};
+
+var db = firebase.database();
+var ref = db.ref("RecuperanDogCompras");
+  var ref2 = db.ref("Usuarios");
+
+var table = document.getElementById("tabla");
+
+//limpia la tabla
+table.innerHTML = "";
+
+var started = true
+     
+
+    var query = "no_asignado";
+ //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+ref.orderByChild("timestamp").once("value", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+var exist = snapshot.val();
+//console.log(exist);
+if (exist == null) {
+document.getElementById("demo").innerHTML ="No Hay Paseos Agendados" ;
+
+}else{
+
+
+snapshot.forEach(function(child) {
+
+       
+     d = child.val();
+
+
+     var date = new Date(d.timestamp);
+      var txt2 = date.toLocaleDateString(lang, options);
+      var dateEntrega = new Date(d.timestampEntrega);
+      var valueToSend = child.key
+
+      //console.log("vTS"+d.id)
+        
+
+
+        var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+   
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = d.nombre+" "+d.apPaterno+" "+d.apMaterno;
+    cell2.innerHTML = d.email;
+    cell3.innerHTML = d.celular;
+    cell4.innerHTML = d.poliza
+    cell5.innerHTML = txt2;
+    if (dateEntrega == "Invalid Date"){
+      cell6.innerHTML = '<button class="custom-button" onclick="asignarFecha(\'' + d.id + '\')">Fijar Fecha</button>';
+    }else {
+      var txt3 = dateEntrega.toLocaleDateString(lang, options);
+      cell6.innerHTML = txt3;
+    }
+
+  });
+  
+
+
+}
+
+if (started){
+  timeout()
+  started = false
+}
+});
+
+}
+
+function asignarFecha(valueToSend) {
+
+  var valuT = valueToSend
+
+  
+
+  document.getElementById('id01').style.display='block' 
+  $('#datetimepicker1').datetimepicker();
+  $('#datetimepicker1').data("DateTimePicker").clear();
+  
+  document.getElementById("btnbtn").addEventListener("click", assignCalif);
+  function assignCalif() { 
+    
+    var fecha1 = null
+  fecha1 = $("#datetimepicker1").find("input").val()
+    //alert(fecha1)
+    var timestamp1 = moment(fecha1).format("X");
+    timestamp1 = timestamp1*1000;
+    //alert(timestamp1)
+    console.log('executed asignar fecha '+valuT) 
+    
+
+    var addMessage2 = firebase.functions().httpsCallable('SetPlaquitaFechaEntrega');
+    addMessage2({fechaEntrega: timestamp1, id: valuT}).then(function(result) {
+      if(result.data[0] === "correcto"){
+        var table = document.getElementById("tabla");
+        table.innerHTML = "";
+        window.location.reload();
+        //busca_paseos2()
+        document.getElementById('id01').style.display='none' 
+        valuT = ""
+      }else{
+        document.getElementById('id01').style.display='none' 
+        alert("No se envio el formulario correctamente, intenta nuevamente")
+      }
+    });
+      
+}
+
+}
+
+function timeout(){
+  setTimeout(function(){
+    
+
+                 
+                   document.getElementById("loader").style.display = "none";
+document.getElementById("myDiv").style.display = "block";
+    
+  },3000);
+}
+
+function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tabla');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('ReportePlaquitasCompradas.' + (type || 'xlsx')));
+        }
+
+
+
+
+
+</script>
+
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+   
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>

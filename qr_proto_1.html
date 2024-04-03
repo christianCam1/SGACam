@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Generar Código QR</title>
+  <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+         <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>	
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+<div id="carga2" class="loader" style="display: none;" ></div>
+
+
+<body>
+     <div id="nav-placeholder">
+
+    </div>
+  
+  <br><br><br><br>
+
+		 	 <h6>Generacion de codigos QR.</h6>
+	<div class="container">
+	<label id="lbl_paseoss">Generar un solo codigo.</label><br>
+	<input id="item_txt" type="text" placeholder="Codigo a generar" style="margin:25px;">
+	<button id="generarCodigo" class="btn btn-success" width="276">Generar</button> <a href="#" id="descargarCodigo" class="btn btn-success" width="276">Descargar</a><br>
+<hr>
+	</div>
+
+
+	<div class="container">
+
+	<label id="lbl_paseoss">Generar varios codigos.</label><br>
+	<label id="lbl_paseos" style="margin:25px;">Ultimo Codigo generado:</label>
+	<input id="item_txt_consulta" type="text" placeholder="Ultimo generado" ><br>
+
+	<label id="lbl_paseos" style="margin:25px;">Numero de codigos a generar:</label>
+	<input id="item_txt_varios" type="text" placeholder="Numero de codigos a generar" style="margin:25px;" >
+	<button id="generarVarios" class="btn btn-success" width="276">Generar Varios</button> <a href="#" id="descargarVarios" class="btn btn-success" width="276">Descargar Varios</a>
+<hr>
+</div>
+
+	<div class="container codigoQR" id="codigoQR"></div>
+
+</body>
+
+<style type="text/css">
+  
+</style>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script src="jquery.min.js"></script>
+<script src="qrcode.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+<script>
+  
+
+$('#generarCodigo').hide();
+$('#generarVarios').hide();
+
+var ultimoQR_str = "";
+var ultimo_codigo = "";
+var letraQR = "";
+
+var db = firebase.database();
+var config_ref = db.ref("Configuracion");
+config_ref.once("value", function(snapsho){
+
+	$('#generarCodigo').show();
+	$('#generarVarios').show();
+  ultimoQR = snapsho.val().ultimoQR2;
+  
+  console.log("ultimo "+ultimoQR)
+
+	num_paseos = snapsho.val().diasRecuperandog;
+	document.getElementById("item_txt_consulta").value = ultimoQR;
+    document.getElementById("item_txt_consulta").disabled = true;
+		});
+
+
+
+var zip = new JSZip();
+var img = zip.folder("images");
+
+
+var miCodigoQR = new QRCode("codigoQR");
+var cad;
+
+$(document).ready(function(){
+	$("#generarCodigo").on("click",function(){
+		var cadena = $("#item_txt").val();
+		if (cadena == "") {
+		    alert("Ingresa un texto");
+		    $("#item_txt").focus();
+		}else{
+			cad = cadena;
+			$("#descargarCodigo").css("display","inline-block");
+			miCodigoQR.makeCode(cadena);
+		}
+	});
+
+	$("#descargarCodigo").on("click",function(){
+		var base64 = $("#codigoQR img").attr('src');
+		$("#descargarCodigo").attr('href', base64);
+		$("#descargarCodigo").attr('download', cad);
+		$("#descargarCodigo").trigger("click");
+	});
+
+
+
+
+	$("#generarVarios").on("click",function(){
+
+
+
+	var cadena_varios = $("#item_txt_varios").val();
+
+	if (cadena_varios == "") {
+			alert("Ingresa un numero");
+			$("#item_txt_varios").focus();
+	}else{
+
+
+
+
+
+
+
+ultimpQR = document.getElementById("item_txt_consulta").value;
+
+ultimoQR = ultimoQR + 1;
+
+		for (var i = 1; i <= cadena_varios ; i ++) {
+
+var codigo_generado = generateUUID2();
+var urlconcodigo = "https://api.caminandog.com.mx/qr?id="+codigo_generado
+var id_intrno = ultimoQR++;
+
+
+
+   var codigos = db.ref("CodigosQR").child(id_intrno);
+
+
+            codigos.set({ id_codigo: codigo_generado, timestamp: firebase.database.ServerValue.TIMESTAMP, vigencia:"", id_perro: "", fecha_vinculacion: "", numero_codigo: id_intrno});
+            
+            //console.log({id_codigo: codigo_generado, timestamp: firebase.database.ServerValue.TIMESTAMP, id_perro: "", fecha_vinculacion: "", numero_codigo: id_intrno});
+
+            //console.log(generateUUID())
+
+
+			//console.log("<<<< "+i+' >>>>');
+			$("#descargarVarios").css("display","inline-block");
+			miCodigoQR.makeCode(urlconcodigo);
+
+			var canvas = $('#codigoQR canvas');
+      
+    	//console.log(canvas);
+    	var imagen = canvas.get(0).toDataURL();
+			imagen = imagen.replace(/^data:image\/(png|jpg);base64,/, "");
+    	//or
+    	//var imagen = $(canvas)[0].toDataURL("image/png");
+    	//document.write('<img src="'+imagen+'"/>');
+
+			//console.log("img "+imagen);
+
+			//img.file(i+".png", imagen, {binary:true});
+			//img.file(i+".png", imagen.src.substr(imagen.src.indexOf(',')+1), {base64: true});
+			//img.file(""+i, imagen, {binary : true});
+
+			img.file(id_intrno+".png", imagen, {base64:true});
+
+			miCodigoQR.clear();
+
+
+
+
+		}
+
+
+ultimoQR = ultimoQR - 1;
+
+config_ref.child("ultimoQR2").set(ultimoQR);
+      document.getElementById("item_txt_consulta").value = ultimoQR;
+
+	}
+});
+
+
+function uuidv42() {
+  return 'xxxxxxxJyxxxxxxAxxxxxxxE'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+function generateUUID() { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxJyxxxxxxAxxxxxxxE'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if(d > 0){//Use timestamp until depleted
+            r = (d + r)%16 | 0;
+            d = Math.floor(d/16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r)%16 | 0;
+            d2 = Math.floor(d2/16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
+function generateUUID2() { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = (performance && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxyx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if(d > 0){//Use timestamp until depleted
+            r = (d + r)%16 | 0;
+            d = Math.floor(d/16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r)%16 | 0;
+            d2 = Math.floor(d2/16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
+
+
+
+
+
+
+
+$("#descargarVarios").on("click",function(){
+
+	var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+	var f=new Date();
+
+zip.generateAsync({type:"blob"})
+.then(function(content) {
+    // see FileSaver.js
+    saveAs(content, "codigos_QR "+f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear() + " " +f.getHours()+":"+f.getMinutes()+":"+f.getSeconds()+".zip");
+});
+	//var content = zip.generate();
+	//location.href="data:application/zip;base64,"+content;
+
+});
+
+});
+
+</script>
+  
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+</html>

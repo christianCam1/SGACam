@@ -1,0 +1,944 @@
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+                  <script src="js/validacionRol.js" defer></script>
+    <title>Detalle Usuario</title>
+  </head>
+
+
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+<body>
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+
+
+  
+  <br><br><br><br>
+
+ <div class="usuarioSesion" >
+     
+         <p id="usuario"></p>
+   
+
+ </div>
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #00B0C5;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+
+body{padding-top:30px;}
+
+
+
+
+</style>
+
+
+<div id="snackbar">Copiado ...</div>
+  
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class="row">
+      <div class="col-2"></div>
+        <div class="col-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-8 col-md-6">
+                            <h3 class="mb-0 text-truncated" id="nombre">Mike Anamendolla</h3>
+                            <p class="lead" id="uid">Web / UI Designer</p>
+                            <p id="direccion">
+                                I love to read, hang out with friends, watch football, listen to music, and learn new things.
+                            </p>
+                              <p id="telefono">
+                                I love to read, hang out with friends, watch football, listen to music, and learn new things.
+                            </p>
+                              <p id="email">
+                                I love to read, hang out with friends, watch football, listen to music, and learn new things.
+                            </p>
+                              <p id="perritos">
+                                I love to read, hang out with friends, watch football, listen to music, and learn new things.
+                            </p>
+                        </div>
+                        <div class="col-12 col-lg-4 col-md-6 text-center">
+                            <img src="img/perfil.png" alt="" class="mx-auto rounded-circle img-fluid" id="fotoPerfil">
+                            <br>
+
+                        </div>
+
+                        <!--/col-->
+                    </div>
+                    <!--/row-->
+                </div>
+                <!--/card-block-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<br><br>
+<br><br>
+
+  <div class="container" id="nuevo"> 
+    <div class="row">
+
+        <div class="col-2"></div>
+       
+
+       <div class="col-7 col-lg-7 col-md-3">
+
+    <button onclick="inicioFinLlamada()" id="inicioFinButton" class="btn btn-dark">Iniciar LLamada</button>
+
+
+      <label for="comboDuracion">Duración
+<select class="mdb-select md-form" id="comboDuracion">
+  <option value="Seleccionar...">Seleccionar...</option>
+  <option value="0">0 min</option>
+  <option value="1">1 min</option>
+  <option value="2">2 min</option>
+  <option value="3">3 min</option>
+  <option value="4">4 min</option>
+  <option value="5">5 min</option>
+  <option value="6">6 min</option>
+  <option value="7">7 min</option>
+  <option value="8">8 min</option>
+  <option value="9">9 min</option>
+  <option value="10">10 min</option>
+  <option value="11">11 min</option>
+  <option value="12">12 min</option>
+  <option value="13">13 min</option>
+  <option value="14">14 min</option>
+  <option value="15">15 min</option>
+  <option value="16">Más de 15 min</option>
+
+</select>
+
+</label>
+
+      <label for="estatus">Estatus
+<select class="mdb-select md-form" id="comboEstatus">
+  <option value="Seleccionar...">Seleccionar...</option>
+  <option value="Interesado">Interesado</option>
+  <option value="No interesado">No interesado</option>
+  <option value="Numero Incorrecto">Numero incorrecto</option>
+  <option value="No Contesto">No Contesto</option>
+  <option value="Volver a marcar">Volver a marcar</option>
+  <option value="Posible compra">Posible compra</option>
+  <option value="Cliente">Cliente</option>
+</select>
+</label>
+
+
+</div>
+</div>
+          <br>
+
+
+
+  <div class="row">
+
+        <div class="col-2"></div>
+
+         <div class="col-8">
+<div class="form-group">
+
+  <label for="exampleFormControlTextarea2">Comentario</label>
+
+  <textarea class="form-control rounded-0 " id="comentario" rows="3"></textarea>
+</div>
+</div>
+
+</div>
+
+
+
+  <div class="row">
+
+        <div class="col-2"></div>
+         <div class="col-8">
+<button onclick="guardarRegistro()">Guardar</button>
+</div>
+</div>
+
+
+</div>
+
+<br><br>
+
+
+<div class="container-fluid">
+  <div class="table-responsive" >
+    <table class="table table-striped" id="tablaDatos">
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col" >Comentario</th>
+                 <th  scope="col">Estatus</th>
+                 <th  scope="col">Ultima LLamada</th>
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+</div>
+
+<script>
+
+ document.getElementById("usuario").innerHTML = '<a class="nav-item nav-link active" href="contacto.html" id="usuarios">Regresar</a>';
+var horaInicio = 0;
+var horaFin = 0;
+
+
+
+function guardarRegistro() {
+
+
+
+  var element = document.getElementById("comboEstatus");
+  var estatusSeleccionado = element.options[element.selectedIndex].value;
+    var elementDuracion = document.getElementById("comboDuracion");
+  var duracionSeleccionada = elementDuracion.options[elementDuracion.selectedIndex].value;
+  var comentario = document.getElementById("comentario").value;
+
+  if(duracionSeleccionada == "Seleccionar..."){
+
+
+
+    alert("Debe seleccionar una duración valida")
+  }
+  else{
+
+     if(estatusSeleccionado == "Seleccionar..."){
+
+    alert("Debe seleccionar un estatus valido")
+
+
+  } else if(estatusSeleccionado == "Volver a marcar"){
+
+
+        marcarMasTarde();
+
+ } else if(estatusSeleccionado == "Cliente"){
+
+        
+    compra();
+
+
+ } else{
+
+
+
+    guardarDatos("")
+
+  }
+  
+}
+
+}
+
+
+   var uid = getAllUrlParams().uid;
+
+
+function compra(){
+
+
+  var db = firebase.database();
+  var refGuardarCompra = db.ref("Contacto").child("compras");
+
+        var compra = prompt("Describe la compra que se realizo");
+  if (compra == null || compra == "") {
+    alert("Debe especificar una compra");
+  } else {
+
+
+var nombre = document.getElementById("nombre").textContent;
+
+var uid = document.getElementById("uid").textContent;
+
+
+  var datosCompra = {
+    nombre: nombre,
+    uid: uid,
+    timestamp: firebase.database.ServerValue.TIMESTAMP,
+    detalleCompra: compra
+
+  };
+
+	var newKey = refGuardarCompra.push().key;
+
+      refGuardarCompra.child(newKey).set((datosCompra), function(error) {
+  
+   			 if (error) {
+      					// The write failed...
+   			 } else {
+
+
+   			 			guardarDatos("");
+
+  		     }
+	 	});
+
+	}
+
+
+}
+
+
+
+function guardarDatos(volveramarcar){
+
+
+
+  var db = firebase.database();
+  var refGuardar = db.ref("Contacto").child("llamadas").child(uid);
+  var refPrincipal = db.ref("Usuarios").child(uid).child("contacto");
+
+  var element = document.getElementById("comboEstatus");
+  var estatusSeleccionado = element.options[element.selectedIndex].value;
+    var elementDuracion = document.getElementById("comboDuracion");
+  var duracionSeleccionada = elementDuracion.options[elementDuracion.selectedIndex].value;
+  var comentario = document.getElementById("comentario").value;
+
+
+if (horaInicio == 0){ horaInicio = firebase.database.ServerValue.TIMESTAMP; }
+if (horaFin == 0){ horaFin = firebase.database.ServerValue.TIMESTAMP; }
+
+
+  
+  var datosLlamada = {
+    comentario: comentario,
+    estatus: estatusSeleccionado,
+    timestamp: firebase.database.ServerValue.TIMESTAMP,
+    horaInicio: horaInicio,
+    horaFin: horaFin
+  };
+
+
+console.log("uid dentro",uid);
+      var newKey = refGuardar.push().key;
+
+      console.log(newKey);
+      refGuardar.child(newKey).set((datosLlamada), function(error) {
+  
+
+    if (error) {
+      // The write failed...
+    } else {
+           
+
+
+            var datosEstatusUsuario = {
+                  comentario: comentario,
+                  estatus: estatusSeleccionado,
+                  timestamp: firebase.database.ServerValue.TIMESTAMP,
+                  uid: uid,
+                  timestamprecordatorio: volveramarcar
+          
+           };
+
+          restablecer();
+          refPrincipal.set(datosEstatusUsuario);
+
+
+    }
+
+
+
+
+
+
+  });
+
+
+}
+
+
+
+function restablecer(){
+
+
+             document.getElementById("comentario").value = "";
+           document.getElementById("comboDuracion").selectedIndex = 0;
+            document.getElementById("comboEstatus").selectedIndex = 0;
+
+           perfil_usuario();
+
+
+          horaInicio = 0;
+          horaFin = 0
+
+
+}
+
+
+function marcarMasTarde(){
+
+
+
+
+var db = firebase.database();
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+var x=0;
+
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   horaModif = snapshott.val();{
+
+       console.log("entra");
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+     
+
+       var date = new Date(horaModif);
+
+         var horaaaa = date.toLocaleDateString(lang, options);
+
+       console.log("fecha ",date+" dia ",date.getDate()+" mes",date.getMonth()+"año",date.getFullYear()+" hora ",date.getHours());
+
+      let diaInput = date.getDate();
+      let mesInput = (date.getMonth() + 1);
+      let añoInput = date.getFullYear();
+      let horaInput = date.getHours();
+
+   var fechaActual = añoInput+"-"+mesInput+"-"+diaInput+"T"+horaInput+":00:00";
+//console.log("fechaActual ",fechaActual);
+
+  var fecha = prompt("Modifique los parametros de la fecha, FORMATO: año-mes-diaThora:minutos:segundos (La hora es en formato de 24 horas)", fechaActual);
+  if (fecha == null || fecha == "") {
+    alert("Debe especificar fecha");
+  } else {
+
+ nuevaFecha = fecha.replace(/\s+/g, '');
+
+          try{
+
+     var fechatimestamp = nuevaFecha.split("-");
+     var separacion = fechatimestamp[2].split("T");
+
+    console.log(nuevaFecha);
+
+
+    var año = fechatimestamp[0];
+    var mes = fechatimestamp[1];
+    var dia = separacion[0];
+    mes = mes - 1;
+
+    
+
+    console.log("año ",año);
+    console.log("mes ",mes);
+    console.log("dia ",dia);
+
+    
+
+    var horatimestamp = separacion[1].split(":");
+
+
+
+    var hora = horatimestamp[0];
+    var minutos = horatimestamp[1];
+    var segundos = horatimestamp[2];
+
+    console.log("hora ",hora);
+    console.log("minutos ",minutos);
+    console.log("segundos ",segundos);
+
+  var datum = new Date(año,mes,dia,hora,minutos,'00');
+  
+   
+
+    var datumFirebase = datum.getTime();
+    datum = datumFirebase / 1000;
+
+      if(isValid(dia,mes,año)){
+
+          if (hora >= 24 || hora < 1 || minutos >= 60 || segundos >= 60 ){
+
+            $('#carga2').hide();
+            alert("La hora introducida no es correcta");
+
+          } else{
+
+
+              guardarDatos(datumFirebase);
+
+
+          }
+
+
+
+      } else{
+
+        alert("La fecha introducida no es correcta");
+      }
+
+
+
+
+
+
+    }
+
+    catch(err){
+
+
+    alert("La fecha no tiene el formato correcto");
+
+  }
+
+
+
+
+
+   }
+
+    
+
+}
+
+})
+
+
+
+
+  }
+
+
+
+function daysInMonth(m, y) { // m is 0 indexed: 0-11
+    switch (m) {
+        case 1 :
+            return (y % 4 == 0 && y % 100) || y % 400 == 0 ? 29 : 28;
+        case 8 : case 3 : case 5 : case 10 :
+            return 30;
+        default :
+            return 31
+    }
+}
+
+function isValid(d, m, y) {
+    return m >= 0 && m < 12 && d > 0 && d <= daysInMonth(m, y);
+}
+
+
+
+
+
+
+function inicioFinLlamada(){
+
+
+             var textoBoton = document.getElementById("inicioFinButton").innerHTML;
+
+
+console.log("boton ",textoBoton);
+    
+          if(textoBoton == "Iniciar LLamada"){
+
+          obtenerInicio()
+
+          } else if(textoBoton == "Terminar LLamada"){
+
+            obtenerFin()
+
+          }
+
+
+}
+
+
+
+
+
+function obtenerInicio(){
+
+
+var db = firebase.database();
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+var x=0;
+
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   horaInicio = snapshott.val();{
+  document.getElementById("inicioFinButton").innerHTML = "Terminar LLamada"
+}
+
+})
+
+}
+
+
+
+function obtenerFin(){
+
+
+var db = firebase.database();
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+var x=0;
+
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   horaFin = snapshott.val();{
+      document.getElementById("inicioFinButton").innerHTML = "Iniciar LLamada"
+}
+
+})
+
+}
+
+
+function perfil_usuario() {
+
+  var db = firebase.database();
+  var ref = db.ref("Usuarios");
+
+  var table = document.getElementById("tabla");
+
+//limpia la tabla
+table.innerHTML = "";
+
+
+ref.orderByChild("uid").equalTo(uid).once("value", function(snapshot){
+
+
+ snapshot.forEach(function(data) {
+
+  var d = data.val();
+
+ 
+
+document.getElementById("nombre").innerHTML = d.nombre+" "+d.apellido_Paterno+" "+d.apellido_Materno; ;
+document.getElementById("uid").innerHTML = d.uid ;
+document.getElementById("email").innerHTML ="Email: "+d.email ;
+document.getElementById("telefono").innerHTML ="Telefono: "+d.telefono1 ;
+document.getElementById("direccion").innerHTML ="Dirección: "+d.direccion ;
+
+  
+
+});
+
+});
+
+
+cargarTabla();
+
+busca_perros(uid);
+
+}
+
+
+
+
+function busca_perros(query) {
+
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(query);
+
+
+var perros = "";
+var primero = true;
+
+ref.orderByChild("uidUsuario").once("value", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+var exist = snapshot.val();
+
+if (exist == null) {
+
+perros = 'Sin perritos';
+
+
+} else {
+
+
+
+
+
+ snapshot.forEach(function(data) {
+
+    var d = data.val();
+
+if (primero == true) {
+
+  perros = d.nombre;
+  primero = false;
+}else{
+
+perros = perros.concat(", ",d.nombre);
+
+}
+
+
+
+    // asigna a las celdas el valir del Child especificado
+/*    cell1.innerHTML = d.idPerro;
+    cell2.innerHTML = d.nombre;
+    cell3.innerHTML = d.comportamiento;
+    cell4.innerHTML = d.raza;
+    cell5.innerHTML = '<img src=\'' + d.foto + '\' width="200" height="200" />';
+*/
+
+
+  });
+
+
+
+ }
+
+ document.getElementById("perritos").innerHTML ="Perritos: "+perros ;
+ 
+});
+
+}
+
+
+function cargarTabla() {
+
+  var db = firebase.database();
+  var ref = db.ref("Contacto").child("llamadas").child(uid);
+
+  var table = document.getElementById("tabla");
+
+//limpia la tabla
+table.innerHTML = "";
+
+
+var inicio = 1582005601000; //00:00:01 
+var fin = 1582091999000 //23:59:59
+
+// ref.orderByChild("timestamp").startAt(inicio).endAt(fin).once("value", function(snapshot){
+
+ ref.orderByChild("timestamp").limitToLast(10).once("value", function(snapshot){
+
+ snapshot.forEach(function(data) {
+
+   console.log("entra llamadas")
+  var d = data.val();
+
+ 
+  var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+
+
+
+      cell1.innerHTML = d.comentario;
+      cell2.innerHTML = d.estatus;
+          var date = new Date(d.timestamp);
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+    cell3.innerHTML = date.toLocaleDateString(lang, options);
+
+
+  
+
+});
+
+});
+
+
+}
+
+
+ window.onload = perfil_usuario();
+
+
+
+   function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+ 
+      if (typeof paramValue === 'string') paramValue = paramValue;
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
+}
+
+
+
+
+
+</script>
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

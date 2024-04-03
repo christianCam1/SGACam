@@ -1,0 +1,437 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+       <script src="js/validacionRol.js" defer></script>   
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+     <link rel="stylesheet" href="css/style_chat.css">
+      
+    <title>Paseos del dia</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+      <div id="nav-placeholder">
+
+    </div>
+  
+  <br><br><br><br>
+
+<body >
+ 
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+
+<script src="js/init.js"></script>
+<br><br>
+<button class="custom-button2" onclick="no_calificados()" id= "btn" >paseos no calificados</button>
+<div id="loader"></div>
+
+
+
+
+
+<section id="myDiv" class="animate-bottom">
+
+  
+  
+  <div id="id01" class="w-modal">
+    <div class="w-modal-content">
+      <div class="w3-container">
+        <tbody>Asigna una estrella por cada elemento que haya cumplido el paseador (disponibilidad, aromaterapia, tracking, uniforme, puntualidad)</tbody>
+        <form name="califForm" >
+          <p class="clasificacion">
+            <input id="radio2" type="radio" name="estrellas" value="4">
+            <label for="radio2">★ </label>
+            <input id="radio3" type="radio" name="estrellas" value="3">
+            <label for="radio3">★ </label>
+            <input id="radio4" type="radio" name="estrellas" value="2">
+            <label for="radio4">★ </label>
+            <input id="radio5" type="radio" name="estrellas" value="1">
+            <label for="radio5">★ </label>
+          </p>
+          <tbody>Una vez calificado este paseo, este no se podra consultar desde esta ventana (paseos Diarios)</tbody>
+          <br><br>
+          
+        </form>
+        <button class="custom-button" id= "btnbtn" >Calificar</button>
+        
+        <br>
+ 
+      </div>
+    </div>
+  </div>
+
+  
+
+  
+
+  <div class="table-responsive">
+    <table class="table table-striped" id= "table_table_2" >
+      <thead class="bg2">
+               <tr>
+                 <th  scope="col">Order id</th>
+                 <th  scope="col">Fecha</th>
+                 <th  scope="col">Descripcion</th>
+                 <th  scope="col">Duracion</th>
+                 <th  scope="col">Categoria</th>
+                 <th  scope="col">Status</th>
+                 <th  scope="col">Perritos</th>
+                 <th  scope="col">Usuario</th>
+                 <th  scope="col">Direccion</th>
+                 <th  scope="col">Paseador</th>
+                 <th  scope="col">Tracking</th>
+                 <th  scope="col">Chat</th>
+                 <th  scope="col">Calificar</th>
+                </tr>
+        </thead>
+        <tbody id="tabla2">
+        </tbody>
+    </table>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-striped" id= "table_table_3" style="display: none;">
+        <thead class="bg2">
+                 <tr>
+                   <th  scope="col">Order id</th>
+                   <th  scope="col">Fecha</th>
+                   <th  scope="col">Descripcion</th>
+                   <th  scope="col">Duracion</th>
+                   <th  scope="col">Categoria</th>
+                   <th  scope="col">Status</th>
+                   <th  scope="col">Perritos</th>
+                   <th  scope="col">Usuario</th>
+                   <th  scope="col">Direccion</th>
+                   <th  scope="col">Paseador</th>
+                   <th  scope="col">Tracking</th>
+                   <th  scope="col">Chat</th>
+                   <th  scope="col">Calificar</th>
+                  </tr>
+          </thead>
+          <tbody id="tabla3">
+          </tbody>
+      </table>
+      </div>
+    
+</section>
+
+
+
+
+
+<script>
+let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+let options = {hour:"numeric", minute:"numeric"};
+var db = firebase.database();
+var ref = db.ref("Paseos_diarios");
+var init = moment().startOf("day");
+var end = moment().add(1,"day").endOf("day");
+var table = document.getElementById("tabla2");
+//table.innerHTML = "";
+var started = true
+
+
+ref.orderByChild("timestamp").startAt(init.unix() *1000).endAt(end.unix() *1000).on("child_added", function(snapshot){
+//  ref.orderByChild("timestamp").endAt(end.unix() *1000).on("child_added", function(snapshot){
+//.endAt(end.unix() *1000)
+
+const d = snapshot.val();
+
+if (d.id_usr !== 'fY8IBcMh66Nl2DcfbXYkQuwJgRo1' || d.id_paseador !== 'TzsgVsAHV2NQklFplsvVZHGWbA63' ){
+
+let hora = new Date(d.timestamp);
+let tiempo
+let status = d.estatus
+let nde = d.nde
+
+if (nde === undefined){
+  nde = ''
+}else{
+  nde = ' · '+nde
+}
+
+if (d.tiempo_paseo===1){
+    tiempo = '1 Hora'
+  }else if (d.tiempo_paseo===0.5){
+    tiempo = '30 minutos'
+  }else if (d.tiempo_paseo===1.5){
+    tiempo = '1 Hora 30 Min'
+  }else{
+    tiempo = '2 Horas'
+  }
+  
+    {
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        var cell8 = row.insertCell(7);
+        var cell9 = row.insertCell(8);
+        var cell10 = row.insertCell(9);
+        var cell11 = row.insertCell(10);
+        var cell12 = row.insertCell(11);
+        var cell13 = row.insertCell(12);
+
+        cell1.innerHTML = d.order_id;
+        cell2.innerHTML = hora.toLocaleDateString(lang, options);
+        cell3.innerHTML = d.descripcion+""+nde
+        cell4.innerHTML = tiempo 
+        cell5.innerHTML = d.categoria
+        cell6.innerHTML = status
+        cell7.innerHTML = d.perrosNombre
+        cell8.innerHTML = d.nombreUsuario+' '+d.apellidoUsuario
+        cell9.innerHTML = d.direccion+ '<button class="custom-button" onclick="verDireccion(\'' + d.latitud + '\',\'' + d.longitud + '\')">Ver</button>';
+        cell10.innerHTML = d.nombrePaseador+' '+d.apellidoPaseador
+        cell11.innerHTML = '<button class="custom-button" onclick="mostrarTracking(\'' + d.id_usr + '\',\'' + d.order_id + '\')">Ver tracking</button>';
+        cell12.innerHTML = '<button class="custom-button" onclick="mostrarChat(\'' + d.id_usr + '\',\'' + d.order_id + '\')">Ver Chat</button>';
+        cell13.innerHTML = '<button class="custom-button" onclick="Calificar(\'' + d.id_usr + '\',\'' + d.id_paseador + '\',\'' + d.order_id + '\')">Calificar</button>';
+        
+    }
+
+}
+
+
+
+if (started){
+  timeout()
+  started = false
+}
+
+
+
+});
+
+function no_calificados(){
+
+
+  $('#table_table_2').hide();
+   
+
+//var table = document.getElementById("tabla2");
+
+  let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+let options = {hour:"numeric", minute:"numeric"};
+var db = firebase.database();
+var ref = db.ref("Paseos_diarios");
+var init = moment().startOf("day");
+var end = moment().endOf("day");
+var table = document.getElementById("tabla3");
+table.innerHTML = "";
+var started2 = true
+
+
+//ref.orderByChild("timestamp").startAt(init.unix() *1000).endAt(end.unix() *1000).on("child_added", function(snapshot){
+  ref.orderByChild("timestamp").endAt(end.unix() *1000).on("child_added", function(snapshot){
+//.endAt(end.unix() *1000)
+
+const d = snapshot.val();
+
+if (d.id_usr != 'fY8IBcMh66Nl2DcfbXYkQuwJgRo1' || d.id_paseador != 'TzsgVsAHV2NQklFplsvVZHGWbA63' ){
+
+let hora = new Date(d.timestamp);
+let tiempo
+let status = d.estatus
+let nde = d.nde
+
+if (nde === undefined){
+  nde = ''
+}else{
+  nde = ' · '+nde
+}
+
+if (d.tiempo_paseo===1){
+    tiempo = '1 Hora'
+  }else if (d.tiempo_paseo===0.5){
+    tiempo = '30 minutos'
+  }else if (d.tiempo_paseo===1.5){
+    tiempo = '1 Hora 30 Min'
+  }else{
+    tiempo = '2 Horas'
+  }
+  
+    {
+        var row = table.insertRow(0);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+        var cell7 = row.insertCell(6);
+        var cell8 = row.insertCell(7);
+        var cell9 = row.insertCell(8);
+        var cell10 = row.insertCell(9);
+        var cell11 = row.insertCell(10);
+        var cell12 = row.insertCell(11);
+        var cell13 = row.insertCell(12);
+
+        cell1.innerHTML = d.order_id;
+        cell2.innerHTML = hora.toLocaleDateString(lang, options);
+        cell3.innerHTML = d.descripcion+""+nde
+        cell4.innerHTML = tiempo 
+        cell5.innerHTML = d.categoria
+        cell6.innerHTML = status
+        cell7.innerHTML = d.perrosNombre
+        cell8.innerHTML = d.nombreUsuario+' '+d.apellidoUsuario
+        cell9.innerHTML = d.direccion+ '<button class="custom-button" onclick="verDireccion(\'' + d.latitud + '\',\'' + d.longitud + '\')">Ver</button>';
+        cell10.innerHTML = d.nombrePaseador+' '+d.apellidoPaseador
+        cell11.innerHTML = '<button class="custom-button" onclick="mostrarTracking(\'' + d.id_usr + '\',\'' + d.order_id + '\')">Ver tracking</button>';
+        cell12.innerHTML = '<button class="custom-button" onclick="mostrarChat(\'' + d.id_usr + '\',\'' + d.order_id + '\')">Ver Chat</button>';
+        cell13.innerHTML = '<button class="custom-button" onclick="Calificar(\'' + d.id_usr + '\',\'' + d.id_paseador + '\',\'' + d.order_id + '\')">Calificar</button>';
+        
+    }
+
+}
+
+
+
+if (started2){
+  timeout2()
+  started2 = false
+}
+
+
+
+});
+}
+
+
+
+
+
+
+
+
+function timeout(){
+  setTimeout(function(){
+    var table = document.getElementById('table_table_2'),
+                        newTbody = document.createElement('tbody'),
+                        oldTbody = table.tBodies[0],
+                        rows = oldTbody.rows,
+                        i = rows.length - 1;
+
+                    while (i >= 0) {
+                        newTbody.appendChild(rows[i]);
+                        i -= 1;
+                    }
+                    oldTbody.parentNode.replaceChild(newTbody, oldTbody);
+
+                   console.log('executed') 
+                   document.getElementById("loader").style.display = "none";
+document.getElementById("myDiv").style.display = "block";
+    
+  },2000);
+}
+
+function timeout2(){
+  setTimeout(function(){
+    var table = document.getElementById('table_table_3'),
+                        newTbody = document.createElement('tbody'),
+                        oldTbody = table.tBodies[0],
+                        rows = oldTbody.rows,
+                        i = rows.length - 1;
+
+                    while (i >= 0) {
+                        newTbody.appendChild(rows[i]);
+                        i -= 1;
+                    }
+                    oldTbody.parentNode.replaceChild(newTbody, oldTbody);
+
+                   console.log('executed') 
+                   document.getElementById("loader").style.display = "none";
+document.getElementById("myDiv").style.display = "block";
+$('#table_table_3').show();
+    
+  },2000);
+}
+
+
+
+        
+        
+
+function mostrarTracking(uid,order_id) {
+  
+  window.open('tracking.html?uid='+uid+"&order_id="+order_id, '_blank');
+
+}
+
+function mostrarChat(uid,order_id) {
+  
+  window.open('chat.html?uid='+uid+"&order_id="+order_id, '_blank');
+
+}
+
+function verDireccion(latitud,longitud) {
+  window.open('direccion.html?latitud='+latitud+"&longitud="+longitud, '_blank');
+}
+
+function Calificar(uidUsr,uidPas,orderId) {
+
+  document.getElementById('id01').style.display='block' 
+  document.getElementById("btnbtn").addEventListener("click", displayDate);
+  function displayDate() { 
+    var x = document.forms["califForm"]["estrellas"].value;
+  if (x === '') {
+    alert("Se debe asignar una calificacion");
+    return false;
+  }else{
+    x = new Number(x)
+    var addMessage2 = firebase.functions().httpsCallable('calificacionInternaPaseadores');
+    addMessage2({uid: uidPas, orderId:orderId ,calif: x}).then(function(result) {
+      console.log(result)
+      console.log(uidPas)
+      if(result.data[0]==='correcto'){
+        window.location.reload(false);
+      }
+      //window.location.reload(false); 
+      //document.getElementById('id01').style.display='none' 
+    });
+
+   
+  }
+}
+  
+}
+
+
+
+</script>
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html

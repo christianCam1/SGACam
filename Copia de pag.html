@@ -1,0 +1,1516 @@
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+
+    <title>Paseadores</title>
+    <link rel="shortcut icon" href="favicon.ico?crc=489445559" />
+    <link rel="stylesheet" href="css/fish2.css" />
+    <link rel="stylesheet" href="css/style_chat.css">
+  </head>
+
+  <div id="cover"><div id="carga" class="loader"></div></div>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg2 fixed-top">
+      <div
+        class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0"
+      >
+        <ul class="navbar-nav mr-auto text-center">
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="mapa.html" id="mapa"
+              >Mapa <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item active dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="usuariosPrincipal"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Usuarios
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="users.html" id="usuarios"
+                >Usuarios</a
+              >
+              <a class="dropdown-item" href="contacto.html" id="contacto"
+                >Contacto</a
+              >
+              <a
+                class="dropdown-item"
+                href="reporteVentas.html"
+                id="reporteVentas"
+                >Reporte
+              </a>
+            </div>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="pag.html" id="paseadores">
+              Paseadores</a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="cortesia.html" id="cortesia"
+              >Cortesías</a
+            >
+          </li>
+          <li class="nav-item active dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="finanzas"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Finanzas
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="finanzas">Dispersion</a>
+              <a class="dropdown-item" href="finanzas_reporte">Reporte</a>
+            </div>
+          </li>
+          <li class="nav-item active dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="recuperandog"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Recuperandog
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="recuperandog_admin">Administrar</a>
+              <a class="dropdown-item" href="recuperandog_otorgar"
+                >Otorgar Servicio</a
+              >
+              <a class="dropdown-item" href="qr_proto_1">Geneador QR</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="mx-auto my-2 order-0 order-md-1 position-relative">
+        <a class="mx-auto" href="#">
+          <img src="img/caminandog.png" width="200" height="64" alt="" />
+        </a>
+      </div>
+      <div
+        class="navbar-collapse collapse w-100 dual-collapse2 order-2 order-md-2"
+      >
+        <ul class="navbar-nav ml-auto text-center">
+          <li class="nav-item active">
+            <a
+              class="nav-item nav-link"
+              href="solicitudes.html"
+              id="solicitudes"
+              >Solicitudes</a
+            >
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" href="agenda.html" id="agendados"
+              >Agendados</a
+            >
+          </li>
+          <li class="nav-item active dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="paseosActivos"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Paseos
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="paseosActivos.html"
+                >Paseos Activos</a
+              >
+              <a class="dropdown-item" href="paseosDiarios.html"
+                >Paseos Diarios</a
+              >
+              <a class="dropdown-item" href="ultimo_paseo.html"
+                >Ultimos Paseos</a
+              >
+            </div>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-item nav-link" onclick="cerrarSesion()"
+              >Cerrar Sesion</a
+            >
+          </li>
+        </ul>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target=".dual-collapse2"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+
+    <style>
+      #snackbar {
+        visibility: hidden;
+        min-width: 250px;
+        margin-left: -125px;
+        background-color: #00b0c5;
+        color: #fff;
+        text-align: center;
+        border-radius: 2px;
+        padding: 16px;
+        position: fixed;
+        z-index: 1;
+        left: 50%;
+        bottom: 30px;
+        font-size: 17px;
+      }
+
+      #snackbar.show {
+        visibility: visible;
+        -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+
+      @-webkit-keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadein {
+        from {
+          bottom: 0;
+          opacity: 0;
+        }
+        to {
+          bottom: 30px;
+          opacity: 1;
+        }
+      }
+
+      @-webkit-keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+
+      @keyframes fadeout {
+        from {
+          bottom: 30px;
+          opacity: 1;
+        }
+        to {
+          bottom: 0;
+          opacity: 0;
+        }
+      }
+    </style>
+
+    <div id="snackbar">Copiado ...</div>
+
+    <br /><br /><br /><br />
+
+    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+        authDomain: "caminandog-218818.firebaseapp.com",
+        databaseURL: "https://caminandog-218818.firebaseio.com",
+        projectId: "caminandog-218818",
+        storageBucket: "caminandog-218818.appspot.com",
+        messagingSenderId: "684616064893",
+      };
+      firebase.initializeApp(config);
+    </script>
+
+    <head>
+      <title>Paseadores</title>
+    </head>
+
+    <p id="demo"></p>
+    <p id="demon"></p>
+
+    <input
+      id="mainText"
+      type="text"
+      name="search"
+      align="center"
+      autofocus="autofocus"
+      onfocus="this.select()"
+      placeholder="Search"
+    />
+
+    <button onclick="busca_user()" class="btn btn-dark">
+      Buscar por Nombre
+    </button>
+    <button onclick="busca_email()" class="btn btn-dark">
+      Buscar por Email
+    </button>
+    <button onclick="busca_uid()" class="btn btn-dark">Buscar por UID</button>
+    <button onclick="busca_disponibles()" class="btn btn-dark">
+      Buscar disponibles
+    </button>
+    <button onclick="busca_fuera()" class="btn btn-dark">
+      Buscar fuera de servicio
+    </button>
+    <button onclick="busca_user_ultima()" class="btn btn-dark">
+      Buscar Ultima
+    </button>
+    <button onclick="calif()" class="btn btn-dark">
+      Calificacion Interna
+    </button>
+    <button onclick="califUsers()" class="btn btn-dark">
+      Calificacion Usuarios
+    </button>
+
+    <div id="id01" class="w-modal">
+      <div class="w-modal-content">
+        <div class="w3-container">
+          <tbody>Asigna una estrella por cada elemento que haya cumplido el paseador (disponibilidad, aromaterapia, tracking, uniforme, puntualidad)</tbody>
+          <form name="califForm" >
+            <p class="clasificacion">
+              <input id="radio2" type="radio" name="estrellas" value="4">
+              <label for="radio2">★ </label>
+              <input id="radio3" type="radio" name="estrellas" value="3">
+              <label for="radio3">★ </label>
+              <input id="radio4" type="radio" name="estrellas" value="2">
+              <label for="radio4">★ </label>
+              <input id="radio5" type="radio" name="estrellas" value="1">
+              <label for="radio5">★ </label>
+            </p>
+            <tbody>Una vez calificado este paseo, este no se podra consultar desde esta ventana (paseos Diarios)</tbody>
+            <br><br>
+            
+          </form>
+          <button class="custom-button" id= "btnbtn" >Calificar</button>
+          
+          <br>
+   
+        </div>
+      </div>
+    </div>
+
+    <br /><br />
+    <div class="table-responsive">
+      <table id="tablat" class="table table-striped">
+        <thead class="bg2">
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">UID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Estatus</th>
+            <th scope="col">No. perros</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Ultima Vez</th>
+            <th scope="col">Cierre</th>
+            <th scope="col">Version</th>
+          </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+      </table>
+    </div>
+
+    <div class="table-responsive">
+      <table
+        class="table table-striped"
+        id="table_table_3"
+        style="display: none;"
+      >
+        <thead class="bg2">
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">UID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Calificacion interna</th>
+            <th scope="col">Calificacion de usuarios</th>
+            <th scope="col">Puntos extra</th>
+          </tr>
+        </thead>
+        <tbody id="tabla3"></tbody>
+      </table>
+    </div>
+
+    <div id="map" style="width: 100%; height: 800px;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk"></script>
+
+    <script>
+      function getAllUrlParams(url) {
+        // get query string from url (optional) or window
+        var queryString = url
+          ? url.split("?")[1]
+          : window.location.search.slice(1);
+
+        // we'll store the parameters here
+        var obj = {};
+
+        // if query string exists
+        if (queryString) {
+          // stuff after # is not part of query string, so get rid of it
+          queryString = queryString.split("#")[0];
+
+          // split our query string into its component parts
+          var arr = queryString.split("&");
+
+          for (var i = 0; i < arr.length; i++) {
+            // separate the keys and the values
+            var a = arr[i].split("=");
+
+            // set parameter name and value (use 'true' if empty)
+            var paramName = a[0];
+            var paramValue = typeof a[1] === "undefined" ? true : a[1];
+
+            if (typeof paramValue === "string") paramValue = paramValue;
+
+            // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+            if (paramName.match(/\[(\d+)?\]$/)) {
+              // create key if it doesn't exist
+              var key = paramName.replace(/\[(\d+)?\]/, "");
+              if (!obj[key]) obj[key] = [];
+
+              // if it's an indexed array e.g. colors[2]
+              if (paramName.match(/\[\d+\]$/)) {
+                // get the index value and add the entry at the appropriate position
+                var index = /\[(\d+)\]/.exec(paramName)[1];
+                obj[key][index] = paramValue;
+              } else {
+                // otherwise add the value to the end of the array
+                obj[key].push(paramValue);
+              }
+            } else {
+              // we're dealing with a string
+              if (!obj[paramName]) {
+                // if it doesn't exist, create property
+                obj[paramName] = paramValue;
+              } else if (obj[paramName] && typeof obj[paramName] === "string") {
+                // if property does exist and it's a string, convert it to an array
+                obj[paramName] = [obj[paramName]];
+                obj[paramName].push(paramValue);
+              } else {
+                // otherwise add the property
+                obj[paramName].push(paramValue);
+              }
+            }
+          }
+        }
+
+        return obj;
+      }
+
+      var uidPaseador = getAllUrlParams().uidPaseador;
+
+      if (uidPaseador == undefined) {
+        console.log("esta vacio", uidPaseador);
+      } else {
+        console.log("no esta vacio", uidPaseador);
+        document.getElementById("mainText").value = uidPaseador;
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por uid.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("idPaseador")
+          .startAt(query)
+          .endAt(query + "\uf8ff")
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+              var cell9 = row.insertCell(8);
+              var cell10 = row.insertCell(9);
+              var cell11 = row.insertCell(10);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+              cell3.innerHTML = d.email;
+              if (d.estatus == 0) {
+                cell4.innerHTML = "Disponible";
+              } else {
+                cell4.innerHTML = "offline";
+              }
+              cell7.innerHTML = d.celular;
+              cell8.innerHTML = d.telefono;
+              var timestamp = d.ultima_vez_inicio;
+              var date = new Date(timestamp);
+              let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+              let options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              cell9.innerHTML = date.toLocaleDateString(lang, options);
+              var timestamp2 = d.ultima_vez;
+              var date2 = new Date(timestamp2);
+              cell10.innerHTML = date2.toLocaleDateString(lang, options);
+              cell11.innerHTML = d.through;
+            }
+          });
+      }
+
+      function busca_fuera() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML = "";
+        document.getElementById("demo").innerHTML =
+          "wait for paseadores fuera de servicio.......";
+
+        var cont = 0;
+
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var sessionsRef = db.ref("sessions");
+        sessionsRef
+          .child("actual")
+          .set(firebase.database.ServerValue.TIMESTAMP);
+
+        sessionsRef
+          .orderByChild("actual")
+          .on("child_added", function (snapshott) {
+            x = snapshott.val();
+            {
+            }
+          });
+
+        var s = x - 1209600000;
+
+        var startDate = s;
+        var endDate = x;
+
+        var dateInicio = new Date(s);
+        var dateFin = new Date(x);
+        let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+        let options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        };
+
+        document.getElementById("demo").innerHTML =
+          "Inicio " +
+          dateInicio.toLocaleDateString(lang, options) +
+          " ------------- Fin " +
+          dateFin.toLocaleDateString(lang, options);
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("ultima_vez_inicio")
+          .startAt(startDate)
+          .endAt(endDate)
+          .on("child_added", function (snapshot) {
+            cont++;
+
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+            var d = snapshot.val();
+
+            {
+              if (d.estatus == 0) {
+              } else {
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+                var cell9 = row.insertCell(8);
+                var cell10 = row.insertCell(9);
+                var cell11 = row.insertCell(10);
+
+                // asigna a las celdas el valir del Child especificado
+                cell1.innerHTML =
+                  d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+                if (d.idPaseador == undefined || d.idPaseador == "") {
+                  cell2.innerHTML = "SR : " + snapshot.key;
+                } else {
+                  cell2.innerHTML =
+                    d.idPaseador +
+                    '<button class="custom-button" onclick="copyToClipboard(\'' +
+                    d.idPaseador +
+                    "')\">Copiar</button>";
+                }
+
+                cell3.innerHTML = d.email;
+                if (d.estatus == 0) {
+                  cell4.innerHTML = "Disponible";
+                } else {
+                  cell4.innerHTML = "offline";
+                }
+                cell7.innerHTML = d.celular;
+                cell8.innerHTML = d.telefono;
+                var timestamp = d.ultima_vez_inicio;
+                var date = new Date(timestamp);
+                let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+                let options = {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                };
+                cell9.innerHTML = date.toLocaleDateString(lang, options);
+                var timestamp2 = d.ultima_vez;
+                var date2 = new Date(timestamp2);
+                cell10.innerHTML = date2.toLocaleDateString(lang, options);
+                cell11.innerHTML = d.through;
+              }
+            }
+          });
+      }
+
+      function busca_disponibles() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML = "";
+        document.getElementById("demo").innerHTML =
+          "wait for paseadores disponibles.......";
+
+        var contt = 0;
+
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var sessionsRef = db.ref("sessions");
+        sessionsRef
+          .child("actual")
+          .set(firebase.database.ServerValue.TIMESTAMP);
+
+        sessionsRef
+          .orderByChild("actual")
+          .on("child_added", function (snapshott) {
+            x = snapshott.val();
+            {
+            }
+          });
+
+        var s = x - 604800000;
+
+        var startDate = s;
+        var endDate = x;
+
+        var dateInicio = new Date(s);
+        var dateFin = new Date(x);
+        let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+        let options = {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "numeric",
+          minute: "numeric",
+        };
+
+        document.getElementById("demo").innerHTML =
+          "Inicio " +
+          dateInicio.toLocaleDateString(lang, options) +
+          " ------------- Fin " +
+          dateFin.toLocaleDateString(lang, options);
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("ultima_vez_inicio")
+          .startAt(startDate)
+          .endAt(endDate)
+          .on("child_added", function (snapshot) {
+            contt++;
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+            var d = snapshot.val();
+
+            {
+              if (d.estatus == 1) {
+              } else {
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+                var cell9 = row.insertCell(8);
+                var cell10 = row.insertCell(9);
+                var cell11 = row.insertCell(10);
+
+                // asigna a las celdas el valir del Child especificado
+                cell1.innerHTML =
+                  d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+                if (d.idPaseador == undefined || d.idPaseador == "") {
+                  cell2.innerHTML = "SR : " + snapshot.key;
+                } else {
+                  cell2.innerHTML =
+                    d.idPaseador +
+                    '<button class="custom-button" onclick="copyToClipboard(\'' +
+                    d.idPaseador +
+                    "')\">Copiar</button>";
+                }
+
+                cell3.innerHTML = d.email;
+                if (d.estatus == 0) {
+                  cell4.innerHTML = "Disponible";
+                } else {
+                  cell4.innerHTML = "offline";
+                }
+                cell7.innerHTML = d.celular;
+                cell8.innerHTML = d.telefono;
+                var timestamp = d.ultima_vez_inicio;
+                var date = new Date(timestamp);
+                let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+                let options = {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                };
+                cell9.innerHTML = date.toLocaleDateString(lang, options);
+                var timestamp2 = d.ultima_vez;
+                var date2 = new Date(timestamp2);
+                cell10.innerHTML = date2.toLocaleDateString(lang, options);
+                cell11.innerHTML = d.through;
+              }
+            }
+          });
+      }
+
+      function busca_uid() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por uid.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("idPaseador")
+          .startAt(query)
+          .endAt(query + "\uf8ff")
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+              var cell9 = row.insertCell(8);
+              var cell10 = row.insertCell(9);
+              var cell11 = row.insertCell(10);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+
+              cell3.innerHTML = d.email;
+              if (d.estatus == 0) {
+                cell4.innerHTML = "Disponible";
+              } else {
+                cell4.innerHTML = "offline";
+              }
+              cell7.innerHTML = d.celular;
+              cell8.innerHTML = d.telefono;
+              var timestamp = d.ultima_vez_inicio;
+              var date = new Date(timestamp);
+              let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+              let options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              cell9.innerHTML = date.toLocaleDateString(lang, options);
+              var timestamp2 = d.ultima_vez;
+              var date2 = new Date(timestamp2);
+              cell10.innerHTML = date2.toLocaleDateString(lang, options);
+              cell11.innerHTML = d.through;
+            }
+          });
+      }
+
+      function busca_email() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por email.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("email")
+          .startAt(query)
+          .endAt(query + "\uf8ff")
+          .on("child_added", function (snapshot) {
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            //document.getElementById("demon").innerHTML ="" ;
+
+            var d = snapshot.val();
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+              var cell9 = row.insertCell(8);
+              var cell10 = row.insertCell(9);
+              var cell11 = row.insertCell(10);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+
+              cell3.innerHTML = d.email;
+              if (d.estatus == 0) {
+                cell4.innerHTML = "Disponible";
+              } else {
+                cell4.innerHTML = "offline";
+              }
+              cell7.innerHTML = d.celular;
+              cell8.innerHTML = d.telefono;
+              var timestamp = d.ultima_vez_inicio;
+              var date = new Date(timestamp);
+              let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+              let options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              cell9.innerHTML = date.toLocaleDateString(lang, options);
+              var timestamp2 = d.ultima_vez;
+              var date2 = new Date(timestamp2);
+              cell10.innerHTML = date2.toLocaleDateString(lang, options);
+              cell11.innerHTML = d.through;
+            }
+          });
+      }
+
+      function busca_user() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por nombre.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("nombre")
+          .startAt(query)
+          .endAt(query + "\uf8ff")
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+              var cell9 = row.insertCell(8);
+              var cell10 = row.insertCell(9);
+              var cell11 = row.insertCell(10);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+
+              cell3.innerHTML = d.email;
+              if (d.estatus == 0) {
+                cell4.innerHTML = "Disponible";
+              } else {
+                cell4.innerHTML = "offline";
+              }
+              cell7.innerHTML = d.celular;
+              cell8.innerHTML = d.telefono;
+              var timestamp = d.ultima_vez_inicio;
+              var date = new Date(timestamp);
+              let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+              let options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              cell9.innerHTML = date.toLocaleDateString(lang, options);
+              var timestamp2 = d.ultima_vez;
+              var date2 = new Date(timestamp2);
+              cell10.innerHTML = date2.toLocaleDateString(lang, options);
+              cell11.innerHTML = d.through;
+            }
+          });
+      }
+
+      function busca_user_ultima() {
+        $("#tablat").show();
+        $("#tabla_paseost").hide();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por nombre.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("ultima_vez_inicio")
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+              var cell9 = row.insertCell(8);
+              var cell10 = row.insertCell(9);
+              var cell11 = row.insertCell(10);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+
+              cell3.innerHTML = d.email;
+              if (d.estatus == 0) {
+                cell4.innerHTML = "Disponible";
+              } else {
+                cell4.innerHTML = "offline";
+              }
+              cell7.innerHTML = d.celular;
+              cell8.innerHTML = d.telefono;
+              var timestamp = d.ultima_vez_inicio;
+              var date = new Date(timestamp);
+              var year = date.getUTCFullYear();
+              var month = date.getUTCMonth() + 1;
+              var day = date.getUTCDate();
+              let lang = "es-US"; // you may use user's computer language: navigator.language || navigator.userLanguage
+              let options = {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+              };
+              cell9.innerHTML = date.toLocaleDateString(lang, options);
+              var timestamp2 = d.ultima_vez;
+              var date2 = new Date(timestamp2);
+              cell10.innerHTML = date2.toLocaleDateString(lang, options);
+              cell11.innerHTML = d.through;
+            }
+          });
+      }
+
+      function calif() {
+        $("#tablat").hide();
+        $("#table_table_3").show();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por nombre.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("Paseadores");
+
+        var table = document.getElementById("tabla3");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("calificacionInterna")
+          .endAt(10000)
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+            let califInterna = d.calificacionInterna;
+            let califUsrs = d.calificacion_final;
+            let nivel = "";
+            if (califInterna === undefined) {
+              califInterna = "sin calificacion";
+            } else {
+              if (califInterna < 48) {
+                nivel = " sin nivel";
+              }else if (califInterna >= 48 && califInterna < 232){
+                nivel = " Plata";
+              }else if (califInterna >= 232 && califInterna < 434) {
+                nivel = "Oro";
+              } else if (califInterna >= 434) {
+                nivel = " Platino";
+              }
+            }
+            if (califUsrs === undefined) {
+              califUsrs = "sin calificacion";
+            } else {
+              califUsrs = Math.round(califUsrs * 100) / 100;
+            }
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre + " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+              cell3.innerHTML = d.email;
+              cell4.innerHTML = d.celular;
+              cell5.innerHTML = d.telefono;
+              cell6.innerHTML = califInterna + " " + nivel;
+              cell7.innerHTML = califUsrs;
+              cell8.innerHTML = '<button class="custom-button" onclick="Calificar(\'' + d.id_usr + '\',\'' + d.idPaseador + '\',\'' + d.order_id + '\')">Asignar pts. extra</button>';
+            }
+          });
+      }
+
+      function califUsers() {
+        $("#tablat").hide();
+        $("#table_table_3").show();
+        $("#map").hide();
+
+        document.getElementById("demon").innerHTML =
+          "wait for busqueda por nombre.......";
+
+        query = document.getElementById("mainText").value;
+        query = query.replace(/\s+/g, "");
+        document.getElementById("demo").innerHTML = "Buscando: " + query;
+        var db = firebase.database();
+        var ref = db.ref("HistoryCalifPas").child('Diciembre');
+
+        var table = document.getElementById("tabla3");
+
+        //limpia la tabla
+        table.innerHTML = "";
+
+        //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+        ref
+          .orderByChild("calificacion")
+          
+          .on("child_added", function (snapshot) {
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            document.getElementById("demon").innerHTML = snapshot.val();
+            //repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+            var exist = snapshot.val();
+            if (exist == null) {
+              document.getElementById("demon").innerHTML = "no encontrado";
+            } else {
+              document.getElementById("demon").innerHTML = "encontrado";
+            }
+
+            var d = snapshot.val();
+            
+
+            let califInterna = d.calificacion;
+            let califUsrs = d.calificacion_final;
+            let nivel = "";
+            if (califInterna === undefined) {
+              califInterna = "sin calificacion";
+            } else {
+              if (califInterna < 48) {
+                nivel = " sin nivel";
+              }else if (califInterna >= 48 && califInterna < 232){
+                nivel = " Plata";
+              }else if (califInterna >= 232 && califInterna < 434) {
+                nivel = "Oro";
+              } else if (califInterna >= 434) {
+                nivel = " Platino";
+              }
+            }
+
+            {
+              var row = table.insertRow(0);
+              var cell1 = row.insertCell(0);
+              var cell2 = row.insertCell(1);
+              var cell3 = row.insertCell(2);
+              var cell4 = row.insertCell(3);
+              var cell5 = row.insertCell(4);
+              var cell6 = row.insertCell(5);
+              var cell7 = row.insertCell(6);
+              var cell8 = row.insertCell(7);
+
+              // asigna a las celdas el valir del Child especificado
+              cell1.innerHTML =
+                d.nombre //+ " " + d.apellidopa + " " + d.apellidoma;
+              if (d.idPaseador == undefined || d.idPaseador == "") {
+                cell2.innerHTML = "SR : " + snapshot.key;
+              } else {
+                cell2.innerHTML =
+                  d.idPaseador +
+                  '<button class="custom-button" onclick="copyToClipboard(\'' +
+                  d.idPaseador +
+                  "')\">Copiar</button>";
+              }
+              cell3.innerHTML = d.email;
+              cell4.innerHTML = d.celular;
+              cell5.innerHTML = d.telefono;
+              cell6.innerHTML = califInterna+ " " + nivel;
+              cell7.innerHTML = califUsrs;
+              cell8.innerHTML = '<button class="custom-button" onclick="Calificar(\'' + d.id_usr + '\',\'' + d.idPaseador + '\',\'' + d.order_id + '\')">Asignar pts. extra</button>';
+            }
+          });
+      }
+
+      function Calificar(uidUsr, uidPas, orderId) {
+        document.getElementById("id01").style.display = "block";
+        document
+          .getElementById("btnbtn")
+          .addEventListener("click", displayDate);
+        function displayDate() {
+          var x = document.forms["califForm"]["estrellas"].value;
+          if (x === "") {
+            alert("Se debe asignar una calificacion");
+            return false;
+          } else {
+            x = new Number(x);
+            var addMessage2 = firebase
+              .functions()
+              .httpsCallable("calificacionInternaPaseadores");
+            addMessage2({ uid: uidPas, orderId: orderId, calif: x }).then(
+              function (result) {
+                console.log(result);
+                console.log(uidPas);
+                if (result.data[0] === "correcto") {
+                  window.location.reload(false);
+                }
+                //window.location.reload(false);
+                //document.getElementById('id01').style.display='none'
+              }
+            );
+          }
+        }
+      }
+
+      function copyToClipboard(val) {
+        var dummy = document.createElement("input");
+        document.body.appendChild(dummy);
+
+        dummy.setAttribute("id", "dummy_id");
+        document.getElementById("dummy_id").value = val;
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
+
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () {
+          x.className = x.className.replace("show", "");
+        }, 3000);
+      }
+    </script>
+
+    <script>
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+
+          console.log("nombre", displayName);
+          console.log("email", email);
+          console.log("photoURL", photoURL);
+          console.log("UID", uid);
+
+          var db = firebase.database();
+          var ref = db.ref("Usuarios_Sistema");
+
+          ref
+            .orderByChild("uid")
+            .equalTo(uid)
+            .once("child_added", function (snapshot) {
+              if (snapshot.exists()) {
+                var rolUsuario = snapshot.val();
+                {
+                  console.log(rolUsuario.rol);
+                  console.log(rolUsuario.uid);
+
+                  if (rolUsuario.rol == "monitoreo") {
+                    document.getElementById("usuarios").style.display = "none";
+                    document.getElementById("agendados").style.display = "none";
+
+                    document.getElementById("paseosActivos").style.display =
+                      "none";
+                    document.getElementById("finanzas").style.display = "none";
+                    $("#cover").hide();
+                  } else if (rolUsuario.rol == "admin") {
+                    $("#cover").hide();
+                  } else if (rolUsuario.rol == "finanzas") {
+                    location.href = "finanzas.html";
+                    document.getElementById("mapa").style.display = "none";
+                    document.getElementById("solicitudes").style.display =
+                      "none";
+                    document.getElementById("usuarios").style.display = "none";
+                    document.getElementById("paseadores").style.display =
+                      "none";
+                    document.getElementById("agendados").style.display = "none";
+
+                    document.getElementById("paseosActivos").style.display =
+                      "none";
+                    $("#cover").hide();
+                  } else if (rolUsuario.rol == "ventas") {
+                    document.getElementById("mapa").style.display = "none";
+                    document.getElementById("solicitudes").style.display =
+                      "none";
+                    document.getElementById("paseadores").style.display =
+                      "none";
+                    document.getElementById("finanzas").style.display = "none";
+                    $("#cover").hide();
+                  } else if (rolUsuario.rol == "desarrollador") {
+                    document.getElementById("finanzas").style.display = "none";
+                    $("#cover").hide();
+                  } else if (rolUsuario.rol == "contactoUsuarios") {
+                    location.href = "users.html";
+                  }
+                }
+              } else {
+                alert("Error: No estas registrado en el sistema");
+                $("#carga").hide();
+
+                firebase
+                  .auth()
+                  .signOut()
+                  .then(function () {
+                    // Sign-out successful.
+                  })
+                  .catch(function (error) {
+                    // An error happened.
+                  });
+              }
+            });
+
+          // ...
+        } else {
+          // User is signed out.
+          // ...
+          //location.href = "login.html";
+        }
+      });
+    </script>
+
+    <script>
+      function cerrarSesion() {
+        var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+        if (r == true) {
+          firebase
+            .auth()
+            .signOut()
+            .then(function () {
+              // Sign-out successful.
+            })
+            .catch(function (error) {
+              // An error happened.
+            });
+        } else {
+        }
+      }
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

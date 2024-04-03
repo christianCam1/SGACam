@@ -1,0 +1,278 @@
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Recuperandog</title>
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+         <link rel="stylesheet" href="css/fish2.css">
+  </head>
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+
+<body>
+
+
+ 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"><img src="img/caminandog.png" width="70" height="70" alt=""> Caminandog </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="mapa.html" id="mapa" >Mapa <span class="sr-only">(current)</span></a>
+       <a class="nav-item nav-link " href="solicitudes.html" id="solicitudes">Solicitudes</a>
+      <a class="nav-item nav-link" href="users.html" id="usuarios">Usuarios</a>
+      <a class="nav-item nav-link " href="pag.html" id="paseadores"> Paseadores</a>
+      <a class="nav-item nav-link " href="agenda.html" id="agendados">Agendados</a>
+      <a class="nav-item nav-link " href="ultimo_paseo.html" id="ultimo_paseo"> Ultimos Paseos</a>
+      <a class="nav-item nav-link " href="paseosActivos.html" id="paseosActivos"> Paseos Activos</a>
+      <a class="nav-item nav-link " href="finanzas.html" id="finanzas"> Finanzas </a>
+      <a class="nav-item nav-link" onclick="cerrarSesion()" >Cerrar Sesion</a>
+            <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Recuperandog
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="recuperandog_admin">Administrar</a>
+          <a class="dropdown-item" href="recuperandog_otorgar">Otorgar Servicio</a>
+          <a class="dropdown-item" href="qr_proto_1">Geneador QR</a>
+          <a class="dropdown-item" href="vinculacion_qr">Vinculación QR</a>
+        </div>
+      </li>
+      
+      <a class="nav-item nav-link active" href="recuperandog.html" id="agendados">Recuperandog</a>
+    </div>
+  </div>
+</nav>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+<head>
+    <title>Paseadores</title>
+    </head>
+    <p id="num_perros"></p>
+    <p id="demo"></p>
+    <p id="periodo"></p>
+    <p id="texto"> uid <input type="text" name="paseos" id="paseos" value=""/>
+    <input type="button" onclick="dimeEstatus()" value="Consultar" /> </p> 
+
+
+<br><br>
+
+
+
+<div id="carga" class="loader" style="display: none;" ></div>
+
+    <table class="table table-striped">
+        <thead class="thead-dark"> 
+               <tr>
+                 <th  scope="col">ID Perro</th>
+                 <th  scope="col">Nombre Perro</th>
+                 <th  scope="col">Paseos</th>
+                 <th  scope="col">UID</th>
+                 <th  scope="col">Nombre Usuario</th>
+                 <th  scope="col">Telefono</th>
+                 <th  scope="col">Correo</th>
+                 <th  scope="col">Codigo</th>
+                 <th  scope="col">Fecha vinculacion</th>
+                 <th  scope="col">Entregado</th>
+                 <th  scope="col">Fecha Entrega</th>
+                 <th  scope="col">Estatus</th>
+
+               </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+
+
+
+<script>
+
+var vecesPerros = 0;
+
+
+function dimeEstatus(){ 
+
+   var uid = paseos.value;
+
+const Http = new XMLHttpRequest();
+
+var obj = {
+    uid: uid
+};
+
+var json = JSON.stringify(obj);
+var params = 'text='+json;
+const url='https://us-central1-caminandog-218818.cloudfunctions.net/notificacion_recuperandog?'+params;
+Http.open("GET", url);
+Http.send();
+
+Http.onreadystatechange = (e) => {
+  console.log(Http.responseText)
+}
+
+
+
+
+}
+
+</script>
+
+<script>
+  
+   firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+
+    console.log("nombre",displayName);
+     console.log("email",email);
+       console.log("photoURL",photoURL);
+       console.log("UID",uid);
+       
+         var db = firebase.database();
+     var ref = db.ref("Usuarios_Sistema");
+
+
+
+ref.orderByChild("uid").equalTo(uid).once("child_added", function(snapshot){
+
+if(snapshot.exists()){
+
+     var rolUsuario = snapshot.val();
+  {
+     console.log(rolUsuario.rol);
+     console.log(rolUsuario.uid);
+
+     if(rolUsuario.rol == "monitoreo"){
+
+           
+              location.href ="mapa.html";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+              $("#cover").hide();
+
+     } else if(rolUsuario.rol == "admin"){
+
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "finanzas"){
+
+              location.href ="finanzas.html";
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "ventas"){
+      
+
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     }
+
+
+   }
+
+}
+
+else{
+
+           alert("Error: No estas registrado en el sistema");
+           $('#carga').hide();
+
+           firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+
+}
+
+});
+
+    // ...
+      } else {
+    // User is signed out.
+    // ...
+           location.href ="login.html";
+     }
+  });
+
+</script>
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+   
+
+</script>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1036 @@
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+
+
+                  <!-- Export csv -->
+ <script src="excellentexport.js"></script>
+
+<!-- Export xlsx -->
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.1/xlsx.core.min.js" ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.8/ods.min.js"></script>
+    <script type="text/javascript" src="http://sheetjs.com/demos/Blob.js"></script>
+    <script type="text/javascript" src="http://sheetjs.com/demos/FileSaver.js"></script>
+    <script type="text/javascript" src="Export2Excel.js"></script>
+    <script>
+        function download() { export_table_to_excel('tablaDatos', 'xlsx','estadisticas' || 'xlsx'); }
+    </script> 
+
+
+    <title>Estatus Usuario</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#"><img src="img/caminandog.png" width="70" height="70" alt=""> Caminandog </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link " href="mapa.html" id="mapa" >Mapa <span class="sr-only">(current)</span></a>
+       <a class="nav-item nav-link " href="solicitudes.html" id="solicitudes">Solicitudes</a>
+      <a class="nav-item nav-link " href="users.html" id="usuarios">Usuarios</a>
+      <a class="nav-item nav-link " href="pag.html" id="paseadores"> Paseadores</a>
+      <a class="nav-item nav-link" href="agenda.html" id="agendados">Agendados</a>
+      <a class="nav-item nav-link " href="ultimo_paseo.html" id="ultimo_paseo"> Ultimos Paseos</a>
+      <a class="nav-item nav-link " href="paseosActivos.html" id="paseosActivos"> Paseos Activos</a>
+      <a class="nav-item nav-link " href="finanzas.html" id="finanzas"> Finanzas </a>
+      <a class="nav-item nav-link" onclick="cerrarSesion()" >Cerrar Sesion</a>
+    </div>
+  </div>
+</nav>
+
+
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+<head>
+    <title>Usuarios</title>
+    </head>
+
+
+    <p id="demo"></p>
+    <p id="demon"></p>
+
+     <button class="btn btn-success" onclick="download();">Export to Excel</button>
+        <br/>
+ <a download="usersReporte.csv" href="#" onclick="return ExcellentExport.csv(this, 'tablaDatos');">Export to CSV</a>
+
+
+<br><br>
+
+
+    <button onclick="busca_sindatos()" class="btn btn-dark"> Registro sin datos </button>
+    <button onclick="busca_condatos()" class="btn btn-dark">Registro con datos </button>
+    <button onclick="busca_condatosPerro()" class="btn btn-dark"> Registro y perros</button>
+    <button onclick="busca_condatosPerrosTarjetaSinpaseos()" class="btn btn-dark">Registro, Perros, Tarjetas sin paseos </button>
+    <button onclick="busca_condatosPerrosTarjetaConpaseos()" class="btn btn-dark">Registro, Perros, Tarjetas con paseos </button>
+
+<br><br>
+
+  <div class="table-responsive">
+    <table class="table table-striped" id="tablaDatos">
+        <thead class="thead-dark">
+               <tr>
+                 <th  scope="col">UID</th>
+                 <th  scope="col">Nombre</th>
+                 <th  scope="col">Correo</th>
+                 <th  scope="col">Fecha Registro</th>
+                 <th  scope="col">Latitud</th>
+                 <th  scope="col">Longitud</th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+
+var conteoSindatos = 0;
+var conteoCondatos = 0;
+var conteoCondatosPerro = 0;
+var conteoCondatosPerroTarjetasSinpaseo = 0;
+var conteoCondatosPerroTarjetasConpaseo = 0;
+
+
+function busca_sindatos() {
+
+conteoSindatos = 0;
+
+
+
+
+document.getElementById("demo").innerHTML ="Buscando: registros sin datos" ;
+var db = firebase.database();
+var ref = db.ref("Usuarios");
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+ref.orderByChild("creation_date").on("child_added", function(snapshot){
+
+
+  var d = snapshot.val();
+
+  {
+
+
+
+    if (d.nombre == "" && d.apellido_Paterno == "" && d.apellido_Materno == "" ){
+
+ 
+    if (d.uid == undefined){
+      consultasindatos(snapshot.key,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+
+    }else{
+    consultasindatos(d.uid,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+   }
+
+
+
+
+    } else{
+
+
+       console.log("Si tiene datos");
+    }
+
+
+
+  }
+
+
+});
+
+}
+
+
+function consultasindatos(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+
+
+console.log("entra");
+
+
+
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(uid);
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+ 
+
+
+    
+  } else{
+
+    conteoSindatos++;
+            var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+
+    cell5.innerHTML = latitud;
+    cell6.innerHTML = longitud;
+
+
+document.getElementById("demon").innerHTML ="Conteo: "+conteoSindatos ;
+  }
+
+
+
+
+});
+
+}
+
+
+function busca_condatos() {
+
+ conteoCondatos = 0
+
+document.getElementById("demon").innerHTML ="wait for busqueda por uid......." ;
+
+
+document.getElementById("demo").innerHTML ="Buscando: registros con datos" ;
+var db = firebase.database();
+var ref = db.ref("Usuarios");
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+ref.orderByChild("creation_date").on("child_added", function(snapshot){
+
+
+  var d = snapshot.val();
+
+  {
+
+
+
+    if (d.nombre == "" && d.apellido_Paterno == "" && d.apellido_Materno == "" ){
+
+
+
+
+    } else{
+
+
+    if (d.uid == undefined){
+      consultacondatos(snapshot.key,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+
+    }else{
+    consultacondatos(d.uid,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+   }
+
+    }
+
+
+
+  }
+
+
+});
+
+}
+
+
+function consultacondatos(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+
+
+var table = document.getElementById("tabla");
+
+
+
+
+
+
+conteoCondatos++
+            var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+
+    // asigna a las celdas el valir del Child especificado
+   cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+
+    cell5.innerHTML = latitud;
+    cell6.innerHTML = longitud;
+
+document.getElementById("demon").innerHTML ="Conteo: "+conteoCondatos ;
+
+
+
+}
+
+
+function busca_condatosPerro() {
+
+
+conteoCondatosPerro = 0;
+
+
+
+document.getElementById("demo").innerHTML ="Buscando: registros con datos y perros" ;
+var db = firebase.database();
+var ref = db.ref("Usuarios");
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+ref.orderByChild("uid").on("child_added", function(snapshot){
+
+
+  var d = snapshot.val();
+
+  
+
+
+
+    if (d.nombre == "" && d.apellido_Paterno == "" && d.apellido_Materno == "" ){
+
+
+
+
+    } else{
+
+
+
+    if (d.uid == undefined){
+      consultacondatosPerro(snapshot.key,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+
+    }else{
+    consultacondatosPerro(d.uid,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+   }
+
+
+   
+    }
+
+
+
+  
+
+
+});
+
+}
+
+
+
+function consultacondatosPerro(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(uid);
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+     consultacondatosPerro2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud)
+
+
+    
+  }
+
+
+
+});
+
+}
+
+
+function consultacondatosPerro2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+
+var db = firebase.database();
+var ref = db.ref("Cards").child(uid).child("tarjetas");
+
+var table = document.getElementById("tabla");
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+    
+  } else {
+
+  conteoCondatosPerro++;
+            var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+
+
+    // asigna a las celdas el valir del Child especificado
+   cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+    
+
+   cell5.innerHTML = latitud;
+   cell6.innerHTML = longitud;
+    document.getElementById("demon").innerHTML ="Conteo: "+conteoCondatosPerro ;
+
+
+  }
+
+
+
+});
+
+}
+
+
+
+
+
+function busca_condatosPerrosTarjetaSinpaseos() {
+
+
+conteoCondatosPerroTarjetasSinpaseo = 0;
+
+
+
+document.getElementById("demo").innerHTML ="Buscando: registros con datos,perros,tarjetas sin paseos" ;
+var db = firebase.database();
+var ref = db.ref("Usuarios");
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+ref.orderByChild("uid").on("child_added", function(snapshot){
+
+
+  var d = snapshot.val();
+
+  
+
+
+
+    if (d.nombre == "" && d.apellido_Paterno == "" && d.apellido_Materno == "" ){
+
+
+
+
+    } else{
+
+
+    if (d.uid == undefined){
+      consultacondatosPerroTarjetaSinpaseos(snapshot.key,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+
+    }else{
+    consultacondatosPerroTarjetaSinpaseos(d.uid,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+   }
+
+
+
+    }
+
+
+
+  
+
+
+});
+
+}
+
+
+function consultacondatosPerroTarjetaSinpaseos(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(uid);
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+    console.log(snapshot.key)
+    consultacondatosPerroTarjetaSinpaseos2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud);
+    
+  }
+
+
+
+});
+
+}
+
+
+
+function consultacondatosPerroTarjetaSinpaseos2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+
+var db = firebase.database();
+var ref = db.ref("Cards").child(uid).child("tarjetas");
+
+
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+    consultacondatosPerroTarjetaSinpaseos3(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud)
+
+    
+  }
+
+
+
+});
+
+}
+
+
+function consultacondatosPerroTarjetaSinpaseos3(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+
+var db = firebase.database();
+var ref = db.ref("Paseos_usuarios").child(uid);
+
+var table = document.getElementById("tabla");
+
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+
+
+
+    
+  } else{
+
+conteoCondatosPerroTarjetasSinpaseo++;
+                var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+
+    // asigna a las celdas el valir del Child especificado
+   cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+    
+   cell5.innerHTML = latitud;
+   cell6.innerHTML = longitud;
+        document.getElementById("demon").innerHTML ="Conteo: "+conteoCondatosPerroTarjetasSinpaseo ;
+
+  }
+
+
+
+});
+
+}
+
+
+
+
+
+
+function busca_condatosPerrosTarjetaConpaseos() {
+
+conteoCondatosPerroTarjetasConpaseo = 0;
+
+
+
+document.getElementById("demo").innerHTML ="Buscando: registros con datos,perros,tarjetas con paseos" ;
+var db = firebase.database();
+var ref = db.ref("Usuarios");
+
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+ref.orderByChild("creation_date").on("child_added", function(snapshot){
+
+
+  var d = snapshot.val();
+
+  
+
+
+
+    if (d.nombre == "" && d.apellido_Paterno == "" && d.apellido_Materno == "" ){
+
+
+
+
+    } else{
+
+
+    if (d.uid == undefined){
+      consultacondatosPerroTarjetaConpaseos(snapshot.key,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+
+    }else{
+    consultacondatosPerroTarjetaConpaseos(d.uid,d.nombre,d.email,d.apellido_Paterno,d.apellido_Materno,d.email,d.telefono1,d.telefono2,d.ultima_vez,d.through,d.creation_date,d.latitud,d.longitud);
+   }
+
+
+
+    }
+
+
+
+  
+
+
+});
+
+}
+
+
+function consultacondatosPerroTarjetaConpaseos(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+document.getElementById("demon").innerHTML ="wait for busqueda por uid......." ;
+
+
+var db = firebase.database();
+var ref = db.ref("Perros").child(uid);
+
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+    console.log(snapshot.key)
+    consultacondatosPerroTarjetaConpaseos2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud);
+    
+  }
+
+
+
+});
+
+}
+
+
+
+function consultacondatosPerroTarjetaConpaseos2(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+
+
+var db = firebase.database();
+var ref = db.ref("Cards").child(uid).child("tarjetas");
+
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+    consultacondatosPerroTarjetaConpaseos3(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud)
+
+    
+  }
+
+
+
+});
+
+}
+
+
+function consultacondatosPerroTarjetaConpaseos3(uid,nombre,email,apellido_Paterno,apellido_Materno,email,telefono1,telefono2,ultima_vez,through,creation_date,latitud,longitud) {
+
+
+console.log("entra");
+
+
+
+var db = firebase.database();
+var ref = db.ref("Paseos_usuarios").child(uid);
+
+var table = document.getElementById("tabla");
+
+
+
+ref.once('value', function(snapshot) {
+  if (snapshot.exists()) {
+
+
+
+                      var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+
+conteoCondatosPerroTarjetasConpaseo++;
+
+    // asigna a las celdas el valir del Child especificado
+   cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+
+
+   cell5.innerHTML = latitud;
+   cell6.innerHTML = longitud;
+
+/*
+
+    if(uid == "moExA4KZolZrlXf0tAWeASQQNfr2" || uid == "fY8IBcMh66Nl2DcfbXYkQuwJgRo1" || uid == ""){
+
+
+    } else{
+
+                      var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+
+
+conteoCondatosPerroTarjetasConpaseo++;
+
+    // asigna a las celdas el valir del Child especificado
+   cell1.innerHTML = uid;
+    cell2.innerHTML = nombre+" "+apellido_Paterno+" "+apellido_Materno;
+    cell3.innerHTML = email;
+
+
+    cell4.innerHTML = creation_date;
+      
+    }
+
+    */
+
+
+  
+    document.getElementById("demon").innerHTML ="Conteo: "+conteoCondatosPerroTarjetasConpaseo ;
+
+
+
+
+      var data = snapshot.val();
+
+
+
+
+
+
+  } else{
+
+
+
+
+  }
+
+
+
+});
+
+}
+
+
+
+
+function verpaseoshistorico(uid,order_id){
+  window.open('historico2.html?uid='+uid, '_blank');
+
+
+}
+
+
+function toxlms (){
+
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById("tablaDatos");
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+     while (tableHTML.indexOf('á') != -1) tableHTML = tableHTML.replace('á', '&aacute;');
+      while (tableHTML.indexOf('Á') != -1) tableHTML = tableHTML.replace('Á', '&Aacute;');
+      while (tableHTML.indexOf('é') != -1) tableHTML = tableHTML.replace('é', '&eacute;');
+      while (tableHTML.indexOf('É') != -1) tableHTML = tableHTML.replace('É', '&Eacute;');
+      while (tableHTML.indexOf('í') != -1) tableHTML = tableHTML.replace('í', '&iacute;');
+      while (tableHTML.indexOf('Í') != -1) tableHTML = tableHTML.replace('Í', '&Iacute;');
+      while (tableHTML.indexOf('ó') != -1) tableHTML = tableHTML.replace('ó', '&oacute;');
+      while (tableHTML.indexOf('Ó') != -1) tableHTML = tableHTML.replace('Ó', '&Oacute;');
+      while (tableHTML.indexOf('ú') != -1) tableHTML = tableHTML.replace('ú', '&uacute;');
+      while (tableHTML.indexOf('Ú') != -1) tableHTML = tableHTML.replace('Ú', '&Uacute;');
+      while (tableHTML.indexOf('º') != -1) tableHTML = tableHTML.replace('º', '&ordm;');
+      while (tableHTML.indexOf('ñ') != -1) tableHTML = tableHTML.replace('ñ', '&ntilde;'); 
+      while (tableHTML.indexOf('Ñ') != -1) tableHTML = tableHTML.replace('Ñ', '&Ntilde;');  
+
+
+    // Specify file name
+    var filename = 'Base de datos usuarios';
+    filename = filename?filename+'.xls':'excel_data.xls';
+
+    // Create download link element
+    downloadLink = document.createElement("a");
+
+    document.body.appendChild(downloadLink);
+
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['utf-8', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+        // Setting the file name
+        downloadLink.download = filename;
+
+        //triggering the function
+        downloadLink.click();
+    }
+}
+
+</script>
+
+
+
+
+
+<script>
+  
+   firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+
+    console.log("nombre",displayName);
+     console.log("email",email);
+       console.log("photoURL",photoURL);
+       console.log("UID",uid);
+       
+     //  alert("Sesion Iniciada");
+
+     var db = firebase.database();
+     var ref = db.ref("Usuarios_Sistema");
+       
+
+
+ref.orderByChild("uid").equalTo(uid).once("child_added", function(snapshot){
+
+if(snapshot.exists()){
+
+     var rolUsuario = snapshot.val();
+  {
+     console.log(rolUsuario.rol);
+     console.log(rolUsuario.uid);
+
+     if(rolUsuario.rol == "monitoreo"){
+
+           
+              location.href ="mapa.html";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+              $("#cover").hide();
+
+     } else if(rolUsuario.rol == "admin"){
+
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "finanzas"){
+
+              location.href ="finanzas.html";
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "ventas"){
+      
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     }
+
+
+   }
+
+}
+
+
+else{
+
+           alert("Error: No estas registrado en el sistema");
+           $('#carga').hide();
+
+           firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+
+}
+
+});
+
+
+    // ...
+      } else {
+    // User is signed out.
+    // ...
+           location.href ="login.html";
+     }
+  });
+
+</script>
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

@@ -1,0 +1,620 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Tracking</title>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- RSVP -->
+    <script src="https://unpkg.com/rsvp@3.1.0/dist/rsvp.min.js"></script>
+
+    <!-- GeoFire -->
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+
+    <!-- Custom JS -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+    <title>Tracking</title>
+
+
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+  <body>
+
+    <div id="nav-placeholder">
+
+    </div>
+  <br><br><br><br>
+    <p id="horas"></p>
+    <br>
+    <p id="demo"></p>
+
+
+<br><br>
+
+<div class="table-responsive">
+    <table class="table table-striped" id="tablaDatos">
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col">Perro</th>
+                 <th   scope="col">Pee</th>
+                 <th   scope="col">Poop</th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+
+    <br><br>
+    
+      <div id="map" style="width:100%;height:800px;"></div>
+
+
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk"></script>
+    <!-- Message log -->
+     <div id="log" ></div>
+
+
+   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+
+  
+   var uid = getAllUrlParams().uid;
+   var order_id = getAllUrlParams().order_id;
+
+
+ var db = firebase.database();
+var firebaseRef = db.ref("Paseos_usuarios").child(uid);
+var firebaseRefEstatus = db.ref("Paseos_usuarios").child(uid).child(order_id).child("estatusPaseo");
+var firebaseRef2 = db.ref("Paseos_usuarios").child(uid).child(order_id).child("tracking");
+var firebaseRef3 = db.ref("Paseos_usuarios").child(uid).child(order_id).child("ubicacionActual");
+
+
+var marker2;
+var myVar;
+
+
+
+var collection = new Array();
+
+       var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: {lat: 0, lng: -180},
+          mapTypeId: 'terrain'
+        });
+
+
+
+
+firebaseRefEstatus.on("child_changed", function(snapshot){ 
+
+  
+  var snap = snapshot.val();
+
+
+{
+
+
+if(snap == "progreso"){
+
+
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/red.png";
+  marker2.setIcon(colormarker);
+  document.getElementById("demo").innerHTML ="Paseo no iniciado";
+  clearInterval(myVar);
+
+
+
+}  else if(snap == "activo"){
+
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/green.png";
+    marker2.setIcon(colormarker);
+
+    calculaTiempo();
+
+} else if(snap == "terminado"){
+
+clearInterval(myVar);
+  var element = document.getElementById('demo').innerText;
+
+  document.getElementById("demo").innerHTML ="Paseo ya esta finalizado, "+element;
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/red.png";
+    marker2.setIcon(colormarker);
+      alert("El paseo ha finalizado, "+element);
+
+}
+
+}
+
+});
+
+
+
+
+ firebaseRef.orderByChild("order_id").equalTo(order_id).on("child_added", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+
+
+  var d = snapshot.val();
+
+  {
+
+
+
+console.log(d.estatusPaseo.estatus);
+
+
+
+if(d.estatusPaseo.estatus == "progreso"){
+
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/red.png";
+  document.getElementById("demo").innerHTML ="Paseo no iniciado";
+
+} else if(d.estatusPaseo.estatus == "activo"){
+
+
+
+ 
+calculaTiempo();
+
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/green.png";
+}
+
+else if(d.estatusPaseo.estatus == "terminado"){
+
+
+    var date = new Date(d.inicio);
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+    fechaInicio = date.toLocaleDateString(lang, options);
+
+
+    var date2 = new Date(d.fin);
+
+    fechaFin = date2.toLocaleDateString(lang, options);
+
+
+
+
+        document.getElementById("horas").innerHTML ="Paseo ya esta finalizado, INICIO: "+fechaInicio+"  FIN:"+fechaFin;
+ 
+calculaTiempo2(d.inicio,d.fin);
+
+  colormarker = "http://maps.google.com/mapfiles/ms/micons/red.png";
+}
+
+
+
+    var center = new google.maps.LatLng(d.latitud, d.longitud);
+
+    marker2 = new google.maps.Marker({
+                        position: center,
+                        icon:colormarker,
+                        draggable:false,
+                        title: 'Inicio',
+                        map: map
+                    });
+
+
+  
+    // using global variable:
+    map.panTo(center);
+
+
+    
+  }
+
+
+
+});
+
+
+
+function calculaTiempo(){
+
+
+
+  firebaseRef.orderByChild("order_id").equalTo(order_id).on("child_added", function(snapshot){
+
+var d = snapshot.val();
+
+  {
+
+     var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+  sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   x = snapshott.val();{
+
+
+
+  }
+
+
+});
+
+
+
+
+
+
+
+var inicioFecha = new Date(d.inicio);
+var actualFecha = new Date(x);
+
+var tiempo = Math.abs(actualFecha.getTime() - inicioFecha.getTime());
+var differenceInMiliseconds = actualFecha - inicioFecha;
+var differenceInSeconds = differenceInMiliseconds / 1000;
+var differenceInMinutes = differenceInSeconds / 60;
+var differenceInHours = differenceInMinutes / 60;
+
+
+var differenceInSeconds = parseInt((differenceInSeconds % 60 ), 10)
+var differenceInMinutes = parseInt((differenceInMinutes % 60 ), 10)
+var differenceInHours = parseInt((differenceInHours ), 10)
+
+
+
+ document.getElementById("demo").innerHTML ="Tiempo: "+differenceInHours+":"+differenceInMinutes+":"+differenceInSeconds ;
+
+myVar = setInterval(myTimer, 1000);
+function myTimer() {
+
+  differenceInMiliseconds = differenceInMiliseconds + 1000;
+
+ differenceInSeconds = differenceInMiliseconds / 1000;
+
+
+ differenceInMinutes = differenceInSeconds / 60;
+ differenceInHours = differenceInMinutes / 60;
+
+differenceInSeconds = parseInt((differenceInSeconds % 60 ), 10)
+differenceInMinutes = parseInt((differenceInMinutes % 60 ), 10)
+differenceInHours = parseInt((differenceInHours ), 10)
+
+ document.getElementById("demo").innerHTML ="Tiempo: "+differenceInHours+":"+differenceInMinutes+":"+differenceInSeconds ;
+
+}
+
+} });
+
+}
+
+
+
+function calculaTiempo2(inicio,fin){
+
+var inicioFecha = new Date(inicio);
+var actualFecha = new Date(fin);
+
+
+var tiempo = Math.abs(actualFecha.getTime() - inicioFecha.getTime());
+var differenceInMiliseconds = actualFecha - inicioFecha;
+var differenceInSeconds = differenceInMiliseconds / 1000;
+var differenceInMinutes = differenceInSeconds / 60;
+var differenceInHours = differenceInMinutes / 60;
+
+
+var differenceInSeconds = parseInt((differenceInSeconds % 60 ), 10)
+var differenceInMinutes = parseInt((differenceInMinutes % 60 ), 10)
+var differenceInHours = parseInt((differenceInHours ), 10)
+
+
+
+ document.getElementById("demo").innerHTML ="Tiempo: "+differenceInHours+":"+differenceInMinutes+":"+differenceInSeconds ;
+
+
+} 
+
+
+
+firebaseRef2.on("child_added", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+  var d = snapshot.val();
+
+  {
+
+collection.push(new google.maps.LatLng(d.latitud,d.longitud));
+
+
+    
+
+
+
+
+  }
+
+
+
+
+
+        var flightPath = new google.maps.Polyline({
+          path: collection,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+
+        flightPath.setMap(map);
+
+
+
+
+
+
+});
+
+
+firebaseRef3.on("child_changed", function(snapshot){
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+
+console.log("entra3");
+  var d = snapshot.val();
+
+  {
+
+
+console.log("algo3");
+
+console.log(d.latitud);
+console.log(d.longitud);
+
+ var myLatLng = {lat: d.latitud, lng: d.longitud};
+  var a = {lat: 0, lng: 0};
+console.log("nuevo punto",myLatLng);
+colormarker2 = "http://maps.google.com/mapfiles/ms/micons/blue.png";
+
+
+
+
+  }
+
+/*
+   marker = new google.maps.Marker({
+                        position: myLatLng,
+                        draggable:false,
+                        icon:colormarker2,
+                        title: 'Paseador',
+                        map: map
+                    });
+
+
+
+
+*/
+
+
+});
+
+
+  var db = firebase.database();
+  var firebaseRefPerros = db.ref("Paseos_usuarios").child(uid).child(order_id).child("perrosEstatus");
+
+  var table = document.getElementById("tabla");
+
+  //limpia la tabla
+  table.innerHTML = "";
+
+   //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+  firebaseRefPerros.orderByChild("nombre").on("child_added", function(snapshotPerro){
+ 
+
+        console.log(snapshotPerro);
+  var exist = snapshotPerro.val();
+  if (exist == null) {
+     console.log("no encontrado")
+
+  }else{
+     console.log("encontrado")
+
+  }
+
+    var d = snapshotPerro.val();
+
+    {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+
+      // asigna a las celdas el valir del Child especificado
+      cell1.innerHTML = d.nombre;
+           
+      cell2.innerHTML = d.pipi;
+    
+      cell3.innerHTML = d.popo;
+     
+
+    }
+
+
+  });
+
+
+
+
+  firebaseRefPerros.orderByChild("nombre").on("child_changed", function(snapshotPerro){
+ 
+  var table = document.getElementById("tabla");
+
+  //limpia la tabla
+  table.innerHTML = "";
+  
+       
+  firebaseRefPerros.orderByChild("nombre").on("child_added", function(snapshotPerro){
+ 
+
+        console.log(snapshotPerro);
+  var exist = snapshotPerro.val();
+  if (exist == null) {
+     console.log("no encontrado")
+
+  }else{
+     console.log("encontrado")
+
+  }
+
+    var d = snapshotPerro.val();
+
+    {
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+
+      // asigna a las celdas el valir del Child especificado
+      cell1.innerHTML = d.nombre;
+           
+      cell2.innerHTML = d.pipi;
+    
+      cell3.innerHTML = d.popo;
+     
+
+    }
+
+
+  });
+
+
+
+  });
+
+
+
+function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+ 
+      if (typeof paramValue === 'string') paramValue = paramValue;
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
+}
+
+</script>
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+  </body>
+</html>

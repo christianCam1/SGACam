@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Vinculacion QR</title>
+	
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+         <link rel="stylesheet" href="css/fish2.css">
+             <script src="js/validacionRol.js" defer></script>
+  </head>
+<body>
+  
+    <div id="nav-placeholder">
+
+    </div>
+  
+  <br><br><br><br>
+
+		 <h6>Vinculacion de codigos QR.</h6>
+
+	<div class="container">
+		 <label id="lbl_paseos">No. de paseos minimos.</label>
+		 <input type="number" id="txt_paseos" value="" style="margin:25px;">
+		 <input type="checkbox" id="cbox2" style="margin:25px;" >
+		 <input type="number" id="txt_paseos_set" placeholder="nuevo numero" style="margin:25px;">
+		 <button onclick="set_num_paseos()" class="btn btn-success" width="276" id="btn_set" >Actualizar </button>
+ </div>
+
+
+<br><br>
+	<div class="container">
+		 <button onclick="consulta()" class="btn btn-success" width="276" id="btn_consulta" >Consulta </button>
+ </div>
+ <br><br>
+	<div class="table-responsive">
+	<table class="table table-striped" id="tabla_tabla">
+
+			<thead class="thead-dark">
+						 <tr>
+							 <th  scope="col">id Perro</th>
+							 <th  scope="col">Nombre</th>
+							 <th  scope="col">UID</th>
+							 <th  scope="col">Usuario</th>
+							</tr>
+			</thead>
+			<tbody id="tabla">
+			</tbody>
+	</table>
+</div>
+<br><br>
+	<div class="container">
+
+		 <label id="lbl_ultimo">Ultimo codigo QR generado.</label>
+		 <input type="text" id="txt_ultimo" value="" style="margin:50px;">
+		 <button onclick="vincular()" class="btn btn-success" width="276" id="btn_vincular">Vincular </button>
+ </div>
+ <br><br>
+	 <div class="table-responsive">
+	 <table class="table table-striped" id="tabla_tabla2">
+
+	 		<thead class="thead-dark">
+	 					 <tr>
+	 						 <th  scope="col">id Perro</th>
+	 						 <th  scope="col">Nombre</th>
+	 						 <th  scope="col">UID</th>
+	 						 <th  scope="col">Usuario</th>
+							 <th  scope="col">Codigo Asignado</th>
+	 						</tr>
+	 		</thead>
+	 		<tbody id="tabla2">
+	 		</tbody>
+	 </table>
+	 </div>
+
+	 <div class="container">
+</div>
+
+
+
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script src="jquery.min.js"></script>
+<script src="qrcode.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.2/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.1.0/jszip-utils.min.js"></script>
+
+<script>
+
+$('#tabla_tabla').hide();
+$('#tabla_tabla2').hide();
+$('#btn_vincular').hide();
+$('#btn_consulta').hide();
+$('#lbl_paseos').hide();
+$('#txt_paseos').hide();
+$('#txt_paseos_set').hide();
+$('#cbox2').hide();
+$('#btn_set').hide();
+$('#lbl_ultimo').hide();
+$('#txt_ultimo').hide();
+
+  var db = firebase.database();
+  var ref = db.ref("Recuperandog");
+	var sessions_ref = db.ref("sessions");
+	var config_ref = db.ref("Configuracion");
+	var table = document.getElementById("tabla");
+	var table2 = document.getElementById("tabla2");
+
+	var ultimoQR_str = "";
+	var ultimoQR = "";
+	var letraQR = "";
+	var num_paseos = 6;
+	var timestamp = 0;
+
+	var date_start = 0;
+	var date_end = 0;
+
+	sessions_ref.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+	config_ref.once("value", function(snapsho){
+		sessions_ref.once("child_added", function(snaps){
+			timestamp = snaps.val();
+			console.log('valor ultimo ref '+snapsho.val().ultimoQR);
+			ultimoQR_str = snapsho.val().ultimoQR;
+			letraQR = ultimoQR_str.substring(0,1);
+			console.log('letra '+letraQR);
+			ultimoQR =  ultimoQR_str.replace(letraQR, "", "gi");
+			console.log('valor sin letra '+ultimoQR);
+			num_paseos = snapsho.val().diasRecuperandog;
+			console.log('dias recup '+num_paseos);
+			document.getElementById("txt_paseos").value = num_paseos;
+			$('#btn_consulta').show();
+			$('#txt_paseos').show();
+			$('#lbl_paseos').show();
+			$('#txt_paseos_set').show();
+			$('#cbox2').show();
+			$('#btn_set').show();
+
+			var date = new Date(timestamp);
+			date_start = moment(date).subtract(1, 'month').startOf('month');
+			date_end = moment(date).subtract(moment(date).date(), "days").endOf('month');
+
+		});
+
+	});
+
+
+
+
+
+
+
+//semana pasada
+
+
+function set_num_paseos() {
+
+	var valor = document.getElementById("txt_paseos_set").value;
+	if (valor=="") {
+		alert("Ingresa un valor.");
+	}else {
+		var confirme = document.getElementById("cbox2").checked;
+		if (confirme==true) {
+			var r = confirm("Actualizar numero de paseos minimos, Esta accion afectará los criterios de otorgamiento de servicio recuperandog en las aplicaciones.");
+			if (r == true) {
+				var x = confirm("¿Estas seguro?");
+				if (x == true) {
+					var zx = confirm("Esta accion afectará los criterios de otorgamiento de servicio recuperandog en las aplicaciones.");
+					if (zx == true) {
+						//config_ref.child("diasRecuperandog").set(Number(valor));
+						num_paseos = Number(valor);
+						document.getElementById("txt_paseos").value = num_paseos;
+
+						config_ref.child("diasRecuperandog").set(Number(valor), function(error) {
+							if (error) {
+								alert("Ocurrio un error al actualizar el parametro.");
+							} else {
+								alert("Se actualizó correctamente.");
+							}
+						});
+
+
+
+
+					} else {
+						}
+				} else {
+
+				}
+
+			} else {
+
+			}
+
+		}else{
+			alert("confirme porfavor.");
+		}
+	}
+
+
+
+}
+
+function consulta() {
+	table.innerHTML = "";
+	$('#tabla_tabla').show();
+	$('#btn_vincular').show();
+	$('#btn_consulta').hide();
+	$('#lbl_ultimo').show();
+	$('#txt_ultimo').show();
+	document.getElementById("txt_ultimo").value = ultimoQR_str;
+
+
+ref.once("value", function(snapshot){
+
+
+	snapshot.forEach(function(childSnapshot) {
+      var key = childSnapshot.key;
+      var childData = childSnapshot.val();
+			var oo = childData;
+			console.log(oo.uid+' <<<<<<<<>>>>>>>> '+oo.idPerro+' <<<<<<<<>>>>>>>> '+key);
+			if(childData.servicio=="true"){
+		    if (childData.QR=="") {
+		      console.log("Servicio true "+childData.servicio+ 'por asignar');
+					var perros_ref = db.ref("Perros").child(oo.uid).child(oo.idPerro);
+					perros_ref.once("value", function(sna){
+						var qq = sna.val();
+						var users_ref = db.ref("Usuarios").child(oo.uid);
+						users_ref.once("value", function(sn){
+							var rr = sn.val();
+
+					{
+						var row = table.insertRow(0);
+						var cell1 = row.insertCell(0);
+						var cell2 = row.insertCell(1);
+						var cell3 = row.insertCell(2);
+						var cell4 = row.insertCell(3);
+
+						cell1.innerHTML = oo.idPerro;
+						cell2.innerHTML = sna.val().nombre;
+						cell3.innerHTML = oo.uid;
+						cell4.innerHTML = rr.nombre+' '+rr.apellido_Paterno;
+						}
+							});
+
+						});
+
+		    }else{
+					console.log( "servicio "+childData.servicio+" ya tiene codigo");
+				}
+		  }else {
+		    //consulta dentro de paseos por mes
+
+				//console.log('fecha de inicio '+date_start+'fecha actual '+timestamp+' fecha de termino '+date_end);
+
+
+
+					ref.child(key).child("paseos").once("value", function(snapp){
+						var contador = 0 ;
+						var ok = false;
+
+
+						if (snapp.numChildren()>=num_paseos) {
+							snapp.forEach(function(childSnapshot) {
+
+
+								//var key = childSnapshot.length;
+								var childData = childSnapshot.val();
+
+								//console.log(snapp.numChildren());
+
+								if (childData.fecha>=date_start && childData.fecha<=date_end) {
+
+									contador = contador+1;
+									console.log(contador);
+									if (contador>=num_paseos) {
+										if (oo.QR=="") {
+											if (ok == false) {
+
+
+										console.log("cumple >>>> "+oo.idPerro+' <<<<>>>> '+oo.uid);
+										ok = true;
+										var perros_ref = db.ref("Perros").child(oo.uid).child(oo.idPerro);
+										perros_ref.once("value", function(sna){
+											var qq = sna.val();
+											var users_ref = db.ref("Usuarios").child(oo.uid);
+											users_ref.once("value", function(sn){
+												var rr = sn.val();
+
+										{
+											var row = table.insertRow(0);
+											var cell1 = row.insertCell(0);
+											var cell2 = row.insertCell(1);
+											var cell3 = row.insertCell(2);
+											var cell4 = row.insertCell(3);
+
+											cell1.innerHTML = oo.idPerro;
+											cell2.innerHTML = sna.val().nombre;
+											cell3.innerHTML = oo.uid;
+											cell4.innerHTML = rr.nombre+' '+rr.apellido_Paterno;
+											}
+												});
+
+											});
+
+											//snapp.off();
+										}
+										}
+									}
+
+
+								}
+
+
+
+							});
+
+						}
+
+
+
+
+						});
+
+
+
+
+
+
+
+
+
+
+					/*for (let letra of iterador) {
+
+						if (letra["fecha"]>=date_start && letra["fecha"]<=date_end) {
+							contador = contador+1;
+							if (num_paseos<=contador) {
+								if (oo.QR=="") {
+								console.log("cumple >>>> "+oo.idPerro+' <<<<>>>> '+oo.uid);
+								var perros_ref = db.ref("Perros").child(oo.uid).child(oo.idPerro);
+								perros_ref.once("value", function(sna){
+									var qq = sna.val();
+									var users_ref = db.ref("Usuarios").child(oo.uid);
+									users_ref.once("value", function(sn){
+										var rr = sn.val();
+
+								{
+									var row = table.insertRow(0);
+									var cell1 = row.insertCell(0);
+									var cell2 = row.insertCell(1);
+									var cell3 = row.insertCell(2);
+									var cell4 = row.insertCell(3);
+
+									cell1.innerHTML = oo.idPerro;
+									cell2.innerHTML = sna.val().nombre;
+									cell3.innerHTML = oo.uid;
+									cell4.innerHTML = rr.nombre+' '+rr.apellido_Paterno;
+									}
+										});
+
+									});
+
+
+	}
+							}
+
+
+						}
+
+					}*/
+
+
+
+		  }
+  });
+
+
+
+
+
+
+
+});
+
+}
+
+function vincular() {
+
+
+	var r = confirm("¿Estas seguro de realizar la vinculacion?");
+ if (r == true) {
+	 table2.innerHTML = "";
+ 	$('#tabla_tabla2').show();
+ 	$('#btn_vincular').hide();
+
+
+ ref.on("child_added", function(snapshot){
+ 	sessions_ref.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+ 	sessions_ref.on("child_added", function(snaps){
+
+ 		var timestamp = snaps.val();
+ 		var oo = snapshot.val();
+ 	  //console.log(oo.uid+' <<<<>>>> '+oo.idPerro);
+ 		if(oo.servicio=="true"){
+ 	    if (oo.QR=="") {
+
+
+
+ 	      console.log("cumple criterio para asignar "+' <<<<>>>> '+oo.uid+' <<<<>>>> '+oo.idPerro);
+
+ 				var perros_ref = db.ref("Perros").child(oo.uid).child(oo.idPerro);
+ 				perros_ref.on("value", function(sna){
+ 					var qq = sna.val();
+ 					var users_ref = db.ref("Usuarios").child(oo.uid);
+ 					users_ref.on("value", function(sn){
+						var rr = sn.val();
+						var code = Number(ultimoQR)+1;
+						ultimoQR = code;
+						config_ref.child("ultimoQR").set(letraQR+''+code);
+						ref.child(oo.idPerro).child("QR").set(letraQR+''+code);
+						ref.child(oo.idPerro).child("fechaVinculacion").set(firebase.database.ServerValue.TIMESTAMP);
+						document.getElementById("txt_ultimo").value = letraQR+''+code;
+
+
+ 						{
+ 							var row2 = table2.insertRow(0);
+ 							var cell12 = row2.insertCell(0);
+ 							var cell22 = row2.insertCell(1);
+ 							var cell32 = row2.insertCell(2);
+ 							var cell42 = row2.insertCell(3);
+ 							var cell52 = row2.insertCell(4);
+
+ 							cell12.innerHTML = oo.idPerro;
+ 							cell22.innerHTML = sna.val().nombre;
+ 							cell32.innerHTML = oo.uid;
+ 							cell42.innerHTML = rr.nombre+' '+rr.apellido_Paterno;
+ 							cell52.innerHTML = letraQR+''+code
+ 							}
+ 						});
+
+ 					});
+
+ 	    }else{
+ 				console.log( "servicio true codigo previamente asignado");
+ 			}
+ 	  }else {
+
+ 	    //consulta dentro de paseos por mes
+ 	    var ee = oo.paseos;
+ 			var array = Object.values(ee);
+
+
+
+ 			if (array.length>=num_paseos) {
+
+ 				var contador = 0 ;
+				var ok = false;
+ 				//console.log(oo.uid+' <<<<>>>> '+oo.idPerro+' <<<<>>>> '+array.length);
+
+ 				var date = new Date(timestamp);
+ 				var date_start = moment(date).subtract(1, 'month').startOf('month');
+ 				var date_end = moment(date).subtract(moment(date).date(), "days").endOf('month');
+
+ 				//console.log('fecha actual '+timestamp+' fecha de inicio '+date_start+' fecha de termino '+date_end);
+
+
+ 				var iterador = array.values();
+
+ 				for (let letra of iterador) {
+ 					if (letra["fecha"]>=date_start && letra["fecha"]<=date_end) {
+
+ 						contador = contador+1;
+ 						if (contador>=num_paseos) {
+
+							if (oo.QR=="") {
+
+								if (ok == false) {
+
+
+ 							console.log("cumple >>>> "+oo.idPerro+' <<<<>>>> '+oo.uid);
+							ok = true;
+ 							var perros_ref = db.ref("Perros").child(oo.uid).child(oo.idPerro);
+ 							perros_ref.on("value", function(sna){
+ 								var qq = sna.val();
+ 								var users_ref = db.ref("Usuarios").child(oo.uid);
+ 								users_ref.on("value", function(sn){
+ 									var rr = sn.val();
+ 									var code = Number(ultimoQR)+1;
+ 									ultimoQR = code;
+ 									config_ref.child("ultimoQR").set(letraQR+''+code);
+									ref.child(oo.idPerro).child("QR").set(letraQR+''+code);
+									ref.child(oo.idPerro).child("fechaVinculacion").set(firebase.database.ServerValue.TIMESTAMP);
+ 									document.getElementById("txt_ultimo").value = letraQR+''+code;
+
+ 									{
+ 										var row2 = table2.insertRow(0);
+ 										var cell12 = row2.insertCell(0);
+ 										var cell22 = row2.insertCell(1);
+ 										var cell32 = row2.insertCell(2);
+ 										var cell42 = row2.insertCell(3);
+ 										var cell52 = row2.insertCell(4);
+
+ 										cell12.innerHTML = oo.idPerro;
+ 										cell22.innerHTML = sna.val().nombre;
+ 										cell32.innerHTML = oo.uid;
+ 										cell42.innerHTML = rr.nombre+' '+rr.apellido_Paterno;
+ 										cell52.innerHTML = letraQR+''+code
+ 										}
+ 									});
+
+ 								});
+
+}
+}
+ 						}
+
+
+ 					}
+   			//console.log(letra["fecha"]);
+ 				}
+
+
+ 			}
+ 	  }
+ 	});
+ });
+ } else {
+
+ }
+
+
+
+}
+
+</script>
+  
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+
+</html>

@@ -1,0 +1,226 @@
+
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+                  <script src="js/validacionRol.js" defer></script>
+    <title>Solicitudes</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+  
+<body>
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+<head>
+    <title>Usuarios</title>
+    </head>
+
+    <p id="demo"></p>
+    <p id="demon"></p>
+
+
+
+
+<br><br>
+
+
+<div class="table-responsive">
+    <table class="table table-striped" id="tablaSolicitudes">
+        <thead  class="thead-dark" >
+               <tr>
+                 <th   scope="col">coordenadas</th>
+                 <th   scope="col">direccion</th>
+                 <th   scope="col">time</th>
+                 <th   scope="col">uid</th>
+                 <th   scope="col">Categoria</th>
+                 <th   scope="col">Nombre Perros</th>
+                 <th   scope="col">Numero Perros</th>
+                 <th   scope="col">Duracion Paseo</th>
+                 <th   scope="col">Existencia paseadores</th>
+                 <th   scope="col">Desde</th>
+                 <th  scope="col">Ubicacion</th>
+                </tr>
+        </thead>
+        <tbody id="tabla2">
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+
+
+function solicitudes_paseos() {
+
+  var db = firebase.database();
+  var ref = db.ref("Solicitudes");
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+  document.getElementById("demon").innerHTML ="" ;
+  document.getElementById("demo").innerHTML ="waiting for solicitudes" ;
+
+
+var cont=0;
+var x=0;
+
+
+
+
+var table = document.getElementById("tabla2");
+
+
+//limpia la tabla
+table.innerHTML = "";
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   x = snapshott.val();{
+
+
+
+  }
+
+
+
+
+
+
+});
+
+
+
+var s = x-72000000;
+
+var startDate = s;
+var endDate = x;
+
+  var dateInicio = new Date(s);
+  var dateFin = new Date(x);
+ let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+    
+document.getElementById("demo").innerHTML ="Inicio "+dateInicio.toLocaleDateString(lang, options)+" ------------- Fin "+dateFin.toLocaleDateString(lang, options); 
+//.startAt(startDate).endAt(endDate)
+
+ref.orderByChild("time").startAt(startDate).endAt(endDate).on("child_added", function(snapshot){
+
+
+
+  cont++;
+  //document.getElementById("demo").innerHTML ="numero de solicitudes en la ultimas 24: "+cont ;
+//repite el proceso como cuantas referencias encuentre y los asigna a la lista "d"
+
+  var d = snapshot.val();
+
+  {
+    var row = table.insertRow(0);
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    var cell4 = row.insertCell(3);
+    var cell5 = row.insertCell(4);
+    var cell6 = row.insertCell(5);
+    var cell7 = row.insertCell(6);
+    var cell8 = row.insertCell(7);
+    var cell9 = row.insertCell(8);
+    var cell10 = row.insertCell(9);
+    var cell11 = row.insertCell(10);
+  
+
+    // asigna a las celdas el valir del Child especificado
+    cell1.innerHTML = d.latitud+","+d.longitud;
+    cell2.innerHTML = d.direccion;
+    var timestamp = d.time;
+    var date = new Date(timestamp);
+ let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+    cell3.innerHTML = date.toLocaleDateString(lang, options);
+    cell4.innerHTML = d.uid;
+
+    cell5.innerHTML = d.categoria;
+    cell6.innerHTML = d.perrosNombre;
+    cell7.innerHTML = d.num_perros;
+    cell8.innerHTML = d.tiempo_paseo;
+    cell9.innerHTML = d.existencia_paseadores;
+    cell10.innerHTML = d.through;
+    cell11.innerHTML = '<button class="custom-button" onclick="verDireccion(\'' + d.latitud + '\',\'' + d.longitud + '\',\'' + d.categoria + '\',\'' + d.num_perros + '\')">Ver</button>'
+
+  }
+
+
+});
+
+}
+
+function verDireccion(latitud,longitud) {
+  
+    window.open('direccion.html?latitud='+latitud+"&longitud="+longitud+"&categoria="+categoria+"&numperros="+perros, '_blank');
+}
+
+
+ window.onload = solicitudes_paseos();
+
+</script>
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

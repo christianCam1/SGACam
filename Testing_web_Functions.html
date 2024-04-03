@@ -1,0 +1,470 @@
+<html>
+
+  <head>
+    
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+
+
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+   <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+      <link rel="stylesheet" href="css/fish2.css">
+    <title>Test comments</title>
+  </head>
+
+
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+  <nav class="navbar navbar-expand-lg navbar-dark bg2  fixed-top">
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0">
+          <ul class="navbar-nav mr-auto text-center">
+                <li class="nav-item active">
+                  <a class="nav-item nav-link " href="mapa.html" id="mapa">Mapa <span class="sr-only">(current)</span></a>
+                </li>
+    <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="usuariosPrincipal" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Usuarios
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="users.html" id="usuarios">Usuarios</a>
+                    <a class="dropdown-item" href="contacto.html" id="contacto">Contacto</a>
+                    <a class="dropdown-item" href="reporteVentas.html" id="reporteVentas">Reporte </a>
+                  </div>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="pag.html" id="paseadores"> Paseadores</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-item nav-link" href="cortesia.html" id="cortesia">Cortesías</a>
+                </li>
+                <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="finanzas" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Finanzas
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="finanzas">Dispersion</a>
+                    <a class="dropdown-item" href="finanzas_reporte">Reporte</a>
+                  </div>
+                </li>
+                <li class="nav-item active dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="recuperandog" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Recuperandog
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="recuperandog_admin">Administrar</a>
+                    <a class="dropdown-item" href="recuperandog_otorgar">Otorgar Servicio</a>
+                    <a class="dropdown-item" href="qr_proto_1">Geneador QR</a>
+                  </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mx-auto my-2 order-0 order-md-1 position-relative">
+            <a class="mx-auto" href="#">        
+                <img src="img/caminandog.png" width="200" height="64" alt="" >
+            </a>
+            
+        </div>
+        <div class="navbar-collapse collapse w-100 dual-collapse2 order-2 order-md-2">
+          <ul class="navbar-nav ml-auto text-center">
+            <li class="nav-item active">
+              <a class="nav-item nav-link " href="solicitudes.html" id="solicitudes">Solicitudes</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link" href="agenda.html" id="agendados">Agendados</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link " href="ultimo_paseo.html" id="ultimo_paseo"> Ultimos Paseos</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link " href="paseosActivos.html" id="paseosActivos"> Paseos Activos</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-item nav-link" onclick="cerrarSesion()">Cerrar Sesion</a>
+            </li>
+        </ul>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+          <span class="navbar-toggler-icon "></span>
+      </button>
+      </nav> 
+  
+  <br><br><br><br>
+
+
+<body>
+  
+  <style>
+     .bg {
+        background-color: white;
+        text-align: center;
+        color: #00B0C5;
+       	font-size: 20px;
+      }
+      .bg2 {
+        background-color: #00B0C5;
+        text-align: center;
+        color: white;
+      }
+    
+    .badge {
+
+          right: -15px;
+      }
+      list-group-item{
+          position:relative;
+      }
+    
+      .page, :target ~ .default {
+      display: none;
+  }
+  
+  .default, :target {
+      display: block;
+  }
+
+  .text_nav{
+    font-size:30px;
+    color: azure;
+    font: bold;
+    text-shadow: 1px 1px 30px rgb(0, 0, 0);
+  }
+
+
+  .edge-danger {
+    box-shadow: 0 0 11px 2px #ff0303 !important;
+}
+
+.card-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+  }
+  .card-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+
+  .carrousel_padding{
+    padding:60px 60px 60px;
+
+  }
+
+  .center {
+    margin: auto;
+    width: 80%;
+    
+    padding: 10px;
+  }
+
+  .bg {
+    /* The image used */
+    background-color: white;
+    text-align: center;
+    color: #00B0C5;
+    font-size: 20px;
+    
+  }
+  .bg2 {
+    /* The image used */
+    background-color: #00B0C5;
+    text-align: center;
+    color: white;
+  }
+    
+    .btn.btn-success {
+    color: #fff;
+    background-color: #00B0C5;
+    border-color: #00B0C5;
+  }
+  .btn.btn-success.focus,
+  .btn.btn-success:focus {
+    color: #00B0C5;
+    background-color: white;
+    border-color: #00B0C5;
+    outline: none;
+    box-shadow: none;
+  }
+  .btn.btn-success:hover {
+    color: #00B0C5;
+    background-color: white;
+    border-color: #00B0C5;
+    outline: none;
+    box-shadow: none;
+  }
+  .btn.btn-success.active,
+  .btn.btn-success:active {
+    color: #00B0C5;
+    background-color: white;
+    border-color: #00B0C5;
+    outline: none;
+  }
+  .btn.btn-success.active.focus,
+  .btn.btn-success.active:focus,
+  .btn.btn-success.active:hover,
+  .btn.btn-success:active.focus,
+  .btn.btn-success:active:focus,
+  .btn.btn-success:active:hover {
+    color: #00B0C5;
+    background-color: white;
+    border-color: #00B0C5;
+    outline: none;
+    box-shadow: none;
+  }
+    
+    #myprogressBar { 
+    width: 1%;
+    height: 30px;
+    background-color: #00B0C5;
+  } 
+  
+  
+  </style>
+
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+<script src="js/init.js"></script>
+
+<head>
+    <title>Test</title>
+    </head>
+
+    
+  <br>
+
+    
+
+  
+  
+  <br/>
+
+   
+  
+  <br><br>
+
+
+  
+  <div class="table-responsive ">
+<table class="table table-striped" id= "table_tabla" >
+    <thead class="bg2">
+           <tr>
+            	<th  scope="col">uid</th>
+                <th  scope="col">timestamp</th>
+                <th  scope="col">mensaje</th>
+            </tr>
+    </thead>
+    <tbody id="tabla">
+    </tbody>
+</table>
+</div>
+  
+ 
+
+
+
+
+<script>
+
+let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+var table = document.getElementById("tabla");
+
+table.innerHTML = "";
+
+
+
+var addMessage = firebase.functions().httpsCallable('System_Com');
+addMessage({text: 'messageText'}).then(function(result) {
+
+  for ( var i = 0; i < result.data.length; i += 1) {
+    {
+      var date = new Date(result.data[i].timestamp);
+
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+
+      cell1.innerHTML = result.data[i].uid;
+      cell2.innerHTML = date.toLocaleDateString(lang, options);
+      cell3.innerHTML = result.data[i].mensaje;
+
+    }
+  }
+
+  
+});
+
+
+</script>
+
+
+
+<script>
+
+
+   firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+    // User is signed in.
+    var displayName = user.displayName;
+    var email = user.email;
+    var emailVerified = user.emailVerified;
+    var photoURL = user.photoURL;
+    var isAnonymous = user.isAnonymous;
+    var uid = user.uid;
+    var providerData = user.providerData;
+
+    /*console.log("nombre",displayName);
+    console.log("email",email);
+    console.log("photoURL",photoURL);
+    console.log("UID",uid);*/
+
+     //  alert("Sesion Iniciada");
+
+    var db = firebase.database();
+    var ref = db.ref("Usuarios_Sistema");
+
+
+
+ref.orderByChild("uid").equalTo(uid).once("child_added", function(snapshot){
+
+if(snapshot.exists()){
+
+     var rolUsuario = snapshot.val();
+  {
+     //console.log(rolUsuario.rol);
+     //console.log(rolUsuario.uid);
+
+     if(rolUsuario.rol == "monitoreo"){
+
+              location.href ="mapa.html";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+              $("#cover").hide();
+
+     } else if(rolUsuario.rol == "admin"){
+
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "finanzas"){
+
+
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("usuarios").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("agendados").style.display = "none";
+              document.getElementById("ultimo_paseo").style.display = "none";
+              document.getElementById("paseosActivos").style.display = "none";
+             $("#cover").hide();
+
+
+     } else if(rolUsuario.rol == "ventas"){
+
+               location.href ="users.html";
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     }  else if(rolUsuario.rol == "desarrollador"){
+
+               location.href ="users.html";
+              document.getElementById("mapa").style.display = "none";
+              document.getElementById("solicitudes").style.display = "none";
+              document.getElementById("paseadores").style.display = "none";
+              document.getElementById("finanzas").style.display = "none";
+            $("#cover").hide();
+
+     } else if(rolUsuario.rol == "contactoUsuarios"){
+
+            location.href ="users.html";
+
+     } 
+
+
+   }
+
+}
+
+else{
+
+           alert("Error: No estas registrado en el sistema");
+           $('#carga').hide();
+
+           firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+
+}
+
+});
+
+
+    // ...
+      } else {
+    // User is signed out.
+    // ...
+           location.href ="login.html";
+     }
+  });
+
+
+
+
+
+
+
+</script>
+
+<script>
+
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html

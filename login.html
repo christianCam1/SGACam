@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Caminandog</title>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- RSVP -->
+    <script src="https://unpkg.com/rsvp@3.1.0/dist/rsvp.min.js"></script>
+
+    <!-- GeoFire -->
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Custom JS -->
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/fish2.css">
+    <link rel="stylesheet" href="css/login.css">
+
+
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Inicio</title>
+
+
+  </head>  
+   <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+   <script src="js/initTest.js"></script>
+   <script src="login/login.js"></script>
+
+
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+  <body>
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <img src="https://static.wixstatic.com/media/b811ca_0905531651334e59bf3b0cd8a592c2d2~mv2.jpg/v1/fill/w_177,h_196,al_c,q_80,usm_0.66_1.00_0.01/b811ca_0905531651334e59bf3b0cd8a592c2d2~mv2.jpg" id="icon" alt="User Icon" />
+    </div>
+
+    <!-- Login Form -->
+
+      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Usuario">
+      <input type="password" id="password" class="fadeIn third" name="login" placeholder="Contraseña"  onkeydown="handleEnter(event)">
+      <input type="submit" onclick="login()"  value="Log In">
+      <input type="submit" onclick="loginface()"  value="face">
+
+<div id="carga" class="loader"  style="display: none;" ></div>
+
+<script>
+	
+//    firebase.auth().onAuthStateChanged(function(user) {
+//   		if (user) {
+//     // User is signed in.
+//     var displayName = user.displayName;
+//     var email = user.email;
+//     var emailVerified = user.emailVerified;
+//     var photoURL = user.photoURL;
+//     var isAnonymous = user.isAnonymous;
+//     var uid = user.uid;
+//     var providerData = user.providerData;
+
+//     console.log("nombre",displayName);
+//      console.log("email",email);
+//        console.log("photoURL",photoURL);
+//        console.log("UID",uid);
+    
+
+//      var db = firebase.database();
+//      var ref = db.ref("Usuarios_Sistema");
+       
+
+
+// ref.orderByChild("uid").equalTo(uid).once("child_added", function(snapshot){
+
+// if(snapshot.exists()){
+
+//   var rolUsuario = snapshot.val();
+//   {
+//      console.log(rolUsuario.rol);
+//      console.log(rolUsuario.uid);
+
+//      if(rolUsuario.rol == "monitoreo"){
+
+//              location.href = "mapa.html"
+     
+
+//      } else if(rolUsuario.rol == "admin"){
+
+//             location.href = "mapa.html"
+       
+
+
+//      } else if(rolUsuario.rol == "finanzas"){
+
+
+//               location.href = "finanzas.html"
+        
+
+
+//      } else if(rolUsuario.rol == "ventas"){
+
+
+//             location.href = "users.html"
+     
+
+//      } else if(rolUsuario.rol == "desarrollador"){
+      
+// 			location.href = "users.html"
+
+//      } else if(rolUsuario.rol == "contactoUsuarios"){
+      
+// 			location.href = "users.html"
+//      }
+     
+
+
+//    }
+
+// }
+
+// else{
+
+
+//            alert("Error: No estas registrado en el sistema");
+//            $('#carga').hide();
+
+//            firebase.auth().signOut().then(function() {
+//            // Sign-out successful.
+//             }).catch(function(error) {
+//             // An error happened.
+//             });
+
+// }
+
+// });
+
+
+//       // alert("Sesion Iniciada");
+   
+
+//     // ...
+
+//   		} else {
+
+//       $("#cover").hide();
+
+// 		 }
+// 	});
+
+</script>
+
+<!-- Innecesario -->
+<!-- <script>
+
+    function loginface(){
+
+//$('#carga').show();
+
+        var provider = new firebase.auth.FacebookAuthProvider();
+        // [END createprovider]
+        // [START addscopes]
+        provider.addScope('user_birthday');
+        // [END addscopes]
+        // [START signin]
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+          // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+          var token = result.credential.accessToken;
+          // The signed-in user info.
+          var user = result.user;
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-oauthtoken').textContent = token;
+          // [END_EXCLUDE]
+        }).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          // [START_EXCLUDE]
+          if (errorCode === 'auth/account-exists-with-different-credential') {
+            alert('You have already signed up with a different auth provider for that email.');
+            // If you are using multiple auth providers on your app you should handle linking
+            // the user's accounts here.
+          } else {
+            console.error(error);
+          }
+          // [END_EXCLUDE]
+        });
+
+      }
+
+</script> -->
+
+    <!-- Remind Passowrd -->
+    <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
+
+  </div>
+</div>
+  </body>
+</html>

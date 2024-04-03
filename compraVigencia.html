@@ -1,0 +1,1619 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Compra Vigencia</title>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <!-- RSVP -->
+    <script src="https://unpkg.com/rsvp@3.1.0/dist/rsvp.min.js"></script>
+
+    <!-- GeoFire -->
+    <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+
+
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+
+<!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+
+ <script src="https://cdn.datatables.net/plug-ins/1.10.24/api/fnFindCellRowIndexes.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+
+
+   <script src = "https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js" ></script>
+
+
+  </head>
+
+
+<div id="cover"> <div id="carga" class="loader" ></div> </div>
+<div id="coverSuave" style="display: none;"><span class="spinner"></span> </div>
+
+  <body>
+    <div id="nav-placeholder">
+
+    </div>
+
+  
+  <br><br>
+
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+
+
+ .demo-non-form {
+    color: initial;
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    font-family: arial, verdana, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+}
+
+.external-container button.external-button {
+    font-weight: 400;
+    padding: 10px;
+    margin: 6px 0 13px 0;
+    width: 100%;
+}
+
+    </style>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk",
+    authDomain: "caminandog-218818.firebaseapp.com",
+    databaseURL: "https://caminandog-218818.firebaseio.com",
+    projectId: "caminandog-218818",
+    storageBucket: "caminandog-218818.appspot.com",
+    messagingSenderId: "684616064893"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+<div class="container">
+ <div class="table-responsive">
+    <table  id="tablaPerros" class="table table-striped" >
+        <thead class="bg2" >
+               <tr>
+                 <th   scope="col" style="text-align:center">ID Perro</th>
+         <th   scope="col" style="text-align:center">Nombre</th>
+                 <th   scope="col" style="text-align:center">Foto</th>
+                  <th   scope="col" style="text-align:center">Vigencia Actual (time)</th>
+                 <th   scope="col" style="text-align:center">Vigencia Actual</th>
+                 <th   scope="col" style="text-align:center">Restar</th>
+                 <th   scope="col" style="text-align:center">Sumar</th>
+                 <th   scope="col" style="text-align:center">Años Agregados</th>
+                  <th   scope="col" style="text-align:center">Vigencia Nueva (Time)</th>
+                 <th   scope="col" style="text-align:center">Vigencia Nueva</th>
+
+
+                </tr>
+        </thead>
+        <tbody id="tabla"  style="text-align:center">
+        </tbody>
+    </table>
+</div>
+
+
+
+<div class="form-row">
+    <div class="form-group col-md-3">
+<label for="numVigencias"  id="numVigenciasLabel">Vigencias Totales</label>
+
+<input type="number" class="form-control" id="numVigencias" name="numVigencias" min="0" readonly>
+
+    </div>
+
+
+    <div class="form-group col-md-3">
+    <label for="pagoSeleccion" id="pagoSeleccionLabel"> Tipo :</label>
+        <select id="pagoSeleccion" class="form-control">
+        <option value="tarjetadc">Tarjeta de D/C</option>
+        <option value="tic">Transferencia Interbancaria (Conekta)</option>
+        <option value="eop">Efectivo Oxxo Pay</option>
+        <option value="tdh">Transferencia directa (Humaniia)</option>
+        <option value="Sin pago">Sin pago</option>
+
+       </select>
+
+</div>
+
+</div>
+<br>
+
+
+
+  <div class="row" id="rowDatosGenerales" >
+
+    <div class="col-2"></div>
+    <div class="col">Vigencias</div>
+    <div class="col" id="paseos">Dos</div>
+        <div class="col-2"></div>
+    <div class="w-100"></div>
+    <div class="col-2"></div>
+
+  </div>
+
+<br><br>
+
+  <div class="row" id="rowCosto">
+
+
+    <div class="col-2"></div>
+
+    <div class="col">Costo</div>
+    <div class="col" id="costo">Uno</div>
+
+
+    <div class="col-2"></div>
+    <div class="w-100"></div>
+    <div class="col-2"></div>
+
+    <div class="col">Subtotal</div>
+    <div class="col" id="subtotal">Dos</div>
+
+
+    <div class="col-2"></div>
+    <div class="w-100"></div>
+    <div class="col-2"></div>
+
+
+    <div class="col">Iva</div>
+    <div class="col" id="iva">Dos</div>
+
+    <div class="col-2"></div>
+    <div class="w-100"></div>
+    <div class="col-2"></div>
+
+
+
+    <div class="col">Total a pagar</div>
+        <div class="col" id="total">Dos</div>
+
+
+        <div class="col-2"></div>
+    <div class="w-100"></div>
+    <div class="col-2"></div>
+
+
+  </div>
+
+
+
+<div class="container mt-3">
+
+  <div class="d-flex mb-3">
+    <div class="p-2 mr-auto ">  <button id="anterior" onclick="anterior()">Anterior</button> </div>
+    <div class="p-2 "><button id="siguiente" onclick="siguiente()">Siguiente</button></div>
+  </div>
+
+</div>
+
+    
+
+</div>
+
+
+<br><br>
+
+    <!--
+<div class="table-responsive">
+    <table id="tablaFechas" class="table table-striped">
+        <thead class="bg2"> 
+               <tr>
+                 <th  scope="col">Fecha</th>
+                 <th  scope="col">Hora</th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+
+  </div>
+-->
+
+    <!-- Message log -->
+     <div id="log" ></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/locale/es.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+
+
+    <script>
+
+
+
+var arrayRecuperangodQR = []
+var arrayPerros = []
+
+var arraysCompletados = 0
+
+   var uid = getAllUrlParams().uid;
+   var telefono = getAllUrlParams().telefono;
+   var nombre = decodeURI(getAllUrlParams().nombre)
+console.log("Nombre "+nombre)
+
+
+
+var elemento = 1;
+var costoPlaca = 0;
+var costoEnvio = 0;
+var costoVigencia = 0;
+var iva = 0;
+var primera = true
+var numVigencias = 0
+var mergedData;
+var x=0;
+
+        var costoServicio = 0.0
+        var descuentoInterno = 0.0
+        var cuponDescuento = 0.0
+        var subtotalCompra = 0.0
+        var envioCompra = 0.0
+        var totalApagar = 0.0
+        var porcentajeDescuento = 0.0
+
+        //Conekta 
+
+        //tarjetadc
+        var comisionInicialTarjetadc = 0.0
+         var comisionConektaTarjetadc = 0.0
+        var porcentajeTarjetadc = 0.034
+        var agregadoFijoTarjetadc = 3
+        var iva = 0.16
+        var ivaDeComision = 0.0
+        var comisionTotal = 0.0
+
+        //tic
+        var comisionInicialtic = 12.5
+
+        //eop
+
+        var comisionInicialeop = 0.0
+        var porcentajeEop = 0.039
+        
+
+   let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+
+function obtener_dirección(){
+
+document.getElementById("numVigencias").value = numVigencias
+obtener_costos();
+obtener_iva();
+obtener_fecha();
+configuracionPantalla()
+obtener_perros();
+consulta_perros();
+
+
+}
+
+
+function obtener_perros() {
+
+
+
+
+  var db = firebase.database();
+  var ref = db.ref("RecuperandogQR");
+
+
+ ref.orderByChild("uid").equalTo(uid).once("value").then(snapshot => {
+
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+var datos = snapshot.val();
+
+    for (const property in datos) {
+
+
+
+        var d = datos[property]
+
+
+                    var idPerro = property
+                    var nombrePerro = "Sin dato" //
+                    var uid = "Sin dato"
+                    var nombreUsuario = "Sin dato" //
+                    var telefono = "Sin dato" //
+                    var correo = "Sin dato" //
+                    var codigo = "Sin dato"
+                    var servicio = "Sin dato"
+                    var fecha_otorgamiento_timestamp = "Sin dato"
+                    var fecha_otorgamiento = "Sin dato"
+                    var fecha_vencimiento_timestamp = "Sin dato"
+                    var fecha_vencimiento = "Sin dato"
+                    var desvincular = "Sin dato"
+
+
+
+                  if(d["uid"] != undefined){ uid = d["uid"] }
+                 if( d["QR"] != undefined){ codigo = d["QR"] } 
+
+
+                  if( d["servicio"] != undefined){ servicio = d["servicio"] 
+
+                      if(servicio == "true"){
+
+                        servicio = "Activo"
+
+                      } else{
+
+                        servicio = "Inactivo"
+                      }
+                }
+
+
+
+                  if(d["fechaOtorgamiento"] != undefined){ 
+                       fecha_otorgamiento = new Date(d["fechaOtorgamiento"]);
+                       fecha_otorgamiento = fecha_otorgamiento.toLocaleDateString(lang, options)
+                       fecha_otorgamiento_timestamp = d["fechaOtorgamiento"]
+
+                  } 
+                  if(d["fechaVencimiento"] != undefined){ 
+                       fecha_vencimiento = new Date(d["fechaVencimiento"]);
+                       fecha_vencimiento = fecha_vencimiento.toLocaleDateString(lang, options)
+                       fecha_vencimiento_timestamp = d["fechaVencimiento"]
+                  }
+
+           
+
+
+               var informacionUsuarios = 
+
+                 {
+
+                         idPerro:idPerro,
+                         nombrePerro:nombrePerro,
+                         uid:uid,
+                         nombreUsuario:nombreUsuario,
+                         telefono:telefono,
+                         correo:correo,
+                         codigo:codigo,
+                         servicio:servicio,
+                         fecha_otorgamiento:fecha_otorgamiento,
+                         fecha_otorgamiento_timestamp:fecha_otorgamiento_timestamp,
+                         fecha_vencimiento:fecha_vencimiento,
+                         fecha_vencimiento_timestamp:fecha_vencimiento_timestamp,
+                         vigencias: 0,
+                         nueva_fecha_vencimiento_timestamp:fecha_vencimiento_timestamp
+
+                }
+
+
+
+                arrayRecuperangodQR.push(informacionUsuarios)
+
+
+
+/*
+        var table = $('#tablaDatos').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+*/
+
+
+    }
+
+
+/*
+    tabla.draw()
+consulta_codigos_qr_ref()
+consulta_info_usuarios()
+*/
+
+console.log("Array RecuperandogQR")
+console.log(arrayRecuperangodQR)
+arraysCompletados++
+
+if(arraysCompletados == 2){
+
+combinaArrays()
+}
+
+
+ })
+
+
+
+
+
+}
+
+
+
+
+function consulta_perros(){
+
+
+
+
+          var db = firebase.database();
+  var ref = db.ref("Perros").child(uid);
+
+
+
+ref.orderByChild("idPerro").once("value").then(snapshot => {
+
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+var datos = snapshot.val();
+
+
+
+
+    for (const property in datos) {
+
+        var d = datos[property]
+
+
+                                  var idPerro = "Sin dato"
+                    var nombre = "Sin dato"
+                    var raza = "Sin dato"
+                     var foto = ""
+                    
+
+
+                 if(d["idPerro"] != undefined){ idPerro = d["idPerro"]  } 
+                  if(d["nombre"] != undefined){ nombre = d["nombre"]  } 
+                    if(d["raza"] != undefined){ raza = d["raza"]  } 
+
+                  if(d["foto"] != undefined){ foto = d["foto"]  } 
+
+                    console.log("foto "+foto)
+
+
+
+               var informacionUsuarios = 
+
+                { 
+
+                         idPerro:idPerro,
+                         nombrePerro:nombre,
+                         raza:raza,
+                         foto:foto
+                }
+
+                          arrayPerros.push(informacionUsuarios)
+
+          }
+
+
+
+
+        
+
+
+
+    
+
+
+console.log("Array perros")
+console.log(arrayPerros)
+
+arraysCompletados++
+
+if(arraysCompletados == 2){
+
+combinaArrays()
+}
+
+
+ })
+
+
+
+
+}
+
+
+
+
+function combinaArrays(){
+
+
+  mergedData = arrayRecuperangodQR.map(data=>({
+...data,
+...arrayPerros.find(newData=>newData.idPerro == data.idPerro)
+}))
+
+
+
+console.log("Tabla completa")
+console.log(mergedData)
+
+creaTabla(mergedData)
+
+
+}
+
+
+
+
+function creaTabla(datos){
+
+
+
+
+var nameType = $.fn.dataTable.absoluteOrder( {
+    value: 'Sin dato', position: 'bottom'
+} );
+
+var  tabla = $('#tablaPerros').DataTable({
+
+               search: { regex: true },
+               pagingType: "full_numbers",
+               paging:   true, //Muestra la paginacion y el combobox
+               bFilter: true,
+        //Muestra oculta filtro
+              info:     true,
+
+              columnDefs: [
+              
+             { "targets": [ 0 ], "visible": false },
+             { "targets": [ 3 ], "visible": false }, 
+             { "targets": [ 8 ], "visible": false }
+
+       ],
+                "order": [[ 1, "asc" ]],
+
+
+                pageLength : 10,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+
+ 
+         
+
+
+
+                        "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+
+
+
+            });
+
+
+
+let oldInput = $('.dataTables_filter input');
+let newInput = $('<input>').on('change keyup input', () => {
+  let regex = textToRegex(newInput.val());
+  oldInput.val(regex).trigger('input');
+});
+oldInput.hide().after(newInput);
+
+function textToRegex(value) {
+  return value
+    .toLowerCase()
+    .split('')
+    .map(c => {
+      if (/[-[\]{}()*+?.,\\^$|#]/.test(c)) {
+        return '\\' + c;
+      }
+      [
+        /[aàáâãäå]/, /[oòóôõöø]/, /[eèéêë]/, /[cç]/, /[dð]/,
+        /[ii̇ìíîï]/, /[uùúûü]/, /[nñ]/, /[sš]/, /[yÿý]/, /[zž]/
+      ].some(r => {
+        if (r.test(c)) {
+          c = r.source;
+          return true;
+        }
+      });
+      return c;
+    })
+    .join('');
+}
+
+
+
+    for (const property in datos) {
+
+
+
+        var d = datos[property]
+
+    var idPerro = "Sin dato"
+    var nombrePerro = "Sin dato"
+    var uid = "Sin dato"
+    var foto = ""
+    var servicio = "Sin dato"
+    var fecha_vinculacion = "Sin dato"
+    var fecha_vinculacion_timestamp = "Sin dato"
+    var fecha_vencimiento = "Sin dato"
+    var fecha_vencimiento_timestamp = "Sin dato"
+    var nueva_fecha_vencimiento = "Sin dato"
+    var nueva_fecha_vencimiento_timestamp = "Sin dato"
+    var vigencias = 0
+
+        if( d['idPerro'] != undefined) { idPerro =  d['idPerro']}
+        if( d['nombrePerro'] != undefined) { nombrePerro =  d['nombrePerro']}
+        if( d['uid'] != undefined) { uid =  d['uid']}
+
+        if( d['servicio'] != undefined) { servicio =  d['servicio']}
+        if( d['fecha_vinculacion'] != undefined) { fecha_vinculacion =  d['fecha_vinculacion']}
+        if( d['fecha_vinculacion_timestamp'] != undefined) { fecha_vinculacion_timestamp =  d['fecha_vinculacion_timestamp']}
+        if( d['fecha_vencimiento_timestamp'] != undefined) { fecha_vencimiento_timestamp =  d['fecha_vencimiento_timestamp']}
+        if( d['foto'] != undefined) { foto =  d['foto']}
+        if( d['vigencias'] != undefined) { vigencias =  d['vigencias']}
+       if( d['nueva_fecha_vencimiento_timestamp'] != undefined) { nueva_fecha_vencimiento_timestamp =  d['nueva_fecha_vencimiento_timestamp']}
+
+
+                      fecha_vencimiento = new Date(d["fecha_vencimiento_timestamp"]);
+                      fecha_vencimiento = fecha_vencimiento.toLocaleDateString(lang, options)
+
+
+                      nueva_fecha_vencimiento = new Date(d["nueva_fecha_vencimiento_timestamp"]);
+                       nueva_fecha_vencimiento = nueva_fecha_vencimiento.toLocaleDateString(lang, options)
+
+                       var informacionUsuarios = 
+
+                 [
+                         idPerro,
+                         nombrePerro,
+                         '<img src=\'' + foto + '\' width="50" height="50" />',
+                         fecha_vencimiento_timestamp,
+                         fecha_vencimiento,
+                         '<button class="transparent_button" onclick="restarVigencia(\'' + idPerro + '\')">  <img id="msjImg" src="img/btnMenos.png"  width="50" height=" 50"> </button>',
+                          '<button class="transparent_button" onclick="sumarVigencia(\'' + idPerro + '\')">  <img id="msjImg" src="img/btnMas.png"  width="50" height=" 50"> </button>',
+                         vigencias,
+                         nueva_fecha_vencimiento_timestamp,
+                         nueva_fecha_vencimiento
+
+
+                ]
+
+
+
+                var table = $('#tablaPerros').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+
+      
+      }
+
+tabla.draw()
+
+}
+
+
+
+function sumarVigencia(idPerro){
+
+
+numVigencias = numVigencias + 1
+document.getElementById("numVigencias").value = numVigencias
+
+    objIndex = mergedData.findIndex((obj => obj.idPerro == idPerro));
+
+//Log object to Console.
+console.log("Before update: ", mergedData[objIndex])
+
+//Update object's name property.
+mergedData[objIndex].vigencias = mergedData[objIndex].vigencias + 1
+
+
+var nuevoTimestamp = 0
+
+if(mergedData[objIndex].nueva_fecha_vencimiento_timestamp < x){
+
+
+var fecha = new Date(x);
+fecha.setFullYear(fecha.getFullYear()+1);
+fecha.setHours(23, 59, 0)
+nuevoTimestamp = fecha.getTime()
+
+
+} else{
+
+var fecha = new Date(mergedData[objIndex].nueva_fecha_vencimiento_timestamp);
+fecha.setFullYear(fecha.getFullYear()+1);
+fecha.setHours(23, 59, 0)
+nuevoTimestamp = fecha.getTime()
+}
+
+
+var nueva_fecha_vencimiento = "Sin Dato"
+
+
+                      nueva_fecha_vencimiento = new Date(nuevoTimestamp);
+                       nueva_fecha_vencimiento = nueva_fecha_vencimiento.toLocaleDateString(lang, options)
+
+          mergedData[objIndex].nueva_fecha_vencimiento_timestamp = nuevoTimestamp
+           mergedData[objIndex].nueva_fecha_vencimiento = nueva_fecha_vencimiento     
+
+console.log("After update: ", mergedData[objIndex])
+
+
+
+var  tabla = $('#tablaPerros').dataTable()
+
+      var rowId = tabla.fnFindCellRowIndexes(idPerro);
+
+
+
+
+
+                             var informacionUsuarios = 
+
+                 [
+                         mergedData[objIndex].idPerro,
+                         mergedData[objIndex].nombrePerro,
+                         '<img src=\'' + mergedData[objIndex].foto + '\' width="50" height="50" />',
+                        mergedData[objIndex].fecha_vencimiento_timestamp,
+                         mergedData[objIndex].fecha_vencimiento,
+                         '<button class="transparent_button" onclick="restarVigencia(\'' + mergedData[objIndex].idPerro + '\')">  <img id="msjImg" src="img/btnMenos.png"  width="50" height=" 50"> </button>',
+                          '<button class="transparent_button" onclick="sumarVigencia(\''+ mergedData[objIndex].idPerro + '\')">  <img id="msjImg" src="img/btnMas.png"  width="50" height=" 50"> </button>',
+                         mergedData[objIndex].vigencias,
+                         mergedData[objIndex].nueva_fecha_vencimiento_timestamp,
+                         mergedData[objIndex].nueva_fecha_vencimiento
+
+
+                ]
+
+
+        tabla.fnUpdate(informacionUsuarios,rowId,undefined);
+
+}
+
+
+function restarVigencia(idPerro){
+
+
+    objIndex = mergedData.findIndex((obj => obj.idPerro == idPerro));
+
+
+
+
+if((mergedData[objIndex].vigencias - 1) == 0){
+
+                         mergedData[objIndex].nueva_fecha_vencimiento_timestamp = mergedData[objIndex].fecha_vencimiento_timestamp
+                         mergedData[objIndex].nueva_fecha_vencimiento = mergedData[objIndex].fecha_vencimiento
+
+                         console.log("entra a vigencia 0 ")
+
+                         mergedData[objIndex].vigencias = 0
+
+                         numVigencias = numVigencias - 1
+document.getElementById("numVigencias").value = numVigencias
+
+} else if((mergedData[objIndex].vigencias - 1) < 0){
+
+                        mergedData[objIndex].nueva_fecha_vencimiento_timestamp = mergedData[objIndex].fecha_vencimiento_timestamp
+                         mergedData[objIndex].nueva_fecha_vencimiento = mergedData[objIndex].fecha_vencimiento
+
+                         console.log("entra a vigencia menos 0 ")
+
+                         mergedData[objIndex].vigencias = 0
+
+
+}else{
+
+
+numVigencias = numVigencias - 1
+document.getElementById("numVigencias").value = numVigencias
+
+//Log object to Console.
+console.log("Before update: ", mergedData[objIndex])
+
+//Update object's name property.
+mergedData[objIndex].vigencias = mergedData[objIndex].vigencias - 1
+
+
+var nuevoTimestamp = 0
+
+if(mergedData[objIndex].nueva_fecha_vencimiento_timestamp < x){
+
+
+                         mergedData[objIndex].nueva_fecha_vencimiento_timestamp = mergedData[objIndex].fecha_vencimiento_timestamp
+                         mergedData[objIndex].nueva_fecha_vencimiento = mergedData[objIndex].fecha_vencimiento
+
+
+} else{
+
+var fecha = new Date(mergedData[objIndex].nueva_fecha_vencimiento_timestamp);
+fecha.setFullYear(fecha.getFullYear()-1);
+fecha.setHours(23, 59, 0)
+nuevoTimestamp = fecha.getTime()
+}
+
+
+var nueva_fecha_vencimiento = "Sin Dato"
+
+
+                      nueva_fecha_vencimiento = new Date(nuevoTimestamp);
+                       nueva_fecha_vencimiento = nueva_fecha_vencimiento.toLocaleDateString(lang, options)
+
+          mergedData[objIndex].nueva_fecha_vencimiento_timestamp = nuevoTimestamp
+           mergedData[objIndex].nueva_fecha_vencimiento = nueva_fecha_vencimiento     
+
+console.log("After update: ", mergedData[objIndex])
+
+
+
+
+}
+
+
+
+var  tabla = $('#tablaPerros').dataTable()
+
+      var rowId = tabla.fnFindCellRowIndexes(idPerro);
+
+
+
+
+
+                             var informacionUsuarios = 
+
+                 [
+                         mergedData[objIndex].idPerro,
+                         mergedData[objIndex].nombrePerro,
+                         '<img src=\'' + mergedData[objIndex].foto + '\' width="50" height="50" />',
+                        mergedData[objIndex].fecha_vencimiento_timestamp,
+                         mergedData[objIndex].fecha_vencimiento,
+                         '<button class="transparent_button" onclick="restarVigencia(\'' + mergedData[objIndex].idPerro + '\')">  <img id="msjImg" src="img/btnMenos.png"  width="50" height=" 50"> </button>',
+                          '<button class="transparent_button" onclick="sumarVigencia(\''+ mergedData[objIndex].idPerro + '\')">  <img id="msjImg" src="img/btnMas.png"  width="50" height=" 50"> </button>',
+                         mergedData[objIndex].vigencias,
+                         mergedData[objIndex].nueva_fecha_vencimiento_timestamp,
+                         mergedData[objIndex].nueva_fecha_vencimiento
+
+
+                ]
+
+
+        tabla.fnUpdate(informacionUsuarios,rowId,undefined);
+
+
+}
+
+function obtener_fecha(){
+
+
+vecesPerros = 0;
+
+var db = firebase.database();
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+
+
+
+
+
+
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   x = snapshott.val();{
+}
+
+})
+
+var date = new Date(x);
+
+
+fecha = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate() + "T" + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+
+console.log(fecha)
+
+}
+
+function obtener_costos(){
+
+    var db = firebase.database();
+  var ref = db.ref("Costos");
+
+   ref.once("value", function(snapshot){
+
+
+
+   snapshot.forEach(function(data) {
+
+      var d = data.val();
+
+      console.log(d.tipo+ " "+data.child("1").val())
+
+      if(d.tipo == "recuperandog"){
+
+        costoPlaca = data.child("1").val()
+        costoEnvio = data.child("envio").val()
+        costoVigencia = data.child("vigencia").val()
+
+      } 
+
+
+  })
+
+})
+
+}
+
+function obtener_iva(){
+
+
+    var db = firebase.database();
+  var ref = db.ref("IVA");
+
+   ref.once("value", function(snapshot){
+
+
+      iva = snapshot.val().iva
+
+
+ })
+
+
+}
+
+
+
+function siguiente() {
+
+
+
+console.log("elemento "+elemento)
+
+var pagoSeleccionInput = document.getElementById("pagoSeleccion").value;
+
+
+	if(elemento == 1){
+
+	
+      if(numVigencias > 0 ){
+
+         elemento ++
+        configuracionPantalla()
+      } else{
+
+         alert("Debes otorgar almenos una vigencia")
+      }
+
+      primera = true 
+
+	} 
+
+     if(elemento == 2){
+
+
+if(primera == true){
+
+primera = false
+
+
+          console.log("Costo vigencia: "+costoVigencia)
+
+        costoServicio = costoVigencia
+
+        subtotalCompra = costoVigencia * numVigencias
+        ivaDeCompra =  subtotalCompra * iva
+         
+        totalApagar = subtotalCompra 
+        
+
+
+        console.log("Costo Servicio: "+costoServicio.toFixed(2))
+        console.log("Iva: "+envioCompra.toFixed(2))
+        console.log("Total a pagar: "+totalApagar.toFixed(2))
+
+
+       document.getElementById("paseos").innerHTML = numVigencias;
+
+/*
+
+        tdh
+*/
+          
+          if(pagoSeleccionInput == "tarjetadc"){
+
+
+        document.getElementById("costo").innerHTML = costoServicio.toFixed(2)
+        document.getElementById("subtotal").innerHTML = subtotalCompra.toFixed(2)
+        document.getElementById("iva").innerHTML = ivaDeCompra.toFixed(2)
+        document.getElementById("total").innerHTML = totalApagar.toFixed(2)
+
+        console.log("total "+totalApagar)
+
+        // 
+
+        comisionInicialTarjetadc = totalApagar * porcentajeTarjetadc
+        comisionConektaTarjetadc = comisionInicialTarjetadc + agregadoFijoTarjetadc
+        ivaDeComision = comisionConektaTarjetadc * iva
+        comisionTotal = comisionConektaTarjetadc + ivaDeComision
+
+        console.log("comisionTotal "+comisionTotal)
+
+          } else  if(pagoSeleccionInput == "tic"){
+
+
+        document.getElementById("costo").innerHTML = costoServicio.toFixed(2)
+        document.getElementById("descuento").innerHTML = descuentoInterno.toFixed(2)
+        document.getElementById("subtotal").innerHTML = subtotalCompra.toFixed(2)
+        document.getElementById("iva").innerHTML = ivaDeCompra.toFixed(2)
+        document.getElementById("total").innerHTML = totalApagar.toFixed(2)
+
+
+        console.log("total "+totalApagar)
+
+        // 
+
+        ivaDeComision = comisionInicialtic * iva
+        comisionTotal = comisionInicialtic + ivaDeComision
+
+        console.log("comisionTotal "+comisionTotal)
+
+          } else  if(pagoSeleccionInput == "eop"){
+
+
+        document.getElementById("costo").innerHTML = costoServicio.toFixed(2)
+        document.getElementById("descuento").innerHTML = descuentoInterno.toFixed(2)
+        document.getElementById("subtotal").innerHTML = subtotalCompra.toFixed(2)
+        document.getElementById("iva").innerHTML = ivaDeCompra.toFixed(2)
+        document.getElementById("total").innerHTML = totalApagar.toFixed(2)
+
+
+        console.log("total "+totalApagar)
+
+        // 
+
+        comisionInicialeop = totalApagar * porcentajeEop
+        ivaDeComision = comisionInicialeop * iva
+        comisionTotal = comisionInicialeop + ivaDeComision
+
+        console.log("comisionTotal "+comisionTotal)
+
+          }else  if(pagoSeleccionInput == "tdh"){
+
+
+        document.getElementById("costo").innerHTML = costoServicio.toFixed(2)
+        document.getElementById("descuento").innerHTML = descuentoInterno.toFixed(2)
+        document.getElementById("subtotal").innerHTML = subtotalCompra.toFixed(2)
+        document.getElementById("iva").innerHTML = ivaDeCompra.toFixed(2)
+        document.getElementById("total").innerHTML = totalApagar.toFixed(2)
+
+
+        console.log("total "+totalApagar)
+
+        // 
+
+
+        comisionTotal = 0
+        console.log("comisionTotal "+comisionTotal)
+
+          } else if(pagoSeleccionInput == "Sin pago"){
+
+
+
+         document.getElementById("costo").innerHTML = 0
+        document.getElementById("subtotal").innerHTML = 0
+        document.getElementById("iva").innerHTML = 0
+        document.getElementById("total").innerHTML = 0
+
+
+
+        subtotalCompra = 0
+        ivaDeCompra = 0
+        totalApagar = 0
+        
+
+        comisionTotal = 0
+
+
+          } 
+
+
+} else{
+
+
+var r = confirm("Confirma solo si estas seguro de que todos los datos son correctos");
+if (r == true) {
+  elemento ++
+} else {
+
+}
+
+}
+
+}
+
+          if(elemento == 3){
+
+
+$('#coverSuave').show();
+
+    var db = firebase.database();
+  var ref = db.ref("RecuperanDogComprasVigenciatest");
+
+  var Recuperandog = ref.push();
+  var RecuperandogID = Recuperandog.getKey();
+  var finanzas = db.ref("Finanzas").child(RecuperandogID)
+  var descripcionPlacas = ""
+
+  if(numVigencias == "1"){
+
+        descripcionPlacas = "año de vigencia Plaquita"
+
+  } else{
+
+    descripcionPlacas = "años de vigencia Plaquita"
+
+  }
+
+
+
+
+            Recuperandog.set({ 
+
+              amount: costoVigencia,
+              cantidad: numVigencias,
+              descripcion: numVigencias+" "+descripcionPlacas+" RecuperanDog",
+              fee: comisionTotal,
+              id_usr: uid,
+              order_id: RecuperandogID,
+              timestamp: firebase.database.ServerValue.TIMESTAMP,
+              total: totalApagar
+            })  .then(function() {
+    
+
+                           var key = db.ref("cambios_ordenes").push().getKey();
+        var agendadosModificaciones = db.ref("cambios_ordenes");
+        var currentUID = firebase.auth().currentUser.uid;
+
+
+                        agendadosModificaciones.child(key).update({ 
+
+                id_orden: RecuperandogID,
+                uid: currentUID,
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                cambio: "Generacion de compra de vigencias",
+                inicial: "",
+                final: ""
+
+               })
+
+
+
+                             finanzas.set({ 
+
+              amount: totalApagar,
+              amount_paseador: 0,
+              descripcion:  numVigencias+" "+descripcionPlacas+" RecuperanDog 1",
+              fee: comisionTotal, 
+              iva: ivaDeCompra,
+              monto_caminandog: totalApagar - comisionTotal - ivaDeCompra, 
+              nombre: nombre,
+              order_id:RecuperandogID,
+              time_op: firebase.database.ServerValue.TIMESTAMP,
+              uid: uid
+            })  .then(function() {
+
+
+                          console.log('Guardado');
+          
+    
+let escribirVigencia = db.ref("RecuperandogQR")
+
+            for (var dato in mergedData) {
+
+                var idEscribir = mergedData[dato].idPerro
+                var vigenciaEscribir = mergedData[dato].nueva_fecha_vencimiento_timestamp
+        console.log("ID perro "+idEscribir+" Vigencia nueva "+vigenciaEscribir)
+
+        escribirVigencia.child(idEscribir).update({ 
+
+                fechaVencimiento: vigenciaEscribir,
+
+               })
+    // ...
+}
+
+
+          if(confirm("La compra se ha generado correctamente")) {
+                
+                terminacarga()
+                
+            } else{
+
+                terminacarga()
+            }
+          
+
+          
+
+
+    })
+
+
+
+
+
+           })
+
+
+
+
+
+}
+
+  
+  }
+  
+
+function terminacarga(){
+
+var myVar = setInterval(myTimer, 10000);
+
+
+    
+function myTimer() {
+ 
+window.location.href = "users.html"
+
+
+}
+
+
+
+
+}
+
+
+function anterior() {
+
+  if(elemento == 1 || elemento <= 1){
+
+    elemento = 1
+
+  } else{
+
+      elemento --;
+
+  }
+
+  configuracionPantalla()
+ 
+}
+
+
+function configuracionPantalla(){
+
+ var botonAnterior = document.getElementById("anterior");
+  var botonSiguiente = document.getElementById("siguiente");
+
+var tablaPerros = document.getElementById("tablaPerros");
+
+var numVigenciasInput = document.getElementById("numVigencias");
+var numVigenciasLabel = document.getElementById("numVigenciasLabel");
+
+var pagoSeleccionInput = document.getElementById("pagoSeleccion");
+var pagoSeleccionLabel = document.getElementById("pagoSeleccionLabel");
+
+var datosPaseo = document.getElementById("rowDatosGenerales");
+var costos = document.getElementById("rowCosto");
+
+
+
+console.log("Pagina: "+elemento)
+
+    if(elemento == 1){
+
+    botonAnterior.style.display = "none";
+
+      numVigenciasLabel.style.display = "block";
+      numVigenciasInput.style.display = "block";
+   
+    pagoSeleccionInput.style.display = "block";
+    pagoSeleccionLabel.style.display = "block";
+
+      $( "#rowDatosGenerales" ).hide();
+      $( "#rowCosto" ).hide();
+
+$( "#tablaPerros" ).show();
+$(".dataTables_info").show();
+$(".dataTables_paginate").show();
+$(".dataTables_filter").show();
+$(".dataTables_length").show();
+
+  }else if(elemento == 2){
+
+$( "#tablaPerros" ).hide();
+$(".dataTables_info").hide();
+$(".dataTables_paginate").hide();
+$(".dataTables_filter").hide();
+$(".dataTables_length").hide();
+
+ botonAnterior.style.display = "block";
+
+
+      numVigenciasLabel.style.display = "none";
+      numVigenciasInput.style.display = "none";
+
+     
+    pagoSeleccionInput.style.display = "none";
+    pagoSeleccionLabel.style.display = "none";
+     
+
+
+      $( "#rowDatosGenerales" ).show();
+      $( "#rowCosto" ).show();
+
+  }
+
+
+}
+
+
+
+function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+ 
+      if (typeof paramValue === 'string') paramValue = paramValue;
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
+}
+
+
+
+ window.onload = obtener_dirección();
+
+
+
+
+
+
+
+
+function abrirPaseadores(id) {
+  
+  window.open('pag.html?uidPaseador='+id,'_blank');
+}
+
+
+    </script>
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+   
+
+</script>
+
+
+
+    <script>
+
+  
+
+</script>
+
+
+  </body>
+</html>

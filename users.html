@@ -1,0 +1,138 @@
+<html>
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="shortcut icon" href="favicon.ico?crc=489445559" />
+  <link rel="stylesheet" href="css/fish2.css">
+  <script src="js/validacionRol.js" defer></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css" />
+  <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js"></script>
+  <link rel="stylesheet" href="css/users.css">
+  <title>Usuarios</title>
+</head>
+<div id="cover">
+  <div id="carga" class="loader"></div>
+</div>
+
+<body>
+  <div id="nav-placeholder">
+  </div>
+  <br><br><br><br>
+
+
+  <div id="snackbar">Copiado ...</div>
+
+
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+
+  <script src="js/init.js"></script>
+
+
+  <head>
+    <title>Usuarios</title>
+  </head>
+
+  <div class="container-fluid">
+
+    <p id="regresar" align="right" style="display: none"><a class="nav-item nav-link active" onclick="showUsersTable()"
+        style="color:blue;" id="usuarios">Regresar</a> </p>
+
+    <br><br>
+
+    <div class="table-responsive">
+      <table class="table table-striped" id="tablaDatos">
+        <thead class="bg2">
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">UID (Hidden)</th>
+            <th scope="col">UID</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Telefono</th>
+            <th scope="col">Dirección</th>
+            <th scope="col">Ultima conexión</th>
+            <th scope="col">Ultima conexión (timestamp)</th>
+            <th scope="col">Fecha Registro </th>
+            <th scope="col">Fecha Registro (timestamp) </th>
+            <th scope="col">Version</th>
+            <th scope="col">Perros</th>
+            <th scope="col">Realizar venta</th>
+            <th scope="col">Iniciar chat</th>
+            <th scope="col">Ver compras</th>
+          </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+      </table>
+    </div>
+
+    <br><br>
+
+    <div class="table-responsive">
+      <table id="tablaPerros" class="table table-striped" style="display:none">
+        <thead class="bg2">
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Comportamiento</th>
+            <th scope="col">Raza</th>
+            <th scope="col">Desparacitado</th>
+            <th scope="col">Primera dosis</th>
+            <th scope="col">Segunda Dosis</th>
+            <th scope="col">Tercera Dosis</th>
+            <th scope="col">Foto</th>
+          </tr>
+        </thead>
+        <tbody id="tablaPerrosbody" style="text-align:center">
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Elige el tipo de venta</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+
+        </div>
+        <div class="modal-body">
+          <button style="width:140px" class="custom-button" onclick="generar_compra_paseos()"> Paseos </button>
+          <button style="width:140px" class="custom-button" onclick="generar_compra_placas()"> Placas </button>
+          <button style="width:140px" class="custom-button" onclick="generar_compra_vigencia()"> Vigencia Placas
+          </button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/users.js"></script>
+  <script src="login/cerrar_sesion.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+
+</body>
+
+</html>

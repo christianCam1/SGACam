@@ -1,0 +1,691 @@
+<html>
+
+  <head>
+    
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script  src="js/validacionRol.js" defer></script>
+
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+   <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+     <link rel="stylesheet" href="css/style_chat.css">
+      
+    <title>Chat Caminandog</title>
+  </head>
+
+
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+    <div id="nav-placeholder">
+
+    </div>
+  
+  <br><br><br><br>
+
+
+  
+
+  
+
+
+<body >
+  
+  
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+
+<script src="js/init.js"></script>
+
+
+<div id="loader"></div>
+
+<section id="myDiv" class="animate-bottom">
+  
+  <div class="card" id="left_card">
+
+    
+
+    <div class="card" id="_card">
+
+      <body>
+        <h3>Usuario</h3>
+        
+        
+        <div class="container">
+       <div class="d-flex justify-content-center h-100">
+         <div class="image_outer_container">
+           <div class="image_inner_container">
+             <img id="img_usu">
+           </div>
+         </div>
+       </div>
+
+       <div id="outer_name">
+        <ul class="ul_name">
+          <li><a >Nombre</a></li>
+          <li><h5 id="nom_usu"></h5></li>
+        </ul>
+      </div>
+
+       
+
+       
+
+      <br>
+
+      <ul class="ul_chat">
+        <li><a >email</a></li>
+        <li><H5 id="email_usu"></H5></li>
+      </ul>
+      
+      <ul class="ul_chat">
+        <li><a class="label_g">Telefono</a></li>
+        <li><H5 id="tel_usu"></H5></li>
+      </ul>
+
+      
+      
+       
+      </div>
+      </body>
+    </div>
+    
+
+        <div class="card" id="_card">
+
+      <body>
+
+       <button class="custom-button2" id="cambiarA" data-toggle="modal" data-target="#myModal">Cambiar Atención</button>
+
+      <button class="custom-button3" id="siguiente" onclick="finalizarAtencion()">Finalizar Atención</button>
+       
+
+      </body>
+    </div>
+    
+
+</div>
+
+  
+
+</section>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+         <h4 class="modal-title" id="myModalLabel">Cambiar Atención</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+       
+      </div>
+      <div class="modal-body">
+
+         <select required id="ddlcolors" class="form-control input-sm">
+                            <option selected disabled value="">
+                               <h6>-- Seleccionar compañero --</h6>
+                            </option>
+                            <option class="text-success text-center" value="8ikQ8udhWKb91pySDBAaEt1JnRk2">Caren</option>
+                            <option class="text-success text-center" value="3aNCxxQp8NOjkfEPiRX7JXY8kkd2">Josue</option>
+                            <option class="text-success text-center" value="KXb1vyDGn4UY2qzp56gIIrrbmE62">Claudio</option>
+                            <option class="text-success text-center" value="zIZ6h9Jo5MTaltZYdNb8NRIFNqo2">Brandon</option>
+                              <option class="text-success text-center" value="ZIk7OrgukmRnQEpk9iZxQmyfmdf1">Alejandro</option>
+                         </select>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" onclick="cambiarAtencion()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section id="mySection" >  </section>
+  
+  
+  <section id ="myInput"> 
+          <div class="row">
+            
+
+    <div class="form-group col-md-11">
+
+    <input type="text" class="form-control" id="mensaje" placeholder="" onkeydown="search(this)"/>
+  </div>
+
+      <div class="form-group col-md-1">
+<button class="custom-button2" id="siguiente" onclick="enviarMensaje()">Enviar</button>
+  </div>
+
+
+          </div>
+      
+   </section>   
+      
+    
+
+<script>
+var uid = getAllUrlParams().uid;
+var order_id = getAllUrlParams().order_id;
+var primera = true
+var usuariosArray = [];
+
+let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+let options = {hour:"numeric", minute:"numeric"};
+
+//var table = document.getElementById("tabla");
+
+//table.innerHTML = "";
+
+
+var addMessage2 = firebase.functions().httpsCallable('System_chat_infoUser');
+addMessage2({uid: uid,ord: order_id}).then(function(result) {
+  
+
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+
+console.log(result.data[0])
+  
+
+    document.getElementById('nom_usu').innerHTML = result.data[0].nombre+" "+result.data[0].apellido_Paterno+" "+result.data[0].apellido_Materno
+      document.getElementById('email_usu').innerHTML = result.data[0].email
+  document.getElementById('tel_usu').innerHTML = result.data[0].telefono1
+
+    if (result.data[1]===null){
+    document.getElementById("img_usu").src = 'img/user-profile-outline.svg'
+  }else{
+    document.getElementById("img_usu").src = result.data[1]
+  }
+
+
+  document.getElementById("mySection").classList.add("animate-bottom");
+    document.getElementById("myInput").classList.add("animate-bottom");
+document.getElementById("mySection").style.display = "block";
+  document.getElementById("myInput").style.display = "block";
+
+  })
+    
+
+
+
+function search(ele) {
+    if(ele.id === "mensaje" && event.key === 'Enter') {
+        
+        enviarMensaje()
+
+    }
+}
+
+
+function enviarMensaje(){
+
+var mensajeTexto =  document.getElementById("mensaje").value
+
+document.getElementById("mensaje").value = "";
+var refChat = firebase.database().ref('Chats_usuario_caminandog').child("chats").child(uid);
+var randomId = refChat.push().getKey();
+
+
+/*
+var obj = {
+    uidUsuario: uid,
+    mensaje: mensajeTexto,
+    emisor_mensaje:  "caminandog",
+    child_key: randomId,
+    uidCaminandog: firebase.auth().currentUser.uid
+};
+var json = JSON.stringify(obj);
+
+
+  var addMessage1 = firebase.functions().httpsCallable('notificacion_chat_caminandog');
+addMessage1({text : 'hola'}).then(function(result) {
+
+
+})  .catch((error) => {
+    // Getting the Error details.
+    var code = error.code;
+    var message = error.message;
+    var details = error.details;
+
+    console.log("code "+code+" message "+message+" details"+details)
+  });;
+
+*/
+
+
+
+
+if(mensajeTexto.trim() == ""){
+
+    console.log("mensaje sin texto")
+
+} else{ 
+  const Http = new XMLHttpRequest();
+
+var msjString = String(mensajeTexto)
+
+var obj = {
+    uidUsuario: uid,
+    mensaje: msjString,
+    emisor_mensaje:  "caminandog",
+    child_key: randomId,
+    uidCaminandog: firebase.auth().currentUser.uid
+};
+
+
+var json = encodeURIComponent(JSON.stringify(obj));
+
+const url='https://us-central1-caminandog-218818.cloudfunctions.net/notificacion_chat_caminandog?text='+json;
+
+console.log("json "+json)
+
+
+Http.open("GET", url);
+Http.send();
+
+Http.onreadystatechange = (e) => {
+  console.log(Http.responseText)
+}
+
+
+
+}
+
+
+
+/*
+var obj = {
+    uidUsuario: uid,
+    mensaje: mensajeTexto,
+    emisor_mensaje:  "caminandog",
+    child_key: randomId,
+    uidCaminandog: firebase.auth().currentUser.uid
+};
+
+var json = encodeURIComponent(JSON.stringify(obj));
+
+var url = "https://us-central1-caminandog-218818.cloudfunctions.net/notificacion_chat_caminandog";
+var params = "text="+json;
+var http = new XMLHttpRequest();
+
+http.open("GET", url+"?"+params, true);
+http.onreadystatechange = function()
+{
+    if(http.readyState == 4 && http.status == 200) {
+        alert(http.responseText);
+    }
+}
+http.send(null);
+  */
+
+
+
+
+
+}
+
+
+          function urlify(text) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  return text.replace(urlRegex, function(url) {
+    return '<a href="' + url + '">' + url + '</a>';
+  })
+  // or alternatively
+  // return text.replace(urlRegex, '<a href="$1">$1</a>')
+}
+
+
+function configChat(){
+
+
+  var db = firebase.database();
+  var ref = db.ref("Chats_usuario_caminandog").child("chats").child(uid);
+
+ ref.on("child_added", function(snapshot){
+
+         var d = snapshot.val();
+
+
+
+          var date = new Date(d.timestamp)
+
+var htmlTexto = urlify(d.mensaje);
+
+
+        if(d.uid === uid){
+
+
+        var heading = document.createElement("H5");
+        heading.setAttribute("id", "txt2");
+        var txt1 = document.createTextNode.innerHTML = htmlTexto;
+        heading.innerHTML = txt1;
+        document.getElementById("mySection").appendChild(heading);
+
+        var para = document.createElement("a");
+        var txt2 = document.createTextNode(date.toLocaleDateString(lang, options));
+        para.appendChild(txt2);
+        document.getElementById("mySection").appendChild(para);
+
+        
+
+        }else{
+
+
+
+
+                var heading = document.createElement("H5");
+        heading.setAttribute("id", "txt1");
+       var txt1 = document.createTextNode.innerHTML = htmlTexto;
+        heading.innerHTML = txt1;
+        document.getElementById("mySection").appendChild(heading);
+
+        var para = document.createElement("a");
+        para.setAttribute("id", "txt2_sub");
+
+        var filtered = usuariosArray.find(x => x.value === d.uid);
+        var txt2 = document.createTextNode(date.toLocaleDateString(lang, options)+" "+filtered.text);
+        para.appendChild(txt2);
+        document.getElementById("mySection").appendChild(para);
+
+}
+
+
+
+
+	recorrer_ultimo_mensaje()
+
+
+
+});
+
+
+
+
+}
+
+
+function recorrer_ultimo_mensaje(){
+
+
+
+	var objDiv = document.getElementById("mySection");
+
+objDiv.scrollTop = objDiv.scrollHeight;
+}
+
+
+function finalizarAtencion() {
+
+      
+     var r = confirm("¿Estas seguro de que finalizaste con la consulta de este usuario?");
+
+          if (r == true) {
+
+               var db = firebase.database();
+               var ref = db.ref("Chats_usuario_caminandog").child("tabla_chat").child(uid).remove().then(function() {
+
+                      location.href ="chatsCaminandogTabla.html";
+
+                  }).catch(function(error) {
+
+                    print("no se puede finalizar el chat "+error)
+
+
+                  });;
+
+
+          } else {
+
+
+           }
+
+
+
+var objDiv = document.getElementById("mySection");
+objDiv.scrollTop = objDiv.scrollHeight;
+
+}
+
+
+
+function cambiarAtencion() {
+
+
+var uidCaminandog = $( "#ddlcolors option:selected" ).val();
+console.log("Seleccionar ",uid)
+
+
+
+
+var db = firebase.database();
+  var chat_tabla_update = db.ref("Chats_usuario_caminandog").child("tabla_chat").child(uid);
+
+
+        chat_tabla_update.update({ 
+
+          uidAtencion: uidCaminandog,
+
+         }).then(function(){
+              
+            
+              alert("Cambiado exitosamente")
+
+              }).catch(function(error) {
+
+           
+                alert("Ocurrio un error")
+              });
+}
+
+
+
+window.onload = consulta_usuarios();
+
+
+
+function consulta_usuarios(){
+
+
+
+           var informacionUsuariosSelect = 
+
+                  {
+
+                    value : "CaminanDog",
+                    text : "Sistema"
+                  }
+
+       usuariosArray.push(informacionUsuariosSelect)
+
+
+       var db = firebase.database();
+     var ref = db.ref("Usuarios_Sistema");
+       
+
+
+ref.orderByChild("nombre").once("value").then(snapshot => {
+
+if(snapshot.exists()){
+
+   var datos = snapshot.val();
+      for (const property in datos) {
+
+
+        var d = datos[property]
+
+
+                    var uid = "Sin dato"
+                    var nombre = "Sin dato"
+                    var email = "Sin dato"
+
+                    if(d["uid"] != undefined){
+
+                      uid = d["uid"]
+
+                    }
+                    if(d["nombre"] != undefined){
+
+                      nombre =  d["nombre"]
+                    }
+                    if(d["usuario"] != undefined){
+
+                      email =  d["usuario"]
+
+                    }
+
+
+
+           var informacionUsuariosSelect = 
+
+                  {
+
+                    value : uid,
+                    text : nombre
+                  }
+
+
+
+                  usuariosArray.push(informacionUsuariosSelect)
+
+
+
+
+      }
+
+
+      console.log(usuariosArray)
+       configChat();
+
+ }
+
+
+else{
+
+
+}
+
+});
+
+
+}
+
+
+
+
+   function getAllUrlParams(url) {
+
+  // get query string from url (optional) or window
+  var queryString = url ? url.split('?')[1] : window.location.search.slice(1);
+
+  // we'll store the parameters here
+  var obj = {};
+
+  // if query string exists
+  if (queryString) {
+
+    // stuff after # is not part of query string, so get rid of it
+    queryString = queryString.split('#')[0];
+
+    // split our query string into its component parts
+    var arr = queryString.split('&');
+
+    for (var i = 0; i < arr.length; i++) {
+      // separate the keys and the values
+      var a = arr[i].split('=');
+
+      // set parameter name and value (use 'true' if empty)
+      var paramName = a[0];
+      var paramValue = typeof (a[1]) === 'undefined' ? true : a[1];
+
+
+      if (typeof paramValue === 'string') paramValue = paramValue;
+
+      // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+      if (paramName.match(/\[(\d+)?\]$/)) {
+
+        // create key if it doesn't exist
+        var key = paramName.replace(/\[(\d+)?\]/, '');
+        if (!obj[key]) obj[key] = [];
+
+        // if it's an indexed array e.g. colors[2]
+        if (paramName.match(/\[\d+\]$/)) {
+          // get the index value and add the entry at the appropriate position
+          var index = /\[(\d+)\]/.exec(paramName)[1];
+          obj[key][index] = paramValue;
+        } else {
+          // otherwise add the value to the end of the array
+          obj[key].push(paramValue);
+        }
+      } else {
+        // we're dealing with a string
+        if (!obj[paramName]) {
+          // if it doesn't exist, create property
+          obj[paramName] = paramValue;
+        } else if (obj[paramName] && typeof obj[paramName] === 'string'){
+          // if property does exist and it's a string, convert it to an array
+          obj[paramName] = [obj[paramName]];
+          obj[paramName].push(paramValue);
+        } else {
+          // otherwise add the property
+          obj[paramName].push(paramValue);
+        }
+      }
+    }
+  }
+
+  return obj;
+}
+
+
+
+
+</script>
+
+
+
+
+<script>
+
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html

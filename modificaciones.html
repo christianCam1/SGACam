@@ -1,0 +1,553 @@
+
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+
+
+
+       <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+   <script src = "https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js" ></script>
+
+
+
+    <title>Modificaciones</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+  
+<body>
+
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+  <br><br><br><br>
+
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #00B0C5;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
+
+
+<div id="snackbar">Copiado ...</div>
+  
+
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-functions.js"></script>
+    
+    <script src="js/init.js"></script>
+
+
+<head>
+    <title>Usuarios</title>
+    </head>
+  
+
+
+
+
+<div class="container-fluid">
+
+  <br><br>
+    <p id="periodo"></p>
+
+
+<br><br>
+
+  <div class="table-responsive">
+    <table class="table table-striped" id="tablaDatos" >
+        <thead class="bg2">
+               <tr>
+                 <th  scope="col">Fecha</th>
+                 <th  scope="col">Fecha timstamp (Hidden)</th>
+                 <th  scope="col">UID de quien modifico</th>
+                 <th  scope="col">Quien modifico</th>
+                 <th  scope="col">Orden</th>
+                 <th  scope="col">Tipo de cambio</th>
+                 <th  scope="col">Dato inicial</th>
+                 <th  scope="col">Dato final </th>
+
+                </tr>
+        </thead>
+        <tbody id="tabla">
+        </tbody>
+    </table>
+</div>
+
+<br><br>
+
+
+</div>
+
+
+<script>
+
+
+
+var usuariosArray = [];
+
+ function consulta_usuarios(){
+
+    var db = firebase.database();
+    var ref = db.ref("Usuarios_Sistema");     
+    ref.orderByChild("nombre").once("value").then(snapshot => {
+
+    if(snapshot.exists()){
+
+      var datos = snapshot.val();
+
+          for (const property in datos) {
+
+            var d = datos[property]
+            var uid = "Sin dato"
+            var nombre = "Sin dato"
+            var email = "Sin dato"
+
+            if(d["uid"] != undefined){
+              uid = d["uid"]
+            }
+            if(d["nombre"] != undefined){
+              nombre =  d["nombre"]
+            }
+            if(d["usuario"] != undefined){
+              email =  d["usuario"]
+
+            }
+
+           var informacionUsuariosSelect = 
+
+                  {
+
+                    value : uid,
+                    text : nombre
+                  }
+
+                  usuariosArray.push(informacionUsuariosSelect)
+      }
+
+       getDate();
+
+ }
+
+
+else{
+
+
+}
+
+});
+
+
+}
+
+
+function getDate(){
+
+vecesPerros = 0;
+
+var db = firebase.database();
+
+  var sessionsRef = db.ref("sessions");
+  sessionsRef.child("actual").set(firebase.database.ServerValue.TIMESTAMP);
+
+
+
+
+
+
+var x=0;
+
+
+sessionsRef.orderByChild("actual").on("child_added", function(snapshott){
+
+   x = snapshott.val();{
+}
+
+})
+
+var dateObj = new Date(x);
+
+var month = dateObj.getUTCMonth() + 1; //months from 1-12
+var day = dateObj.getUTCDate();
+var year = dateObj.getUTCFullYear();
+
+
+var dateObjFin = new Date(x);
+
+var monthFin = dateObjFin.getUTCMonth() + 1; //months from 1-12
+var dayFin = dateObjFin.getUTCDate();
+var yearFin = dateObjFin.getUTCFullYear();
+
+
+
+var dateObjInicio = dateObjFin
+
+
+
+
+var monthInicio = dateObjInicio.getUTCMonth(); //months from 1-12
+var dayInicio = dateObjInicio.getUTCDate();
+var yearInicio = dateObjInicio.getUTCFullYear();
+
+
+var datumFin = new Date(yearFin,(monthFin - 1),dayFin,'23','59','59');
+datumFinTimestamp = datumFin.getTime();
+
+console.log("Fin timestamp ",datumFinTimestamp)
+
+var datumInicio = new Date(yearInicio,(monthInicio - 2),dayInicio,'00','00','01');
+var datumInicioTimestamp = datumInicio.getTime();
+
+console.log("Inicio timestamp ",datumInicioTimestamp)
+let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+ var datumInicio= new Date(datumInicio);
+console.log("Inicio ",datumInicio.toLocaleDateString(lang, options));
+
+
+
+ var datumFin= new Date(datumFin);
+console.log("Fin ",datumFin.toLocaleDateString(lang, options));
+
+obtener_datos_modificados(datumInicioTimestamp,datumFinTimestamp);
+
+      var timestampini =  datumInicioTimestamp;
+    var dateIni = new Date(timestampini);
+
+    console.log(dateIni.toLocaleDateString(lang, options));
+
+
+
+          var timestampfin = datumFinTimestamp;
+    var datefin = new Date(timestampfin);
+
+    console.log(datefin.toLocaleDateString(lang, options));
+
+        document.getElementById("periodo").innerHTML = "Inicio "+dateIni.toLocaleDateString(lang, options)+" ,Fin: "+datefin.toLocaleDateString(lang, options) ;
+
+}
+
+
+
+
+
+function obtener_datos_modificados(startDate,endDate) {
+
+
+var nameType = $.fn.dataTable.absoluteOrder( {
+    value: 'Sin dato', position: 'bottom'
+} );
+
+var  tabla = $('#tablaDatos').DataTable({
+
+
+               pagingType: "full_numbers",
+               paging:   true, //Muestra la paginacion y el combobox
+               bFilter: true,
+        //Muestra oculta filtro
+              info:     true,
+
+              columnDefs: [
+             { "targets": [ 1 ], "visible": false },
+             { "orderData": 1, "targets": 0},
+             { "width": "15%", "targets": 0 },
+             { "width": "10%", "targets": 2 },
+             { "width": "25%", "targets": 5 },
+             { "width": "25%", "targets": 6 },
+             { "targets": 0, "type": nameType },
+             { "defaultContent": "Sin nombre", "targets": 3 }
+       ],
+                "order": [[ 0, "desc" ]],
+
+
+                pageLength : 20,
+                lengthMenu: [[5, 10, 20, -1], [5, 10, 20, 'Todos']],
+
+
+ 
+         
+
+
+
+                        "language": {
+        "sProcessing":    "Procesando...",
+        "sLengthMenu":    "Mostrar _MENU_ registros",
+        "sZeroRecords":   "No se encontraron resultados",
+        "sEmptyTable":    "Ningún dato disponible en esta tabla",
+        "sInfo":          "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":     "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":  "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":   "",
+        "sSearch":        "Buscar:",
+        "sUrl":           "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+            "sFirst":    "Primero",
+            "sLast":    "Último",
+            "sNext":    "Siguiente",
+            "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    }
+
+
+
+            });
+
+
+
+
+  var db = firebase.database();
+  var ref = db.ref("cambios_ordenes");
+
+  var table = document.getElementById("tabla");
+
+  //limpia la tabla
+  table.innerHTML = "";
+
+   //con esta función recorre todos los datos almacenados en FB ordenados por mi child(tipo)
+
+  var actual = 0;
+
+ ref.orderByChild("timestamp").startAt(startDate).endAt(endDate).once("value").then(snapshot => {
+
+
+     let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+
+
+var datos = snapshot.val();
+
+    for (const property in datos) {
+
+
+
+        var d = datos[property]
+
+
+
+                     var fecha = "Sin dato"
+                     var fechaTimestamp = 0
+                     var cambio = "Sin dato"
+                     var orden = "Sin dato"
+                     var datoInicial = "Sin dato"
+                     var datoFinal = "Sin dato"
+                     var uidModificacion = "No registrada"
+                     var uidtab = "Sin dato"
+
+
+
+
+                  if(d["timestamp"] != undefined){ 
+                       fecha = new Date(d["timestamp"]);
+                       fecha = fecha.toLocaleDateString(lang, options)
+                       fechaTimestamp = d["timestamp"]
+
+                  }
+
+                  if(d["cambio"] != undefined){ cambio = d["cambio"] }
+                     if(d["id_orden"] != undefined){ orden = d["id_orden"] }
+                 if( d["inicial"] != undefined){ datoInicial = d["inicial"] }
+                  if( d["final"] != undefined){ datoFinal = d["final"]
+
+
+                   if(typeof(datoFinal) == "string" && datoFinal.includes(",")) {
+
+                    datoFinal = datoFinal.replace(/,/gi, ", ");
+
+                  }
+
+
+
+                   }
+
+
+
+
+                    if( d["uid"] != undefined){ 
+                      
+                      uidModificacion = d["uid"];
+                      uidtab=uidModificacion
+                  
+                  }
+
+
+
+                  if(typeof(datoInicial) != "string") {
+
+                     datoInicial = new Date(datoInicial);
+                      datoInicial = datoInicial.toLocaleDateString(lang, options)
+
+                  }
+
+                    if(typeof(datoFinal) != "string") {
+
+                     datoFinal = new Date(datoFinal);
+                      datoFinal = datoFinal.toLocaleDateString(lang, options)
+
+                  }
+
+      
+              var filtered = usuariosArray.find(x => x.value === d.uid);
+              uidModificacion = filtered?.text
+              //console.log(filtered?.value)
+
+
+               var informacionUsuarios = 
+
+                 [
+                         fecha,
+                         fechaTimestamp,
+                         uidtab,
+                         uidModificacion,
+                         orden,
+                         cambio,
+                         datoInicial,
+                         datoFinal
+                ]
+
+
+
+        var table = $('#tablaDatos').dataTable();
+
+ 
+      tabla.rows.add([informacionUsuarios]);
+
+
+
+    }
+
+    tabla.draw()
+
+
+ })
+
+
+
+
+
+}
+
+
+
+
+
+ window.onload = consulta_usuarios();
+
+
+
+function copyToClipboard(val){
+
+    var dummy = document.createElement("input");
+    document.body.appendChild(dummy);
+
+    dummy.setAttribute("id", "dummy_id");
+    document.getElementById("dummy_id").value=val;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+    
+     var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
+
+</script>
+
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>

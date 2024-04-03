@@ -1,0 +1,1957 @@
+
+<html>
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="shortcut icon" href="favicon.ico?crc=489445559"/>
+              <link rel="stylesheet" href="css/fish2.css">
+    <script src="js/validacionRol.js" defer></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/datatables.min.css"/>
+
+
+<!-- old
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+       <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+ -->
+
+
+<!-- new -->    
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+       <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+
+   <script src = "https://cdn.datatables.net/plug-ins/1.10.20/sorting/absolute.js" ></script>
+
+
+    <title>Paseadores detalle</title>
+  </head>
+
+  <div id="cover"> <div id="carga" class="loader" ></div> </div>
+
+
+  <div id="coverSuave" style="display: none;" ><div id="carga2" class="loader" > </div></div>
+
+<body>
+
+
+    <div id="nav-placeholder">
+
+    </div>
+
+
+
+  <br><br>
+
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #00B0C5;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+
+}
+
+
+    input.form-control:read-only {
+        background-color: #fff;
+    }
+
+
+    input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+</style>
+
+
+   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAweO2Lp7TAy6Dx94kWAwnRoaZ_N1dQSDk&libraries=places&v=weekly"
+       ></script>
+
+
+<div id="snackbar">Copiado ...</div>
+  
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+    <script src="js/init.js"></script>
+
+
+<head>
+
+    </head>
+  
+
+
+
+
+<br><br>
+
+
+
+  <div class="card" id="left_card_candidato">
+
+    
+
+    <div class="card" id="_card">
+
+      <body>
+        <br>
+       <center> <h3>Usuario</h3></center>
+        
+        
+        <div class="container">
+       <div class="d-flex justify-content-center h-100" >
+         <div class="image_outer_container">
+           <div class="image_inner_container">
+             <img id="img_usu">
+           </div>
+         </div>
+       </div>
+
+<br>
+
+    <div class="form-group">
+    <label for="email" id="emailLabel">Correo</label>
+    <input type="text" class="form-control" id= "email" placeholder="" readonly/>
+  </div>
+
+
+    <div class="form-group">
+    <label for="uid" id="uidLabel">UID</label>
+    <input type="text" class="form-control" id= "uid" placeholder="" readonly/>
+  </div>
+
+
+  <div class="form-group ">
+    <label for="fecha_creacion" id="fecha_creacionLabel">Fecha creación </label>
+    <input type="text" class="form-control" id= "fecha_creacion" placeholder="" readonly/>
+  </div>
+
+    <div class="form-group ">
+    <label for="fecha_contratacion" id="fecha_contratacionLabel">Fecha contratación </label>
+    <input type="text" class="form-control" id= "fecha_contratacion" placeholder="" readonly/>
+  </div>
+
+
+      <div class="form-group "  style="display: none;">
+    <label for="etapa_postulacion" id="etapa_postulacionLabel">Etapa postulación</label>
+    <input type="text" class="form-control" id= "etapa_postulacion" placeholder="" readonly/>
+  </div>
+  
+      
+       
+      </div>
+      </body>
+    </div>
+    
+
+        <div class="card" id="_card" style="display: none;">
+
+      <body>
+
+
+      <button class="custom-button-candidato" id="siguiente" onclick="ver_chat ()" >Ir a chat</button>
+       
+
+      </body>
+    </div>
+
+</div>
+
+
+<br>
+<div class="container">
+
+       
+
+<br>
+
+
+
+<!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#home">Datos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#menu1">Documentos</a>
+    </li>
+  </ul>
+
+
+
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div id="home" class="container tab-pane active"><br>
+      
+            <div class="row">  
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Datos personales 1 de 4</h5>
+<br>
+    <div class="form-group">
+    <label for="nom" id="nomLabel">Nombre(s)</label>
+    <input type="text" class="form-control" id= "nom" placeholder="" />
+  </div>
+
+
+    <div class="form-group">
+    <label for="ap" id="apLabel">Apellido Paterno</label>
+    <input type="text" class="form-control" id= "ap" placeholder="" />
+  </div>
+
+
+  <div class="form-group ">
+    <label for="am" id="amLabel">Apellido materno </label>
+    <input type="text" class="form-control" id= "am" placeholder="" />
+  </div>
+
+
+  <div class="form-group ">
+    <label for="cel" id="celLabel">Celular (10 dígitos)</label>
+    <input type="text" class="form-control" id= "cel" placeholder="" />
+  </div>
+
+
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+<br> 
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+        <div class="container">
+
+<br>
+ <h5 class="card-title">Datos personales 2 de 4</h5>
+<br>
+
+       <div class="form-group">
+    <label for="genero" id="generoLabel">Genero</label>
+       <select id="genero" class="form-control">
+        <option disabled selected value> ----- </option>
+       <option value="Femenino">Femenino</option>
+       <option value="Masculino">Masculino</option>
+
+       </select>
+  </div>
+
+
+    <div class="form-group ">
+    <label for="curp" id="curpLabel">CURP (16 dígitos)</label>
+    <input type="text" class="form-control" id= "curp" placeholder="" />
+  </div>
+
+
+    <div class="form-group ">
+    <label for="edad" id="edadLabel">Fecha de nacimiento</label>
+    <input type="date" class="form-control" id= "fnac" placeholder="" />
+  </div>
+
+
+
+
+    <div class="form-group ">
+    <label for="talla" id="tallaLabel">Talla de playera</label>
+           <select id="talla" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="Chica">Chica</option>
+       <option value="Mediana">Mediana</option>
+       <option value="Grande">Grande</option>
+       </select>
+  </div>
+        </div>
+      </body>
+
+
+    </div>
+</div>
+</div>
+
+
+<br>
+
+            <div class="row">  
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Datos personales 3 de 4</h5>
+<br>
+    <div class="form-group">
+    <label for="nomref1" id="nomref1Label">Nombre completo de referencia 1</label>
+    <input type="text" class="form-control" id= "nomref1" placeholder="" />
+  </div>
+
+
+    <div class="form-group">
+    <label for="celref1" id="celref1Label">Celular (10 dígitos)</label>
+    <input type="text" class="form-control" id= "celref1" placeholder="" />
+  </div>
+
+
+  <div class="form-group ">
+    <label for="nomref2" id="nomref2Label">Nombre completo de referencia 2</label>
+    <input type="text" class="form-control" id= "nomref2" placeholder="" />
+  </div>
+
+
+    <div class="form-group ">
+    <label for="celref2" id="celref2Label">Celular (10 dígitos)</label>
+    <input type="text" class="form-control" id= "celref2" placeholder="" />
+  </div>
+
+
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+<br> 
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+        <div class="container">
+
+<br>
+ <h5 class="card-title">Datos personales 4 de 4</h5>
+<br>
+
+       <div class="form-group">
+    <label for="banco" id="bancoLabel">Banco</label>
+       <select id="banco" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="CITI BANAMEX">CITI BANAMEX</option>
+       <option value="BBVA BANCOMER">BBVA BANCOMER</option>
+       <option value="SANTANDER">SANTANDER</option>
+       <option value="HSBC">HSBC</option>
+       <option value="BANBAJIO">BANBAJIO</option>
+       <option value="IXE">IXE</option>
+       <option value="INBURSA">INBURSA</option>
+       <option value="SCOTIABANK">SCOTIABANK</option>
+       <option value="BANREGIO">BANREGIO</option>
+       <option value="AFIRME">AFIRME</option>
+       <option value="BANORTE">BANORTE</option>
+       <option value="AMERICAN EXPRESS">AMERICAN EXPRESS</option>
+       <option value="BANCO AZTECA">BANCO AZTECA</option>
+       <option value="BANCOPPEL">BANCOPPEL</option>
+       <option value="OTRO">OTRO</option>
+
+
+       </select>
+  </div>
+
+
+
+    <div class="form-group ">
+    <label for="clabe" id="clabeLabel">Clabe interbancaria (18 dígitos)</label>
+    <input type="text" class="form-control" id= "clabe" placeholder="" />
+  </div>
+
+<br><br><br><br><br><br><br>
+        </div>
+      </body>
+
+
+    </div>
+</div>
+</div>
+
+
+<br>
+<hr>
+
+<br>
+
+
+            <div class="row">  
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Dirección 1 de 3</h5>
+<br>
+    <div class="form-group">
+    <label for="calle" id="calleLabel">Calle</label>
+    <input type="text" class="form-control" id= "calle" placeholder="" />
+  </div>
+
+
+    <div class="form-group">
+    <label for="numExt" id="numExtLabel">Número exterior</label>
+    <input type="text" class="form-control" id= "numExt" placeholder="" />
+  </div>
+
+
+  <div class="form-group ">
+    <label for="numInt" id="numIntLabel">Número interior</label>
+    <input type="text" class="form-control" id= "numInt" placeholder="" />
+  </div>
+
+
+    <div class="form-group ">
+    <label for="referenciaDomicilio" id="referenciaDomicilioLabel">Referencias o comentario</label>
+    <input type="text" class="form-control" id= "referenciaDomicilio" placeholder="" />
+  </div>
+
+
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+<br> 
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+        <div class="container">
+
+<br>
+ <h5 class="card-title">Dirección 2 de 3</h5>
+<br>
+
+
+
+    <div class="pac-card" id="pac-card">
+      <div>
+        <div id="title">Buscar</div>
+
+      </div>
+      <div id="pac-container">
+        <input id="pac-input" type="text" placeholder="Introduce una dirección" />
+      </div>
+    </div>
+     <div id="map" style="width:100%;height:400px;text-align:center"></div>
+    <div id="infowindow-content">
+      <img src="" width="16" height="16" id="place-icon" />
+      <span id="place-name" class="title"></span><br />
+      <span id="place-address"></span>
+    </div>
+
+
+
+        </div>
+      </body>
+
+
+    </div>
+</div>
+</div>
+
+
+            <div class="row">  
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Dirección 3 de 3</h5>
+<br>
+    <div class="form-group">
+    <label for="col" id="colLabel">Colonia</label>
+    <input type="text" class="form-control" id= "col" placeholder="" />
+  </div>
+
+
+
+
+
+    <div class="form-group">
+    <label for="cp" id="cpLabel">Codigo postal</label>
+    <input type="text" class="form-control" id= "cp" placeholder="" />
+  </div>
+
+
+  <div class="form-group ">
+    <label for="alcMun" id="alcMunLabel">Alcaldía / municipio </label>
+    <input type="text" class="form-control" id= "alcMun" placeholder="" />
+  </div>
+
+
+    <div class="form-group ">
+    <label for="est" id="estLabel">Estado</label>
+    <input type="text" class="form-control" id= "est" placeholder="" />
+  </div>
+
+
+    <div class="form-group ">
+    <label for="pais" id="paisLabel">País</label>
+    <input type="text" class="form-control" id= "pais" placeholder="" />
+  </div>
+
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+<br> 
+<div class="col-sm-6 ">
+
+</div>
+</div>
+
+<br>
+<hr>
+<br>
+
+
+            <div class="row">  
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+        <div class="container">
+
+<br>
+ <h5 class="card-title">Experiencia laboral 1 de 2</h5>
+<br>
+
+
+    <div class="form-group">
+    <label for="tiempo" id="tiempoLabel">¿Tiempo que pretendes dedicarle a CaminanDog?</label>
+    <select id="tiempo" class="form-control">
+    <option disabled selected value> ----- </option>
+ <option value="Tiempo completo">Tiempo completo</option>
+       <option value="Medio tiempo (Matutino)">Medio tiempo (Matutino)</option>
+        <option value="Medio tiempo (Vespertino)">Medio tiempo (Vespertino)</option>
+       <option value="Esporádico o Flexible">Esporádico o Flexible</option>
+        <option value="Solo fines de semana">Solo fines de semana</option>
+ 
+
+       </select>
+  </div>
+
+
+
+       <div class="form-group">
+    <label for="actividad" id="actividadLabel">¿Cúal es tu actividad principal actualmente</label>
+    <input type="text" class="form-control" id= "actividad" placeholder="" />
+
+  </div>
+
+
+    <div class="form-group ">
+    <label for="munTrabajo" id="munTrabajoLabel">¿En que Municipio/ Alcaldía te gustaría trabajar?</label>
+     <select id="munTrabajo" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="Benito Juárez">Benito Juárez</option>
+       <option value="Cuauhtémoc">Cuauhtémoc</option>
+       <option value="Coyoacán">Coyoacán</option>
+       <option value="Miguel Hidalgo">Miguel Hidalgo</option>
+       <option value="Otro">Otro</option>
+     </select>
+  </div>
+
+
+  <div class="form-group ">
+    <label for="medioTransporte" id="medioTransporteLabel">¿Cuentas con algun medio de transporte?</label>
+    <select id="medioTransporte" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="Automóvil">Automóvil</option>
+       <option value="Motocicleta">Motocicleta</option>
+       <option value="Bicicleta">Bicicleta</option>
+       <option value="Patineta o Scooter">Patineta o Scooter</option>
+       <option value="No cuento con ninguno">No cuento con ninguno</option>
+     </select>
+  </div>
+
+        </div>
+      </body>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Experiencia laboral 3 de 4</h5>
+<br>
+
+
+    <div class="form-group ">
+    <label for="tiempoExp" id="tiempoExpLabel">¿Tiempo de experiencia como paseador?</label>
+     <select id="tiempoExp" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="Menos de un año">Menos de un año</option>
+       <option value="De 1 a 2 años">De 1 a 2 años</option>
+       <option value="De 3 a 4 años">De 3 a 4 años</option>
+       <option value="5 o más años">5 o más años </option>
+     </select>
+  </div>
+
+
+  <div class="form-group ">
+    <label for="tipoExp" id="tipoExpLabel">¿Tipo de experiencia?</label>
+    <select id="tipoExp" class="form-control">
+        <option disabled selected value> ----- </option>
+       <option value="Pasear perros de conocidos, de amigos o de vecinos">Pasear perros de conocidos, de amigos o de vecinos</option>
+       <option value="Pasear perros de veterinarias, de hospitales u hoteles de perros que me han requerido">Pasear perros de veterinarias, de hospitales u hoteles de perros que me han requerido</option>
+       <option value="De contactos de plataformas digitales a las que me he suscrito">De contactos de plataformas digitales a las que me he suscrito</option>
+       <option value="De terceras personas que me han contactado">De terceras personas que me han contactado</option>
+     </select>
+  </div>
+
+
+    <div class="form-group ">
+    <label for="medioPromo" id="medioPromoLabel">¿Has utilizado algún medio digital para promocionarte?</label>
+     <select id="medioPromo" class="form-control">
+       <option disabled selected value> ----- </option>
+       <option value="Plataformas de paseo y hosting">Plataformas de paseo y hosting</option>
+       <option value="Tarjetas de presentación o publicidad impresa">Tarjetas de presentación o publicidad impresa</option>
+       <option value="Redes sociales y grupos de Facebook o Whatsapp">Redes sociales y grupos de Facebook o Whatsapp</option>
+       <option value="No he utilizado ningún medio">No he utilizado ningún medio</option>
+     </select>
+  </div>
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+
+</div>
+
+
+<br>
+
+
+
+            <div class="row">  
+
+
+<div class="col-sm-4 ">
+
+    </div>
+
+    <div class="col-sm-4 ">
+
+    </div>
+
+<div class="col-sm-4 ">
+
+<div class="card border-0" >
+
+      <body>
+
+<button class="custom-button-invertido" id="siguiente" onclick="guardar_cambios_formulario()">Guardar cambios</button>
+
+</body>
+</div>
+
+</div>
+
+</div>
+
+<br><br>
+
+
+
+
+    </div>
+    <div id="menu1" class="container tab-pane fade"><br>
+      
+
+                  <div class="row">  
+
+
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+
+        <div class="container">
+
+
+<br>
+ <h5 class="card-title">Documentos 1 de 2</h5>
+ <h6 class="card-subtitle text-muted">Para sustituir un documento,primero elimina el documento actual</h6>
+<br>
+
+
+ <label >Agregar foto de perfil</label>
+
+<br><br>
+  <div class="row">
+    <div class="col">
+    
+    
+<label class="custom-file-upload">
+    <input type="file" id="foto_perfil_input"/>
+    <img src="img/subir_foto.png" ></img> Buscar archivo
+</label>
+
+
+    </div>
+    <div class="col">
+       <img src="img/subir_foto.png" id="foto_perfil" onclick="ver_imagen(this)" class="img_documentos" ></img> 
+    </div>
+  </div>
+
+  <br><br>
+
+<hr>
+
+<label >Agregar identificación oficial (Frontal)</label>
+<br><br>
+  <div class="row">
+    <div class="col">
+    
+    
+<label class="custom-file-upload">
+    <input type="file" id="foto_identificacionf_input"/>
+    <img src="img/subir_foto.png" ></img> Buscar archivo
+</label>
+
+
+
+    </div>
+    <div class="col">
+       <img src="img/subir_foto.png" id="foto_identificacionf" onclick="ver_imagen(this)" class="img_documentos"></img> 
+    </div>
+  </div>
+
+
+  <hr>
+
+<label >Agregar identificación oficial (Trasera)</label>
+<br><br>
+  <div class="row">
+    <div class="col">
+    
+    
+<label class="custom-file-upload">
+    <input type="file" id="foto_identificaciont_input"/>
+    <img src="img/subir_foto.png"></img> Buscar archivo
+</label>
+
+
+
+    </div>
+    <div class="col">
+       <img src="img/subir_foto.png" id="foto_identificaciont" onclick="ver_imagen(this)" class="img_documentos"></img> 
+    </div>
+  </div>
+
+
+
+
+        </div>
+      </body>
+
+</div>
+    </div>
+
+
+
+<br> 
+<div class="col-sm-6 ">
+              <div class="card" >
+      <body>
+
+
+        <div class="container">
+
+<br>
+ <h5 class="card-title">Documentos 2 de 2</h5>
+ <h6 class="card-subtitle text-muted">Para ver el documento da clic en el icono correspondiente</h6>
+<br><br>
+
+
+
+
+ <label >Agregar acta de nacimiento</label>
+
+<br><br>
+  <div class="row">
+    <div class="col">
+    
+    
+<label class="custom-file-upload">
+    <input type="file" id="foto_acta_input"/>
+    <img src="img/subir_foto.png"></img> Buscar archivo
+</label>
+
+
+    </div>
+    <div class="col">
+       <img src="img/subir_foto.png" id="foto_acta" onclick="ver_imagen(this)" class="img_documentos" ></img> 
+    </div>
+  </div>
+
+  <br>
+
+<hr>
+
+<label >Agregar comprobante de domicilio</label>
+<br><br>
+  <div class="row">
+    <div class="col">
+    
+    
+<label class="custom-file-upload">
+    <input type="file" id="foto_comprobante_input"/>
+    <img src="img/subir_foto.png"></img> Buscar archivo
+</label>
+
+
+
+    </div>
+    <div class="col">
+       <img src="img/subir_foto.png" id="foto_comprobante" onclick="ver_imagen(this)" class="img_documentos"></img> 
+    </div>
+
+
+  </div>
+
+
+    <br>
+
+
+        </div>
+      </body>
+
+
+    </div>
+</div>
+</div>
+
+<br><br>
+
+    </div>
+
+
+  </div>
+
+
+
+
+</div>
+
+
+<script>
+
+
+var idPaseador = getAllUrlParams().idPaseador;
+console.log("id "+idPaseador)
+var email =  ""
+var idPaseadorFire = ""
+var etapa = ""
+var foto_perfil = ""
+var acta_nac_url = ""
+var comprobante_url = ""
+var inef = ""
+var inet = ""
+var fecha_registro = 0
+var fecha_contratacion = 0
+
+
+
+var fnac = document.getElementById("fnac").value 
+
+      let lang = 'es-US' // you may use user's computer language: navigator.language || navigator.userLanguage
+     let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:"numeric", minute:"numeric"};
+
+var storage = firebase.storage();
+var storageRef = storage.ref();
+
+   var db = firebase.database();
+
+    $("input[type=file]").change(function(){
+
+
+
+        if(this.id == "foto_perfil_input"){
+
+                $("#coverSuave").show();
+
+                 var desertRef = storageRef.child("imagenesPaseadores").child(idPaseador+".jpeg");
+
+                 var fileButton = document.getElementById(this.id);
+                 var file = fileButton.files[0];
+
+                var refNueva = db.ref("Candidatos").child(idPaseador).child("direcfoto");
+
+                        desertRef.put(file).then(function() {
+                        desertRef.getDownloadURL().then(function(url) {
+
+                          refNueva.set(url).then(function() {
+
+                                document.getElementById("img_usu").src = url
+                                document.getElementById("foto_perfil").src = url
+                                foto_perfil = url
+                                console.log("correcto")
+                            $("#coverSuave").hide();
+                        
+                        });
+
+                        })
+                      })
+
+
+        } else if(this.id == "foto_identificacionf_input"){
+
+         
+
+           $("#coverSuave").show();
+
+                 var desertRef = storageRef.child("documentacion").child("ine.jpeg");
+
+                 var fileButton = document.getElementById(this.id);
+                 var file = fileButton.files[0];
+
+                var refNueva = db.ref("Candidatos").child(idPaseador).child("ine");
+
+                        desertRef.put(file).then(function() {
+                        desertRef.getDownloadURL().then(function(url) {
+
+                          refNueva.set(url).then(function() {
+
+                                document.getElementById("foto_identificacionf").src = url
+
+                              inef = url
+
+
+                                console.log("correcto")
+                            $("#coverSuave").hide();
+                        
+                        });
+
+                        })
+                      })
+
+
+        } else if(this.id == "foto_identificaciont_input"){
+
+         
+
+           $("#coverSuave").show();
+
+                 var desertRef = storageRef.child("documentacion").child("ine2.jpeg");
+
+                 var fileButton = document.getElementById(this.id);
+                 var file = fileButton.files[0];
+
+                var refNueva = db.ref("Candidatos").child(idPaseador).child("ine2");
+
+                        desertRef.put(file).then(function() {
+                        desertRef.getDownloadURL().then(function(url) {
+
+                          refNueva.set(url).then(function() {
+
+                                document.getElementById("foto_identificaciont").src = url
+
+                              var inet = url
+
+                                console.log("correcto")
+                            $("#coverSuave").hide();
+                        
+                        });
+
+                        })
+                      })
+
+
+        }  else if(this.id == "foto_acta_input"){
+
+         
+
+           $("#coverSuave").show();
+
+                 var desertRef = storageRef.child("documentacion").child("nacimiento.jpeg");
+
+                 var fileButton = document.getElementById(this.id);
+                 var file = fileButton.files[0];
+
+                var refNueva = db.ref("Candidatos").child(idPaseador).child("actanac");
+
+                        desertRef.put(file).then(function() {
+                        desertRef.getDownloadURL().then(function(url) {
+
+                          refNueva.set(url).then(function() {
+
+                                document.getElementById("foto_acta").src = url
+
+                                var acta_nac_url = url
+
+                                console.log("correcto")
+                            $("#coverSuave").hide();
+                        
+                        });
+
+                        })
+                      })
+
+
+        }  else if(this.id == "foto_comprobante_input"){
+
+         
+
+           $("#coverSuave").show();
+
+                 var desertRef = storageRef.child("documentacion").child("domicilio.jpeg");
+
+                 var fileButton = document.getElementById(this.id);
+                 var file = fileButton.files[0];
+
+                var refNueva = db.ref("Candidatos").child(idPaseador).child("comprodomi");
+
+                        desertRef.put(file).then(function() {
+                        desertRef.getDownloadURL().then(function(url) {
+
+                          refNueva.set(url).then(function() {
+
+                                document.getElementById("foto_comprobante").src = url
+                                 var comprobante_url = url
+
+                                console.log("correcto")
+                            $("#coverSuave").hide();
+                        
+                        });
+
+                        })
+                      })
+
+
+        }
+
+
+
+
+    });
+
+function consulta_candidato() {
+
+
+
+
+   var db = firebase.database();
+  var ref = db.ref("Paseadores");
+
+
+console.log("idPaseador "+idPaseador)
+  var cantidatoRef = ref.child(idPaseador);
+
+
+
+cantidatoRef.once("value", function(snapshot){
+
+
+  var d = snapshot.val();
+
+
+if(d.email != undefined){ document.getElementById("email").value = d.email , email = d.email}
+if(d.idPaseador != undefined){ document.getElementById("uid").value = d.idPaseador , idPaseadorFire = d.idPaseador  }
+
+if(d.fechareg != undefined){
+  fecha_registro = d.fechareg
+  var fecha_registro_mostrar = new Date(d.fechareg);
+ var fecha_registro_mostrar = fecha_registro_mostrar.toLocaleDateString(lang, options)
+  document.getElementById("fecha_creacion").value = fecha_registro_mostrar }
+
+
+if(d.fecha_contratacion != undefined){
+  fecha_contratacion = d.fecha_contratacion
+  var fecha_contratacion_mostrar = new Date(d.fecha_contratacion);
+ var fecha_contratacion_mostrar = fecha_contratacion_mostrar.toLocaleDateString(lang, options)
+  document.getElementById("fecha_contratacion").value = fecha_contratacion_mostrar}
+
+
+ if(d.etapa != undefined){
+
+
+  document.getElementById("etapa_postulacion").value = d.etapa, etapa = d.etapa} else{
+
+     document.getElementById("etapa_postulacion").value = "0"
+ }
+  
+
+if(d.nombre != undefined){ document.getElementById("nom").value = d.nombre }
+if(d.apellidopa != undefined){ document.getElementById("ap").value = d.apellidopa }
+if(d.apellidoma != undefined){ document.getElementById("am").value = d.apellidoma }
+  
+var fecha = ""
+
+
+
+
+
+if(d.fnacimiento != undefined){ 
+
+
+
+var fecha = []
+var fecha_buen_formato = ""
+
+if(d.fnacimiento.includes("/")){
+
+ fecha = d.fnacimiento.split("/");
+
+
+
+  if(fecha[1].length == 1){
+
+  fecha[1] = "0"+fecha[1]
+  
+ }
+
+
+ if(fecha[0].length == 1){
+
+  fecha[0] = "0"+fecha[0]
+
+ }
+ var fecha_buen_formato = fecha[2]+"-"+fecha[1]+"-"+fecha[0]
+
+
+} else{
+
+ fecha = d.fnacimiento.split("-");
+
+ var fecha_buen_formato = fecha[0]+"-"+fecha[1]+"-"+fecha[2]
+
+
+}
+
+
+console.log("fecha "+fecha_buen_formato)
+  document.getElementById("fnac").value = fecha_buen_formato; 
+
+
+}
+
+
+if(d.genero != undefined){ document.getElementById("genero").value = d.genero } 
+if(d.curp != undefined){  document.getElementById("curp").value = d.curp } 
+if(d.celular != undefined){  document.getElementById("cel").value = d.celular } 
+if(d.talla != undefined){  document.getElementById("talla").value = d.talla } 
+if(d.referencia1 != undefined){  document.getElementById("nomref1").value = d.referencia1 } 
+if(d.reftelefono1 != undefined){  document.getElementById("celref1").value = d.reftelefono1 } 
+if(d.referencia2 != undefined){  document.getElementById("nomref2").value = d.referencia2 } 
+if(d.reftelefono2 != undefined){   document.getElementById("celref2").value = d.reftelefono2 }
+
+if(d.banco != undefined){  
+
+
+if(d.banco == ""){ banco = ""}
+
+  var banco = d.banco
+
+if(d.banco == "Banamex"){ banco = "CITI BANAMEX"}
+if(d.banco == "Bancomer"){ banco = "BBVA BANCOMER"}
+if(d.banco == "Banjio" || d.banco == "Banco Multiva" || d.banco == "Banjercito"){ banco = "OTRO"}
+if(d.banco == ""){ banco = ""}
+if(d.banco == ""){ banco = ""}
+
+ document.getElementById("banco").value = banco 
+
+
+
+}
+if(d.claveib != undefined){   document.getElementById("clabe").value = d.claveib }
+if(d.calle != undefined){   document.getElementById("calle").value = d.calle }
+if(d.numero != undefined){   document.getElementById("numExt").value = d.numero }
+if(d.ninterior != undefined){   document.getElementById("numInt").value = d.ninterior }
+if(d.refDomicilio != undefined){  document.getElementById("referenciaDomicilio").value = d.refDomicilio }
+if(d.colonia != undefined){   document.getElementById("col").value = d.colonia }
+if(d.cpostal != undefined){   document.getElementById("cp").value = d.cpostal }
+if(d.municipio != undefined){   document.getElementById("alcMun").value = d.municipio }
+if(d.estado != undefined){   document.getElementById("est").value = d.estado }
+if(d.pais != undefined){   document.getElementById("pais").value = d.pais }
+
+
+
+if(d.disponibilidad != undefined){ 
+
+  var disponibilidad = d.disponibilidad
+
+if(d.disponibilidad == "Esporadico/Flexible"){ disponibilidad = "Esporádico o Flexible"}
+if(d.disponibilidad == "Medio tiempo (M)"){ disponibilidad = "Medio tiempo (Matutino)"}
+if(d.disponibilidad == "Medio tiempo (V)"){ disponibilidad = "Medio tiempo (Vespertino)"}
+if(d.disponibilidad == "Fines de semana"){ disponibilidad = "Solo fines de semana"}
+
+       document.getElementById("tiempo").value = disponibilidad
+
+     }
+
+
+if(d.actividad_dedica != undefined){   document.getElementById("actividad").value = d.actividad_dedica }
+
+
+if(d.muntrabajo != undefined){   
+
+  var muntrabajo = d.muntrabajo
+
+if(d.muntrabajo == "Cuauhtemoc"){ muntrabajo = "Cuauhtémoc"}
+
+console.log(muntrabajo)
+  if(muntrabajo != "Benito Juárez" && muntrabajo != "Cuauhtémoc" && muntrabajo != "Coyoacán" && muntrabajo != "Miguel Hidalgo"){
+console.log("entra aqui")
+    muntrabajo = "Otro"
+
+  }
+
+  console.log(muntrabajo)
+
+  document.getElementById("munTrabajo").value = muntrabajo 
+
+
+}
+if(d.transporte != undefined){   document.getElementById("medioTransporte").value = d.transporte }
+
+
+if(d.exptiempo != undefined){ 
+
+
+  var exptiempo = d.exptiempo
+
+if(d.exptiempo == "Menor a un año"){ exptiempo = "Menos de un año"}
+if(d.exptiempo == "1-2 años"){ exptiempo = "De 1 a 2 años"}
+if(d.exptiempo == "3-4 años"){ exptiempo = "De 3 a 4 años"}
+if(d.exptiempo == "5 años-más"){ exptiempo = "5 o más años"}
+
+  document.getElementById("tiempoExp").value = exptiempo 
+
+   }
+if(d.exptipo != undefined){ 
+
+
+      var exptipo = d.exptipo
+
+if(d.exptipo == "Pasear perros de veterinarias, de hospitales u hoteles"){ exptipo = "Pasear perros de veterinarias, de hospitales u hoteles de perros que me han requerido"}
+if(d.exptipo == "Pasear perros conocidos,amigos,vecinos"){ exptipo = "Pasear perros de conocidos, de amigos o de vecinos"}
+if(d.exptipo == "Pasear perros veterinarias,hospitales,hoteles"){ exptipo = "Pasear perros de veterinarias, de hospitales u hoteles de perros que me han requerido"}
+if(d.exptipo == "En plataformas digitales"){ exptipo = "De contactos de plataformas digitales a las que me he suscrito"}
+
+   document.getElementById("tipoExp").value = exptipo 
+
+  }
+
+if(d.plataformas != undefined){ 
+
+  var plataformas = d.plataformas
+
+if(d.plataformas == "Facebook" || d.plataformas == "Twitter"){ plataformas = "Redes sociales y grupos de Facebook o Whatsapp"}
+if(d.plataformas == "Plataformas de paseo y hosting de mascotas"){ plataformas = "Plataformas de paseo y hosting"}
+
+
+  document.getElementById("medioPromo").value = plataformas
+
+}
+
+
+
+
+if(d.Latitude != undefined && d.Longitude != undefined){
+
+  cargarMapa("",d.Latitude,d.Longitude)
+
+} else{
+
+  cargarMapa()
+
+}
+
+
+
+
+if(d.direcfoto != undefined){
+
+document.getElementById("img_usu").src = d.direcfoto
+document.getElementById("foto_perfil").src = d.direcfoto
+foto_perfil = d.direcfoto
+} else {
+
+   document.getElementById("img_usu").src = 'img/user-profile-outline.svg'
+
+}
+
+if(d.ine != undefined){
+
+document.getElementById("foto_identificacionf").src = d.ine
+inef = d.ine
+}
+
+if(d.ine2 != undefined){
+
+document.getElementById("foto_identificaciont").src = d.ine2
+inet = d.ine2
+}
+
+if(d.actanac != undefined){
+
+document.getElementById("foto_acta").src = d.actanac
+acta_nac_url = d.actanac
+
+}
+
+
+if(d.comprodomi != undefined){
+
+document.getElementById("foto_comprobante").src = d.comprodomi
+comprobante_url = d.comprodomi
+
+}
+
+
+if(d.checkbox != undefined){
+
+
+if(d.checkbox.datosPersonales != undefined){
+
+document.getElementById("datosPersonales").checked = d.checkbox.datosPersonales
+
+}
+
+if(d.checkbox.direccion != undefined){
+
+document.getElementById("direccion").checked = d.checkbox.direccion
+
+}
+
+if(d.checkbox.experiencia_laboral != undefined){
+
+document.getElementById("experiencia_laboral").checked = d.checkbox.experiencia_laboral
+
+}
+
+
+if(d.checkbox.test_confianza != undefined){
+
+document.getElementById("test_confianza").checked = d.checkbox.test_confianza
+
+}
+
+
+if(d.checkbox.documentos != undefined){
+
+document.getElementById("documentos").checked = d.checkbox.documentos
+
+}
+
+
+
+if(d.checkbox.contacto_candidato != undefined){
+
+document.getElementById("contacto_candidato").checked = d.checkbox.contacto_candidato
+
+}
+
+
+if(d.checkbox.validacion_contactos != undefined){
+
+document.getElementById("validacion_contactos").checked = d.checkbox.validacion_contactos
+
+}
+
+
+if(d.checkbox.disponibilidad != undefined){
+
+document.getElementById("disponibilidad").checked = d.checkbox.disponibilidad
+
+}
+
+if(d.checkbox.tecnica_paseo != undefined){
+
+document.getElementById("tecnica_paseo").checked = d.checkbox.tecnica_paseo
+
+}
+
+
+if(d.checkbox.uso_app != undefined){
+
+document.getElementById("uso_app").checked = d.checkbox.uso_app
+
+}
+
+}
+
+});
+
+
+}
+
+
+
+function guardar_cambios_formulario(){
+
+ $("#coverSuave").show();
+
+var nom = document.getElementById("nom").value
+var ap = document.getElementById("ap").value
+var am = document.getElementById("am").value
+
+var fnac = document.getElementById("fnac").value 
+
+
+var genero = document.getElementById("genero").value 
+var curp = document.getElementById("curp").value
+var cel = document.getElementById("cel").value 
+var talla = document.getElementById("talla").value 
+var nomref1 = document.getElementById("nomref1").value 
+var celref1 = document.getElementById("celref1").value 
+var nomref2 = document.getElementById("nomref2").value 
+var celref2 = document.getElementById("celref2").value
+var banco = document.getElementById("banco").value
+var clabe = document.getElementById("clabe").value
+var calle = document.getElementById("calle").value 
+var numExt = document.getElementById("numExt").value
+var numInt = document.getElementById("numInt").value 
+var referenciaDomicilio = document.getElementById("referenciaDomicilio").value
+var col = document.getElementById("col").value
+var cp = document.getElementById("cp").value 
+var alcMun = document.getElementById("alcMun").value
+var est = document.getElementById("est").value
+var pais = document.getElementById("pais").value
+
+var tiempo = document.getElementById("tiempo").value 
+
+var actividad = document.getElementById("actividad").value 
+var munTrabajo = document.getElementById("munTrabajo").value 
+var medioTransporte = document.getElementById("medioTransporte").value 
+var tiempoExp = document.getElementById("tiempoExp").value
+var tipoExp = document.getElementById("tipoExp").value 
+var medioPromo = document.getElementById("medioPromo").value 
+
+
+var latitud = Markermio.getPosition().lat()
+var longitud = Markermio.getPosition().lng()
+
+
+var fecha = fnac.split("-")
+var fecha_buen_formato = fecha[2]+"/"+fecha[1]+"/"+fecha[0]
+
+ var db = firebase.database();
+  var ref = db.ref("Paseadores");
+
+
+
+
+      var postData = {
+      nombre: nom,
+      apellidopa: ap,
+      apellidoma: am,
+      fnacimiento: fecha_buen_formato,
+      genero: genero,
+      curp: curp,
+      celular: cel,
+      talla: talla,
+      referencia1: nomref1,
+      reftelefono1: celref1,
+      referencia2: nomref2,
+      reftelefono2: celref2,
+      banco: banco,
+      claveib: clabe,
+      calle: calle,
+      numero: numExt,
+      ninterior: numInt,
+      refDomicilio: referenciaDomicilio,
+      colonia: col,
+      cpostal: cp,
+      municipio: alcMun,
+      estado: est,
+      pais: pais,
+      disponibilidad: tiempo,
+      actividad_dedica: actividad,
+      muntrabajo: munTrabajo,
+      transporte: medioTransporte,
+      exptiempo: tiempoExp,
+      exptipo: tipoExp,
+      plataformas: medioPromo,
+      Latitude: latitud,
+      Longitude: longitud
+
+  };
+
+
+
+
+console.log(idPaseador)
+  var cantidatoRef = ref.child(idPaseador);
+
+       cantidatoRef.update(postData).then(function(){
+
+           alert("Los datos se han guardado exitosamente.");
+            $("#coverSuave").hide();
+
+
+
+        }).catch(function(error) {
+        alert("Lamentablemente no se pudieron guardar los datos." + error);
+         $("#coverSuave").hide();
+
+
+      });
+
+
+
+
+}
+
+
+
+
+
+function ver_imagen(img) {
+
+
+if(img.src == "" || img.src == undefined){
+
+alert("Aun no hay una imagen para mostrar")
+
+} else{
+
+ window.open(img.src, '_blank');
+
+}
+
+}
+
+
+function ver_chat() {
+
+
+  window.open('chatCaminandogCandidato.html?uid='+idPaseador, '_blank');
+
+
+}
+
+window.onload = consulta_candidato()
+
+
+      function cargarMapa(dir,lat,lng) {
+
+
+        var latitud = 19.5031560714501;
+        var longitud =  -99.23319306224586;
+
+
+
+
+        if(dir != null && lat != null && lng != null){
+
+         var res = dir.split(";");
+        document.getElementById("pac-input").value = res[0];
+
+          latitud = lat;
+          longitud = lng;
+
+        }
+
+        const map = new google.maps.Map(document.getElementById("map"), {
+          center: { lat: latitud, lng: longitud },
+          zoom: 17,
+        });
+
+          colormarker2 = "http://maps.google.com/mapfiles/ms/micons/blue.png";
+
+          Markermio = new google.maps.Marker({
+           animation: google.maps.Animation.DROP,
+          position: { lat: latitud, lng: longitud},
+          icon:colormarker2,
+          draggable:true,
+          map: map
+          });
+
+
+            google.maps.event.addListener(Markermio,'dragend',function()
+
+  {
+
+        console.log("dragend "+Markermio.getPosition());
+
+
+    var latitud = Markermio.getPosition().lat();
+  var longitud = Markermio.getPosition().lng();
+
+        geocodeLatLng(latitud,longitud,map);
+
+        
+  })
+
+
+        const card = document.getElementById("pac-card");
+        const input = document.getElementById("pac-input");
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        const autocomplete = new google.maps.places.Autocomplete(input);
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo("bounds", map);
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields([
+          "address_components",
+          "geometry",
+          "icon",
+          "name",
+        ]);
+        const infowindow = new google.maps.InfoWindow();
+        const infowindowContent = document.getElementById("infowindow-content");
+        infowindow.setContent(infowindowContent);
+        const marker = new google.maps.Marker({
+          map,
+          anchorPoint: new google.maps.Point(0, -29),
+        });
+        autocomplete.addListener("place_changed", () => {
+          infowindow.close();
+          marker.setVisible(false);
+          const place = autocomplete.getPlace();
+
+          if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert(
+              "No details available for input: '" + place.name + "'"
+            );
+            return;
+          }
+
+          // If the place has a geometry, then present it on a map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17); // Why 17? Because it looks good.
+          }
+
+          colormarker2 = "http://maps.google.com/mapfiles/ms/micons/blue.png";
+
+          Markermio.setPosition(place.geometry.location);
+
+
+
+          let address = "";
+
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] &&
+                place.address_components[0].short_name) ||
+                "",
+              (place.address_components[1] &&
+                place.address_components[1].short_name) ||
+                "",
+              (place.address_components[2] &&
+                place.address_components[2].short_name) ||
+                "",
+            ].join(" ");
+          }
+          infowindowContent.children["place-icon"].src = place.icon;
+          infowindowContent.children["place-name"].textContent = place.name;
+          infowindowContent.children["place-address"].textContent = address;
+          infowindow.open(map, marker);
+        });
+
+
+      }
+
+
+
+      function geocodeLatLng(lat,lng, map) {
+           const geocoder = new google.maps.Geocoder();
+
+        const latlng = {
+          lat: lat,
+          lng: lng,
+        };
+        geocoder.geocode({ location: latlng }, (results, status) => {
+          if (status === "OK") {
+            if (results[0]) {
+
+ map.setCenter(latlng);
+         //   map.setZoom(17)
+
+
+              console.log(results[0].formatted_address)
+
+              document.getElementById("pac-input").value = results[0].formatted_address;
+
+
+              console.log(results[0].formatted_address)
+
+              var num = results[0].address_components[0].long_name
+              var calle = results[0].address_components[1].long_name
+              var col = results[0].address_components[2].long_name
+              var mun = results[0].address_components[3].long_name
+              var estado = results[0].address_components[4].long_name
+              var pais = results[0].address_components[5].long_name
+              var cp = results[0].address_components[6].long_name
+
+              document.getElementById("pac-input").value = results[0].formatted_address;
+
+
+               document.getElementById("col").value = calle
+               document.getElementById("cp").value = cp
+               document.getElementById("alcMun").value = mun
+               document.getElementById("est").value = estado;
+               document.getElementById("pais").value = pais;
+               document.getElementById("cp").value = cp;
+
+/*
+              console.log(results)
+
+              console.log(results[0].address_components[0].long_name)
+              console.log(results[0].address_components[1].long_name)
+              console.log(results[0].address_components[2].long_name)
+              console.log(results[0].address_components[3].long_name)
+              console.log(results[0].address_components[4].long_name)
+              console.log(results[0].address_components[5].long_name)
+              console.log(results[0].address_components[6].long_name)
+*/
+
+
+
+            } else {
+              window.alert("No results found");
+            }
+          } else {
+            window.alert("Geocoder failed due to: " + status);
+          }
+        });
+      }
+
+
+
+
+function getAllUrlParams(url) {
+        // get query string from url (optional) or window
+        var queryString = url
+          ? url.split("?")[1]
+          : window.location.search.slice(1);
+
+        // we'll store the parameters here
+        var obj = {};
+
+        // if query string exists
+        if (queryString) {
+          // stuff after # is not part of query string, so get rid of it
+          queryString = queryString.split("#")[0];
+
+          // split our query string into its component parts
+          var arr = queryString.split("&");
+
+          for (var i = 0; i < arr.length; i++) {
+            // separate the keys and the values
+            var a = arr[i].split("=");
+
+            // set parameter name and value (use 'true' if empty)
+            var paramName = a[0];
+            var paramValue = typeof a[1] === "undefined" ? true : a[1];
+
+            if (typeof paramValue === "string") paramValue = paramValue;
+
+            // if the paramName ends with square brackets, e.g. colors[] or colors[2]
+            if (paramName.match(/\[(\d+)?\]$/)) {
+              // create key if it doesn't exist
+              var key = paramName.replace(/\[(\d+)?\]/, "");
+              if (!obj[key]) obj[key] = [];
+
+              // if it's an indexed array e.g. colors[2]
+              if (paramName.match(/\[\d+\]$/)) {
+                // get the index value and add the entry at the appropriate position
+                var index = /\[(\d+)\]/.exec(paramName)[1];
+                obj[key][index] = paramValue;
+              } else {
+                // otherwise add the value to the end of the array
+                obj[key].push(paramValue);
+              }
+            } else {
+              // we're dealing with a string
+              if (!obj[paramName]) {
+                // if it doesn't exist, create property
+                obj[paramName] = paramValue;
+              } else if (obj[paramName] && typeof obj[paramName] === "string") {
+                // if property does exist and it's a string, convert it to an array
+                obj[paramName] = [obj[paramName]];
+                obj[paramName].push(paramValue);
+              } else {
+                // otherwise add the property
+                obj[paramName].push(paramValue);
+              }
+            }
+          }
+        }
+
+        return obj;
+      }
+
+
+
+</script>
+
+
+
+
+
+
+<script>
+  
+  function cerrarSesion(){
+
+  var r = confirm("¿Estas seguro que quieres cerrar sesión?");
+
+  if (r == true) {
+          firebase.auth().signOut().then(function() {
+           // Sign-out successful.
+            }).catch(function(error) {
+            // An error happened.
+            });
+  } else {
+
+
+  }
+
+}
+
+
+
+
+
+</script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body>
+</html>
