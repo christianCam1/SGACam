@@ -1,0 +1,569 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  
+  .custom-button {
+    background-color: #00B0C5;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+  
+  
+  .custom-button-red {
+    background-color: #dc3545;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+  }
+  
+  
+  .custom-button-invertido {
+    background-color: white;
+    border: 2px solid #00B0C5;
+    color: #00B0C5;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px ;
+  }
+  
+  .transparent_button {
+        background-color: transparent;
+          border: 0px;
+      }
+  
+  #fishViewer {
+    display: inline-block;
+    height: 200px;
+  }
+  
+  #fishViewer > div {
+    display: inline-block;
+    float: left;
+    width: 200px;
+    height: 100%;
+    text-align: center;
+  }
+  
+  #fishViewer > div > p:first-of-type {
+    font-weight: bold;
+  }
+  
+  #outsideGeoQuery {
+    border: solid 3px red;
+    margin-right: 10px;
+  }
+  
+  #insideGeoQuery {
+    border: solid 3px green;
+  }
+  
+  #insideGeoQuery > p {
+    display: none;
+  }
+  
+  #insideGeoQuery > p:first-of-type {
+    display: block;
+  }
+  
+  #fishControls > * {
+    display: inline;
+  }
+  
+  .loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+  }
+  
+  .loader > span {
+    display: block;
+    animation: no-spin 2s linear infinite;
+  }
+  
+  
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .spinner,.spinner:after{
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+   }
+  .spinner {
+      background-color: transparent;
+      border-top: 5px solid rgb(66,139,202);
+      border-right: 5px solid rgb(66,139,202);
+      border-bottom: 5px solid rgb(66,139,202);
+      border-left: 5px solid rgba(66,139,202,.2);
+      animation-iteration-count: infinite;
+      animation-timing-function: linear;
+      animation-duration: .8s;
+      animation-name: spinner-loading
+   }
+  @keyframes spinner-loading{
+    0% {
+        transform: rotate(0deg)
+    } to {
+        transform: rotate(1turn)
+    }
+  }
+  
+  
+  .loading-text {
+    width: 90px;
+    position: absolute;
+    top: calc(50% - 10px);
+    left: calc(50% - 45px);
+    text-align: center;
+  }
+  
+  
+  
+  @keyframes no-spin {
+    0% {
+      transform: rotate(360deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+  
+  
+  #cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999;}
+  #coverSuave {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #ECE6E580; z-index:9999;}
+          .bg {
+             background-color: white;
+             text-align: center;
+             color: #00B0C5;
+                font-size: 20px;
+           }
+           .bg2 {
+             background-color: #00B0C5;
+             text-align: center;
+             color: white;
+           }
+           .bg3 {
+             background-color: #00B0C5;
+             text-align: center;
+             color: white;
+           }
+         
+         .badge {
+     
+               right: -15px;
+           }
+           list-group-item{
+               position:relative;
+           }
+         
+           .page, :target ~ .default {
+           display: none;
+       }
+       
+       .default, :target {
+           display: block;
+       }
+     
+       .text_nav{
+         font-size:30px;
+         color: azure;
+         font: bold;
+         text-shadow: 1px 1px 30px rgb(0, 0, 0);
+       }
+     
+     
+       .edge-danger {
+         box-shadow: 0 0 11px 2px #ff0303 !important;
+     }
+     
+     .card-danger {
+         color: #fff;
+         background-color: #d9534f;
+         border-color: #d43f3a;
+       }
+       .card-success {
+         color: #fff;
+         background-color: #5cb85c;
+         border-color: #4cae4c;
+       }
+     
+       .carrousel_padding{
+         padding:60px 60px 60px;
+     
+       }
+     
+       .center {
+         margin: auto;
+         width: 80%;
+         
+         padding: 10px;
+       }
+     
+       .bg {
+         /* The image used */
+         background-color: white;
+         text-align: center;
+         color: #00B0C5;
+         font-size: 20px;
+         
+       }
+       .bg2 {
+         /* The image used */
+         background-color: #00B0C5;
+         text-align: center;
+         color: white;
+       }
+         
+  
+         .btn.btn-success {
+         color: #fff;
+         background-color: #00B0C5;
+         border-color: #00B0C5;
+       }
+  
+       
+  
+       .btn.btn-success.focus,
+       .btn.btn-success:focus {
+         color: #00B0C5;
+         background-color: white;
+         border-color: #00B0C5;
+         outline: none;
+         box-shadow: none;
+       }
+       .btn.btn-success:hover {
+         color: #00B0C5;
+         background-color: white;
+         border-color: #00B0C5;
+         outline: none;
+         box-shadow: none;
+       }
+       .btn.btn-success.active,
+       .btn.btn-success:active {
+         color: #00B0C5;
+         background-color: white;
+         border-color: #00B0C5;
+         outline: none;
+       }
+       .btn.btn-success.active.focus,
+       .btn.btn-success.active:focus,
+       .btn.btn-success.active:hover,
+       .btn.btn-success:active.focus,
+       .btn.btn-success:active:focus,
+       .btn.btn-success:active:hover {
+         color: #00B0C5;
+         background-color: white;
+         border-color: #00B0C5;
+         outline: none;
+         box-shadow: none;
+  
+  
+  
+  
+       }
+         
+        .btn.btn-dark {
+         color: #2C3E50  ;
+         background-color: #CCD1D1 ;
+         border-color: #CCD1D1 ;
+       }
+  
+  
+  
+   /* #F7DC6F #CCD1D1 */
+  
+       .btn.btn-dark.focus,
+       .btn.btn-dark:focus {
+         color: #2C3E50;
+         background-color: white;
+         border-color:#2C3E50;
+         outline: none;
+         box-shadow: none;
+       }
+       .btn.btn-dark:hover {
+         color: #2C3E50;
+         background-color: white;
+         border-color: #2C3E50;
+         outline: none;
+         box-shadow: none;
+       }
+       .btn.btn-dark.active,
+       .btn.btn-dark:active {
+         color: #2C3E50;
+         background-color: white;
+         border-color: #2C3E50;
+         outline: none;
+       }
+       .btn.btn-dark.active.focus,
+       .btn.btn-dark.active:focus,
+       .btn.btn-dark.active:hover,
+       .btn.btn-dark:active.focus,
+       .btn.btn-dark:active:focus,
+       .btn.btn-dark:active:hover {
+         color: #2C3E50;
+         background-color: white;
+         border-color: #2C3E50;
+         outline: none;
+         box-shadow: none;
+  
+  
+  
+  
+       }
+  
+  
+  
+  
+         #myprogressBar { 
+         width: 1%;
+         height: 30px;
+         background-color: #00B0C5;
+       } 
+  
+  
+  
+  .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+     background-color: #e3f3fb;
+  
+  }
+  
+  
+       .navbar .nav-item > .nav-link.active  {
+      color:black;
+  }
+  
+  .usuarioSesion{
+      
+      width: 100%;
+      margin: auto;
+      background-color: white;
+      display:block;
+      text-align: right;
+      
+  }
+  
+  
+    #left_card_candidato {
+    float: left;
+    margin: 3% 0 0 2%;
+    border-color: transparent;
+    width: 18%;
+  height: auto;
+  }
+  
+  
+  @media only screen and (max-width: 767px) {
+  
+  
+    #left_card_candidato {
+      float: none;
+      margin: 0 auto;
+      border-color: transparent;
+      width: 90%;
+      height: auto;
+  
+    }
+  
+  
+    }
+  
+  
+  
+    .image_outer_container {
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .image_inner_container {
+    border-radius: 50%;
+    padding: 5px;
+    background: #00b0c5;
+  }
+  .image_inner_container img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 5px solid white;
+  }
+  
+  .image_inner_containers {
+    border-radius: 50%;
+    padding: 5px;
+    background: #e5e5e5;
+  }
+  
+  .image_inner_containers img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 5px solid white;
+  }
+  
+  
+  #_card {
+    padding: 2%;
+    margin: 3% 0 3% 0;
+    border-radius: 20px;
+  }
+  
+  
+  
+  .custom-button-candidato {
+    background-color: white;
+    border: 2px solid #298ff5;
+    color: #298ff5;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px ;
+  }
+  
+  
+  .img_documentos {
+    width: 150px;
+    height: 150px;
+  
+  }
+  
+  
+  
+  input.form-check-input {
+    /* Double-sized Checkboxes */
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+    transform: scale(2);
+    padding: 10px;
+  
+  }
+  
+  .form-check-label
+  {
+  
+    font-size: 110%;
+    display: inline;
+    margin-left: 10px;
+  }
+  
+  input[type=checkbox] {
+    accent-color: #00B0C5;
+  }
+  
+  
+  
+  /* The container */
+  .containercheck {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Hide the browser's default checkbox */
+  .containercheck input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* Create a custom checkbox */
+  .checkmarkcheck {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #bfd4d6;
+  }
+  
+  /* On mouse-over, add a  background color */
+  .containercheck:hover input ~ .checkmarkcheck {
+    background-color: #00B0C5;
+  }
+  
+  /* When the checkbox is checked, add a background */
+  .containercheck input:checked ~ .checkmarkcheck {
+    background-color: #00B0C5;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmarkcheck:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .containercheck input:checked ~ .checkmarkcheck:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .containercheck .checkmarkcheck:after {
+    left: 8px;
+    top: 5px;
+    width: 8px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }

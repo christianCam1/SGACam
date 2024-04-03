@@ -1,0 +1,123 @@
+.bg {
+    background-color: white;
+    text-align: center;
+    color: #00B0C5;
+       font-size: 20px;
+  }
+  .bg2 {
+    background-color: #00B0C5;
+    text-align: center;
+    color: white;
+  }
+
+.badge {
+
+      right: -15px;
+  }
+  list-group-item{
+      position:relative;
+  }
+
+  .page, :target ~ .default {
+  display: none;
+}
+
+.default, :target {
+  display: block;
+}
+
+.text_nav{
+font-size:30px;
+color: azure;
+font: bold;
+text-shadow: 1px 1px 30px rgb(0, 0, 0);
+}
+
+
+.edge-danger {
+box-shadow: 0 0 11px 2px #ff0303 !important;
+}
+
+.card-danger {
+color: #fff;
+background-color: #d9534f;
+border-color: #d43f3a;
+}
+.card-success {
+color: #fff;
+background-color: #5cb85c;
+border-color: #4cae4c;
+}
+
+.carrousel_padding{
+padding:60px 60px 60px;
+
+}
+
+.center {
+margin: auto;
+width: 80%;
+
+padding: 10px;
+}
+
+.bg {
+/* The image used */
+background-color: white;
+text-align: center;
+color: #00B0C5;
+font-size: 20px;
+
+}
+.bg2 {
+/* The image used */
+background-color: #00B0C5;
+text-align: center;
+color: white;
+}
+
+.btn.btn-success {
+color: #fff;
+background-color: #00B0C5;
+border-color: #00B0C5;
+}
+.btn.btn-success.focus,
+.btn.btn-success:focus {
+color: #00B0C5;
+background-color: white;
+border-color: #00B0C5;
+outline: none;
+box-shadow: none;
+}
+.btn.btn-success:hover {
+color: #00B0C5;
+background-color: white;
+border-color: #00B0C5;
+outline: none;
+box-shadow: none;
+}
+.btn.btn-success.active,
+.btn.btn-success:active {
+color: #00B0C5;
+background-color: white;
+border-color: #00B0C5;
+outline: none;
+}
+.btn.btn-success.active.focus,
+.btn.btn-success.active:focus,
+.btn.btn-success.active:hover,
+.btn.btn-success:active.focus,
+.btn.btn-success:active:focus,
+.btn.btn-success:active:hover {
+color: #00B0C5;
+background-color: white;
+border-color: #00B0C5;
+outline: none;
+box-shadow: none;
+}
+
+#myprogressBar { 
+width: 1%;
+height: 30px;
+background-color: #00B0C5;
+} 

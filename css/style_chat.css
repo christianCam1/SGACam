@@ -1,0 +1,479 @@
+.bg {
+    background-color: white;
+    text-align: center;
+    color: #00b0c5;
+    font-size: 20px;
+  }
+  .bg2 {
+    background-color: #00b0c5;
+    text-align: center;
+    color: white;
+  }
+  .bg3 {
+    background-color: #ff0000;
+    text-align: center;
+    color: white;
+  }
+  
+  
+  .badge {
+    right: -15px;
+  }
+  list-group-item {
+    position: relative;
+  }
+  
+  .page,
+  :target ~ .default {
+    display: none;
+  }
+  
+  .default,
+  :target {
+    display: block;
+  }
+  
+  .text_nav {
+    font-size: 30px;
+    color: azure;
+    font: bold;
+    text-shadow: 1px 1px 30px rgb(0, 0, 0);
+  }
+  
+  .edge-danger {
+    box-shadow: 0 0 11px 2px #ff0303 !important;
+  }
+  
+  .card-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+  }
+  .card-success {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+  
+  .carrousel_padding {
+    padding: 60px 60px 60px;
+  }
+  
+  .center {
+    margin: auto;
+    width: 80%;
+  
+    padding: 10px;
+  }
+  
+  .bg {
+    /* The image used */
+    background-color: white;
+    text-align: center;
+    color: #00b0c5;
+    font-size: 20px;
+  }
+  .bg2 {
+    /* The image used */
+    background-color: #00b0c5;
+    text-align: center;
+    color: white;
+  }
+  
+  .btn.btn-success {
+    color: #fff;
+    background-color: #00b0c5;
+    border-color: #00b0c5;
+  }
+  .btn.btn-success.focus,
+  .btn.btn-success:focus {
+    color: #00b0c5;
+    background-color: white;
+    border-color: #00b0c5;
+    outline: none;
+    box-shadow: none;
+  }
+  .btn.btn-success:hover {
+    color: #00b0c5;
+    background-color: white;
+    border-color: #00b0c5;
+    outline: none;
+    box-shadow: none;
+  }
+  .btn.btn-success.active,
+  .btn.btn-success:active {
+    color: #00b0c5;
+    background-color: white;
+    border-color: #00b0c5;
+    outline: none;
+  }
+  .btn.btn-success.active.focus,
+  .btn.btn-success.active:focus,
+  .btn.btn-success.active:hover,
+  .btn.btn-success:active.focus,
+  .btn.btn-success:active:focus,
+  .btn.btn-success:active:hover {
+    color: #00b0c5;
+    background-color: white;
+    border-color: #00b0c5;
+    outline: none;
+    box-shadow: none;
+  }
+  
+  #myprogressBar {
+    width: 1%;
+    height: 30px;
+    background-color: #00b0c5;
+  }
+  
+  #mySection {
+    float: right;
+    margin: 3% 5% 0 0;
+    width: 50%;
+    height: 70%;
+    overflow-y: scroll;
+  }
+  
+  #myInput {
+    display: none;
+    float: right;
+    margin: 2% 5% 0 0;
+    width: 50%;
+  }
+  
+  #left_card {
+    float: left;
+    margin: 3% 0 0 5%;
+    border-color: transparent;
+    width: 35%;
+  }
+  
+  #txt_no_hay {
+    border-radius: 25px;
+    padding: 12px;
+    color: #000000;
+    margin: 10% auto;
+  }
+  
+  #txt1 {
+    border-radius: 25px;
+    background: #00b0c5;
+    padding: 12px;
+    color: #fff;
+    margin: 5% 0 0 25%;
+  }
+  
+  #txt2_sub {
+    margin: 0 0 0 25%;
+  }
+  
+  #txt2 {
+    border-radius: 25px;
+    background: #e5e5e5;
+    padding: 12px;
+    color: #000000;
+    margin: 5% 25% 0 0;
+  }
+  
+  #_card {
+    padding: 2%;
+    margin: 3% 0 3% 0;
+    border-radius: 20px;
+  }
+  
+  .two_l {
+    margin: 0 2% 0 0;
+    float: left;
+    width: 40%;
+  }
+  
+  .two_r {
+    margin: 0 0 0 2%;
+    float: right;
+    width: 40%;
+  }
+  
+  .label_g {
+    color: #e5e5e5;
+    size: 8sp;
+  }
+  
+  .image_outer_container {
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .image_inner_container {
+    border-radius: 50%;
+    padding: 5px;
+    background: #00b0c5;
+  }
+  .image_inner_container img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 5px solid white;
+  }
+  
+  .image_inner_containers {
+    border-radius: 50%;
+    padding: 5px;
+    background: #e5e5e5;
+  }
+  
+  .image_inner_containers img {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    border: 5px solid white;
+  }
+  
+  #loader {
+    margin: 20% auto;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #00b0c5;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* Add animation to "page content" */
+  .animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s;
+  }
+  
+  @-webkit-keyframes animatebottom {
+    from {
+      bottom: -100px;
+      opacity: 0;
+    }
+    to {
+      bottom: 0px;
+      opacity: 1;
+    }
+  }
+  
+  @keyframes animatebottom {
+    from {
+      bottom: -100px;
+      opacity: 0;
+    }
+    to {
+      bottom: 0;
+      opacity: 1;
+    }
+  }
+  
+  #myDiv {
+    display: none;
+    text-align: center;
+  }
+  
+  .ul_chat {
+    padding: 0;
+    float: left;
+    margin: 0 auto;
+    list-style: none;
+    width: 50%;
+    text-align: center;
+  
+    display: block;
+  }
+  
+  .ul_name {
+    text-align: center;
+    padding: 0;
+    display: block;
+    margin: 0 auto;
+    list-style: none;
+    width: 100%;
+  }
+  
+  .label_container {
+    margin: auto;
+    width: 70%;
+    padding: 10px;
+    text-align: center;
+    border: transparent;
+    margin: auto;
+    display: block;
+    margin-bottom: 10px;
+    background: #096301;
+    text-shadow: #000000;
+    box-shadow: #000000;
+    color: #ffffff;
+    font: 12px Verdana, sans-serif;
+  }
+  
+  @media only screen and (max-width: 767px) {
+    #mySection {
+      float: none;
+      margin: 5% auto;
+      width: 90%;
+    }
+  
+  #myInput {
+    float: none;
+    margin: 5% auto;
+    width: 90%;
+  }
+    #left_card {
+      float: none;
+      margin: 0 auto;
+      border-color: transparent;
+      width: 35%;
+    }
+  
+    #loader {
+      margin: 50% auto;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #00b0c5;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+  
+    .ul_chat {
+      padding: 0;
+      margin: 0 auto;
+      list-style: none;
+      width: 100%;
+    }
+  }
+  
+  .w-modal {
+    z-index: 3;
+    display: none;
+    padding-top: 100px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  .w-modal-content {
+    margin: 0 auto;
+    border-radius: 25px;
+    background-color: #fff;
+    width: 60%;
+    padding: 50;
+  }
+  
+  form{ width:80%; margin:0 auto; padding:15px; }
+  form p, form input[type = "submit"]{text-align:center; font-size:50px;}
+  
+  
+  input[type = "radio"]{ display:none;/*position: absolute;top: -1000em;*/}
+  label{ color:grey;}
+  
+  .clasificacion{
+      direction: rtl;
+      unicode-bidi: bidi-override;
+  }
+  
+  label:hover,
+  label:hover ~ label{color:#00b0c5;}
+  input[type = "radio"]:checked ~ label{color:#00b0c5;}
+  
+  .custom-button {
+    background-color: #00B0C5;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;;
+  }
+  
+  .custom-button2 {
+    background-color: #00B0C5;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px ;
+  }
+  
+  .custom-button3 {
+    background-color: #FF0000;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px ;
+  }
+  
+  
+  .custom-button4 {
+    background-color: #000000;
+    border: black;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px ;
+  }
+  
+  
+  .table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+    background-color: #e3f3fb;
+  
+  }
